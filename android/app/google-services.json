@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "362984669759",
+    "project_id": "classconnect-122",
+    "storage_bucket": "classconnect-122.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:362984669759:android:0c0f1cdf3d1b9aea322e8a",
+        "android_client_info": {
+          "package_name": "com.classroom.classconnect"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2G2auGtIrFEVwOj-vgljRH2ik1ZeKpzo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
