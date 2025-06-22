@@ -18,7 +18,7 @@ class SubjectsName extends StatelessWidget {
         child: Align(
           alignment: Alignment.center,
           child: Text(
-            details.subjectsName ?? '',
+            details.subjectsName,
             style: getHeadTextStyle(),
           ),
         ),

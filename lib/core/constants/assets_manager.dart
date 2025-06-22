@@ -14,7 +14,7 @@ class AssetsManager {
   //json
   static const String json = "assets/json";
 
-  static const String classroomjson = "$json/Classroom.json";
+  static const String classroomJson = "$json/Classroom.json";
 
   //images
   static const String images = "assets/images";
@@ -26,4 +26,10 @@ class AssetsManager {
   static const String splashLogo1 = "assets/images/splash_logo1.png";
   static const String splashLogo4 = "assets/images/splash_logo4.png";
   static const String searchConcept = "assets/images/search-concept-landing-page_52683-18573.png";
+  static const String homePng = "assets/icons/home.png";
+  static const String todayLessonsPng = "assets/icons/school.png";
+  static const String assignmentPng = "assets/icons/assignment.png";
+  static const String advisePng = "assets/icons/parents 1.png";
+  static const String personPng = "assets/icons/user-avatar.png";
+  static const String searchPng = "assets/icons/search 1.png";
 }

@@ -1,24 +1,28 @@
 import 'dart:io';
 
-
-
 import 'package:classconnect/core/constants/assets_manager.dart';
+import 'package:classconnect/core/enum/user_type_enum.dart';
+import 'package:classconnect/core/functions/dialogs.dart';
 import 'package:classconnect/core/functions/navigation.dart';
 import 'package:classconnect/core/utils/app_colors.dart';
 import 'package:classconnect/core/utils/styles.dart';
 import 'package:classconnect/core/widgets/custom_botton.dart';
 import 'package:classconnect/features/auth/models/student_model.dart';
 import 'package:classconnect/features/auth/presentation/manager/auth_cubit.dart';
+import 'package:classconnect/features/auth/presentation/manager/auth_state.dart';
 import 'package:classconnect/features/student/student_nav_bar/student_nav_bar_screen.dart';
+import 'package:classconnect/features/teacher/teacher_nav_bar/teacher-nav_bar_screen.dart';
+import 'package:classconnect/service/dio/upload_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:image_picker/image_picker.dart';
 
 class StudentRegistrationView extends StatefulWidget {
-  const StudentRegistrationView({super.key});
+  final UserType userType;
+  const StudentRegistrationView({super.key, required this.userType});
 
   @override
   _StudentRegistrationViewState createState() =>
@@ -45,17 +49,6 @@ class _StudentRegistrationViewState extends State<StudentRegistrationView> {
     userID = FirebaseAuth.instance.currentUser!.uid;
   }
 
-  Future<String> uploadImageToFirebase(File image) async {
-    Reference ref =
-        FirebaseStorage.instanceFor(bucket: "gs://se7ety-117.appspot.com")
-            .ref()
-            .child('doctors/$userID-${DateTime.now().toUtc()}');
-    SettableMetadata metadata = SettableMetadata(contentType: 'image/jpeg');
-    await ref.putFile(image, metadata);
-    String url = await ref.getDownloadURL();
-    return url;
-  }
-
   Future<void> _pickImage() async {
     _getUser();
     final pickedFile =
@@ -74,134 +67,204 @@ class _StudentRegistrationViewState extends State<StudentRegistrationView> {
     return BlocProvider(
       create: (context) => AuthCubit(),
       child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: AppColors.primaryColor,
-          title: Center(
-            child: Text(
-              'Complete registration process',
-              style: getTitleTextStyle(color: AppColors.whiteColor),
-            ),
-          ),
-        ),
-        body: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              children: [
-                Form(
-                  key: _formKey,
-                  child: Column(
+        body: BlocConsumer<AuthCubit, AuthState>(
+          listener: (context, state) {
+            if (state is AuthErrorState) {
+              Navigator.pop(context);
+              showErrorDialog(context, "something went wrong".tr());
+            } else if (state is AuthLoadingState) {
+              showLoadingDialog(context);
+            } else if (state is AuthSuccessState) {
+              if (widget.userType == UserType.student) {
+                pushAndRemoveUntil(context, const StudentNavBarScreen());
+              } else {
+                pushAndRemoveUntil(context, const TeacherNavBarScreen());
+              }
+            }
+          },
+          builder: (context, state) {
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  Stack(
                     children: [
-                      Stack(
-                        alignment: Alignment.bottomRight,
-                        children: [
-                          CircleAvatar(
-                            radius: 50,
-                            // backgroundColor: AppColors.lightBg,
-                            child: CircleAvatar(
-                              radius: 60,
-                              backgroundImage:
-                              (_imagePath != null)
-                                  ? FileImage(File(_imagePath!))
-                                  : const AssetImage(AssetsManager.smilingBoy),
+                      Container(
+                        height: 200,
+                        width: double.infinity,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AssetImage(
+                              AssetsManager.girlStudent,
                             ),
                           ),
-                          GestureDetector(
-                            onTap: ()async {
-                              await _pickImage(); 
-                            },
-                            child: CircleAvatar(
-                              radius: 15,
-                              backgroundColor:
-                                  Theme.of(context).scaffoldBackgroundColor,
-                              child: const Icon(
-                                Icons.camera_alt_rounded,
-                                size: 20,
-                                // color: AppColors.color1,
+                          color: AppColors.primaryColor,
+                          borderRadius: BorderRadius.only(
+                            bottomRight: Radius.circular(80),
+                          ),
+                        ),
+                        child: Container(
+                          height: 200,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color:
+                                    AppColors.greyColor.withValues(alpha: 0.5),
+                                spreadRadius: 6,
+                                blurRadius: 6,
                               ),
+                            ],
+                            borderRadius: const BorderRadius.only(
+                              bottomRight: Radius.circular(80),
                             ),
+                            color:
+                                AppColors.primaryColor.withValues(alpha: 0.6),
                           ),
-                        ],
-                      ),
-                      const Gap(145),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Text(
-                              ' Phone Number',
-                              style: getBodyTextStyle(
-                                  color: AppColors.primaryColor),
-                            )
-                          ],
                         ),
                       ),
-                      TextFormField(
-                        keyboardType: TextInputType.text,
-                        style: getSmallTextStyle(),
-                        controller: _phone,
-                        decoration: InputDecoration(
-                          hintText: '+20xxxxxxxxxx',
-                          hintStyle: getBodyTextStyle()
-                              .copyWith(color: AppColors.greyColor),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: AppColors.primaryColor,
-                              width: 2,
-                            ),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: AppColors.redColor,
-                              width: 2,
-                            ),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
+                      Positioned(
+                        bottom: 20,
+                        left: 25,
+                        child: Text(
+                          "complete registration process".tr(),
+                          style: getTitleTextStyle()
+                              .copyWith(color: AppColors.whiteColor),
                         ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter your phone number';
-                          } else {
-                            return null;
-                          }
-                        },
                       ),
                     ],
                   ),
-                )
-              ],
-            ),
-          ),
+                  const Gap(20),
+                  Form(
+                    key: _formKey,
+                    child: Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Column(
+                        children: [
+                          Stack(
+                            alignment: Alignment.bottomRight,
+                            children: [
+                              CircleAvatar(
+                                radius: 50,
+                                // backgroundColor: AppColors.lightBg,
+                                child: CircleAvatar(
+                                  radius: 60,
+                                  backgroundImage: (file != null)
+                                      ? FileImage(file!)
+                                      : const AssetImage(
+                                          AssetsManager.smilingBoy),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () async {
+                                  await _pickImage();
+                                },
+                                child: CircleAvatar(
+                                  radius: 15,
+                                  backgroundColor:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                  child: const Icon(
+                                    Icons.camera_alt_rounded,
+                                    size: 20,
+                                    // color: AppColors.color1,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const Gap(85),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "phone Number".tr(),
+                                  style: getBodyTextStyle(
+                                      color: AppColors.primaryColor),
+                                )
+                              ],
+                            ),
+                          ),
+                          TextFormField(
+                            keyboardType: TextInputType.text,
+                            style: getSmallTextStyle(),
+                            controller: _phone,
+                            decoration: InputDecoration(
+                              hintText: "+20xxxxxxxxxx".tr(),
+                              hintStyle: getBodyTextStyle()
+                                  .copyWith(color: AppColors.greyColor),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: AppColors.primaryColor,
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: AppColors.redColor,
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "please enter your phone number".tr();
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            );
+          },
+        ),
         bottomNavigationBar: Container(
           margin: const EdgeInsets.all(10),
           padding: const EdgeInsets.only(top: 25.0),
           child: SizedBox(
             width: double.infinity,
             height: 50,
-            child: CustomButton(
-              onPressed: () async {
-                if (_formKey.currentState!.validate()) {
-                profileUrl = await uploadImageToFirebase(file!);
-                context.read<AuthCubit>().updateStudentRegistration(StudentModel(
-                      uid: userID,
-                      image: profileUrl,
-                      phone1: _phone.text,
-                    ));
-                    // ignore: use_build_context_synchronously
-                    return push(context, const StudentNavBarScreen());
-              }else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Please upload your profile picture'),
-                  ),
+            child: BlocBuilder<AuthCubit, AuthState>(
+              builder: (context, state) {
+                return CustomButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      profileUrl = await uploadImage(file!);
+                      context
+                          .read<AuthCubit>()
+                          .updateStudentRegistration(StudentModel(
+                            uid: userID,
+                            image: profileUrl,
+                            phone1: _phone.text, 
+                          ));
+                      // ignore: use_build_context_synchronously
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: AppColors.primaryColor,
+                          content: Text(
+                            "please upload your profile picture".tr(),
+                            style: getSmallTextStyle(
+                              color: AppColors.whiteColor,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                  text: "registration".tr(),
                 );
-              }
-            },
-              text: 'Registration',
+              },
             ),
           ),
         ),

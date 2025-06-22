@@ -9,7 +9,7 @@ class StudentsData {
   });
 }
 
-  List<StudentsData>? data = [
+  List<StudentsData> data = [
       StudentsData(
         image: "assets/images/smiling-boy-portrait-casual-clothing-cartoon-style-kid-avatar-happy-teenager-vector-character_90220-2150.png",
         studentName: "SAMA",

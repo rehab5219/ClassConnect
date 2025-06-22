@@ -1,15 +1,13 @@
-
 import 'package:classconnect/core/constants/assets_manager.dart';
+import 'package:classconnect/features/teacher/profile/teacher_profile_screen.dart';
 import 'package:classconnect/features/teacher/search/presentation/search_screen.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/utils/app_colors.dart';
-import '../assignment/assignment_screen.dart';
-import '../../student/home/presentation/view/home_screen.dart';
-import '../profile/profile_screen.dart';
-import '../today_lessons/presentation/view/today_lessons_screen.dart';
+import '../../teacher/assignment/assignment_screen.dart';
+import '../home/presentation/view/home_screen.dart';
+import '../../teacher/today_lessons/presentation/view/today_lessons_screen.dart';
 
 class TeacherNavBarScreen extends StatefulWidget {
   const TeacherNavBarScreen({
@@ -22,10 +20,10 @@ class TeacherNavBarScreen extends StatefulWidget {
 
 class _TeacherNavBarScreenState extends State<TeacherNavBarScreen> {
   List<Widget> screens = [
-    const HomeScreen(),
+      HomeScreen(),
      TodayLessonsScreen(),
     const AssignmentScreen(),
-    SearchScreen(),
+     SearchScreen(),
     const TeacherProfileScreen(),
   ];
   int _pages = 0;
@@ -39,45 +37,35 @@ class _TeacherNavBarScreenState extends State<TeacherNavBarScreen> {
         height: 45.h,
         key: _bottomNavigationKey,
         items: <Widget>[
-          SvgPicture.asset(
-            'assets/icons/home.svg',
-            fit: BoxFit.cover,
-            colorFilter: const ColorFilter.mode(
-              AppColors.whiteColor,
-              BlendMode.srcIn,
-            ),
+          Image.asset(
+            AssetsManager.homePng,
+            width: 35.w,
+            height: 35.h,
+            color: AppColors.whiteColor,
           ),
-          SvgPicture.asset(
-            'assets/icons/todayLessons.svg',
-            fit: BoxFit.cover,
-            colorFilter: const ColorFilter.mode(
-              AppColors.whiteColor,
-              BlendMode.srcIn,
-            ),
+          Image.asset(
+            AssetsManager.todayLessonsPng,
+            width: 35.w,
+            height: 35.h,
+            color: AppColors.whiteColor,
           ),
-          SvgPicture.asset(
-            'assets/icons/assignment.svg',
-            fit: BoxFit.cover,
-            colorFilter: const ColorFilter.mode(
-              AppColors.whiteColor,
-              BlendMode.srcIn,
-            ),
+          Image.asset(
+            AssetsManager.assignmentPng,
+            width: 35.w,
+            height: 35.h,
+            color: AppColors.whiteColor,
           ),
-          SvgPicture.asset(
-            'assets/icons/search.svg',
-            fit: BoxFit.cover,
-            colorFilter: const ColorFilter.mode(
-              AppColors.whiteColor,
-              BlendMode.srcIn,
-            ),
+          Image.asset(
+            AssetsManager.searchPng,
+            width: 35.w,
+            height: 35.h,
+            color: AppColors.whiteColor,
           ),
-          SvgPicture.asset(
-            'assets/icons/person.svg',
-            fit: BoxFit.cover,
-            colorFilter: const ColorFilter.mode(
-              AppColors.whiteColor,
-              BlendMode.srcIn,
-            ),
+          Image.asset(
+            AssetsManager.personPng,
+            width: 35.w,
+            height: 35.h,
+            color: AppColors.whiteColor,
           ),
         ],
         color: AppColors.primaryColor,

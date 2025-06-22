@@ -9,14 +9,16 @@ class WeekTextFormField extends StatelessWidget {
   final String? Function(String?)? validator;
   final void Function()? onTap;
   final WeekLessonsData weekList;
-
+  final TextEditingController? controller; 
   const WeekTextFormField(
-      {super.key, this.keyboardType, this.validator, this.onTap, required this.weekList});
+      {super.key, this.keyboardType, this.validator, this.onTap, required this.weekList,  this.controller});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      // minLines:1,
       maxLines: 10,
+      controller: controller,
       style: getSmallTextStyle().copyWith(color: AppColors.whiteColor),
       onTap: onTap,
       validator: validator,

@@ -1,19 +1,25 @@
-import 'package:classconnect/core/models/subjects_data.dart';
 import 'package:classconnect/core/models/week_lessons_data.dart';
+import 'package:classconnect/core/utils/styles.dart';
 import 'package:classconnect/core/widgets/custom_botton.dart';
 import 'package:classconnect/core/widgets/week_text_form_field.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 import '../../../../../../core/utils/app_colors.dart';
 
 class SubjectsDetails extends StatefulWidget {
-  final SubjectsData subject;
+  final String subjectName;
+  final String? studentId;
+  final String feedbackType;
 
   const SubjectsDetails({
     super.key,
-    required this.subject,
+    required this.subjectName,
+    required this.feedbackType,
+    this.studentId,
   });
 
   @override
@@ -26,15 +32,36 @@ class _SubjectsDetailsState extends State<SubjectsDetails> {
   late final String message;
   late final String date;
 
-  final TextEditingController feedbackController = TextEditingController();
+  late final List<String> weekList;
+  late final List<TextEditingController> feedbackControllers;
 
   @override
   void initState() {
     super.initState();
-    uid = 'uid';
+    uid = widget.studentId ?? 'null';
     teacherId = 'TeacherId';
     message = 'message';
     date = 'date';
+    weekList = [
+      "sunday".tr(),
+      "monday".tr(),
+      "tuesday".tr(),
+      "wednesday".tr(),
+      "thursday".tr(),
+    ];
+
+    feedbackControllers = List.generate(
+      weekList.length,
+      (index) => TextEditingController(),
+    );
+  }
+
+  @override
+  void dispose() {
+    for (var controller in feedbackControllers) {
+      controller.dispose();
+    }
+    super.dispose();
   }
 
   @override
@@ -59,52 +86,74 @@ class _SubjectsDetailsState extends State<SubjectsDetails> {
         padding: const EdgeInsets.all(10),
         child: ListView.separated(
           itemBuilder: (context, index) {
-            return Row(
+            return Column(
               children: [
-                WeekTextFormField(
-                  weekList: weekList[index],
+                SizedBox(
+                  height: 20.w,
                 ),
-                Expanded(
+                WeekTextFormField(
+                  weekList: WeekLessonsData(weekName: weekList[index]),
+                  controller:
+                      feedbackControllers[index], // Assign controller from list
+                ),
+                const Gap(15),
+                SizedBox(
+                  height: 50.w,
                   child: CustomButton(
-                      text: "Send Feedback",
-                      onPressed: () async {
-                        final user = FirebaseAuth.instance.currentUser;
-                  
-                        if (user != null) {
-                          final teacherId = user.uid;
-                          final uid = user.uid;
-                          final message = feedbackController.text.trim();
-                          final date = DateTime.now().toString();
-                  
-                          if (message.isEmpty) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content:
-                                      Text("Please enter a feedback message")),
-                            );
-                            return;
-                          }
-                  
-                          await FirebaseFirestore.instance
-                              .collection('feedback')
-                              .add({
-                            'teacherId': teacherId,
-                            'uid': user.uid,
-                            'message': message,
-                            'date': date,
-                          });
-                  
-                          feedbackController.clear();
-                  
+                    text: "send Feedback".tr(),
+                    bgColor: AppColors.whiteColor,
+                    fgColor: AppColors.primaryColor,
+                    onPressed: () async {
+                      final user = FirebaseAuth.instance.currentUser;
+
+                      if (user != null) {
+                        final teacherId = user.uid;
+                        final message = feedbackControllers[index].text.trim();
+                        final date = DateTime.now().toString();
+
+                        if (message.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Feedback sent successfully")),
+                            SnackBar(
+                              content: Text("Please enter a feedback message",
+                                  style: getBodyTextStyle()),
+                              backgroundColor: AppColors.whiteColor,
+                            ),
                           );
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Teacher not logged in")),
-                          );
+                          return;
                         }
-                      }),
+
+                        await FirebaseFirestore.instance
+                            .collection('feedbacks')
+                            .add({
+                          'teacherId': teacherId,
+                          'uid': uid,
+                          'message': message,
+                          'feedbackType': widget.feedbackType,
+                          'day': weekList[index],
+                          'date': date,
+                          'subjectName': widget.subjectName, // Add subject name
+                        });
+
+                        feedbackControllers[index].clear();
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("Feedback sent successfully",
+                                style: getBodyTextStyle()),
+                            backgroundColor: AppColors.whiteColor,
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("Teacher not logged in",
+                                style: getBodyTextStyle()),
+                            backgroundColor: AppColors.whiteColor,
+                          ),
+                        );
+                      }
+                    },
+                  ),
                 ),
               ],
             );
@@ -118,4 +167,3 @@ class _SubjectsDetailsState extends State<SubjectsDetails> {
     );
   }
 }
-

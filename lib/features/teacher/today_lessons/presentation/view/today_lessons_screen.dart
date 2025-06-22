@@ -1,6 +1,7 @@
 import 'package:classconnect/core/models/subjects_data.dart';
 import 'package:classconnect/core/widgets/subjects_name.dart';
 import 'package:classconnect/features/teacher/today_lessons/presentation/view/subjects_details.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../core/utils/app_colors.dart';
@@ -9,7 +10,6 @@ import '../../../../../../core/utils/styles.dart';
 class TodayLessonsScreen extends StatelessWidget {
  TodayLessonsScreen({super.key});
 
-  final List<SubjectsData> details = [];
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +56,7 @@ class TodayLessonsScreen extends StatelessWidget {
                 bottom: 20.h,
                 left: 15.w,
                 child: Text(
-                  "TODAY'S LESSONS",
+                  "today's lessons".tr(),
                   style: getHeadTextStyle().copyWith(color: AppColors.whiteColor),
                 ),
               ),
@@ -80,7 +80,7 @@ class TodayLessonsScreen extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => SubjectsDetails(
-                                    subject: details[index],
+                                    subjectName: details[index].subjectsName,feedbackType: "Today_Lessons",
                                   ),
                                 ),
                               );

@@ -8,6 +8,7 @@ import 'package:classconnect/core/widgets/custom_botton.dart';
 import 'package:classconnect/features/auth/presentation/view/log_in_screen.dart';
 import 'package:classconnect/features/auth/presentation/view/student_registeration_view.dart';
 import 'package:classconnect/features/auth/presentation/view/teacher_registeration_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -36,6 +37,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return widget.userType == UserType.teacher ? 'teacher' : 'student';
   }
 
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -45,15 +47,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
           listener: (context, state) {
             if (state is AuthErrorState) {
               Navigator.pop(context);
-            showErrorDialog(context, 'Something went wrong');
+              showErrorDialog(context, "something went wrong".tr());
             } else if (state is AuthLoadingState) {
               showLoadingDialog(context);
             } else if (state is AuthSuccessState) {
               if (widget.userType == UserType.teacher) {
-              pushAndRemoveUntil(context, const TeacherRegistrationView());
-            } else {
-              pushAndRemoveUntil(context, const StudentRegistrationView());
-            }
+                pushAndRemoveUntil(context,
+                    TeacherRegistrationView(userType: widget.userType));
+              } else {
+                pushAndRemoveUntil(context,
+                    StudentRegistrationView(userType: widget.userType));
+              }
             }
           },
           builder: (context, state) {
@@ -103,7 +107,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           bottom: 20,
                           left: 25,
                           child: Text(
-                            "Sign up to Classconnect",
+                            "sign up to Classconnect".tr(),
                             style: getTitleTextStyle()
                                 .copyWith(color: AppColors.whiteColor),
                           ),
@@ -117,7 +121,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: firstName,
                         style: getSmallTextStyle(),
                         decoration: InputDecoration(
-                          hintText: "First Name",
+                          hintText: "first name".tr(),
                           hintStyle: getBodyTextStyle()
                               .copyWith(color: AppColors.greyColor),
                           prefixIcon: const Icon(Icons.person,
@@ -143,7 +147,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         textInputAction: TextInputAction.next,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return "Please, enter your first name";
+                            return "please, enter your first name".tr();
                             // } else if (value != "Rehab") {
                             //   return "Wrong first name";
                           } else {
@@ -159,7 +163,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: secondName,
                         style: getSmallTextStyle(),
                         decoration: InputDecoration(
-                          hintText: "Second Name",
+                          hintText: "second name".tr(),
                           hintStyle: getBodyTextStyle()
                               .copyWith(color: AppColors.greyColor),
                           prefixIcon: const Icon(
@@ -187,7 +191,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         textInputAction: TextInputAction.next,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return "Please, enter your second name";
+                            return "please, enter your second name".tr();
                             // } else if (value != "Kamal") {
                             //   return "Wrong second name";
                           } else {
@@ -203,7 +207,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: email,
                         style: getSmallTextStyle(),
                         decoration: InputDecoration(
-                          hintText: "Email",
+                          hintText: "email".tr(),
                           hintStyle: getBodyTextStyle()
                               .copyWith(color: AppColors.greyColor),
                           prefixIcon: const Icon(
@@ -231,11 +235,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         textInputAction: TextInputAction.next,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return "Please, enter your email";
+                            return "please, enter your email".tr();
                           } else if (!RegExp(
                                   r"^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$")
                               .hasMatch(value)) {
-                            return "Please, enter valid email";
+                            return "please, enter valid email".tr();
                           } else {
                             return null;
                           }
@@ -249,7 +253,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: password,
                         style: getSmallTextStyle(),
                         decoration: InputDecoration(
-                          hintText: "Password",
+                          hintText: "password".tr(),
                           hintStyle: getBodyTextStyle()
                               .copyWith(color: AppColors.greyColor),
                           prefixIcon: const Icon(
@@ -289,7 +293,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         obscureText: isVisible,
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return "Please, enter your password";
+                            return "please, enter your password".tr();
                           } else {
                             return null;
                           }
@@ -302,7 +306,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         width: 220,
                         bgColor: AppColors.primaryColor,
                         fgColor: AppColors.whiteColor,
-                        text: 'Sign Up',
+                        text: "sign Up".tr(),
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
                             setState(() {
@@ -313,17 +317,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   password: password.text,
                                   userType: widget.userType);
                             });
-                            if (widget.userType == UserType.teacher) {
-                              push(
-                                context,
-                                const TeacherRegistrationView(),
-                              );
-                            } else {
-                              push(
-                                context,
-                                const StudentRegistrationView(),
-                              );
-                            }
                           }
                         }),
                     const Gap(20),
@@ -333,7 +326,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            ' I have an account?',
+                            "i have an account?".tr(),
                             style:
                                 getSmallTextStyle(color: AppColors.greyColor),
                           ),
@@ -341,15 +334,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               onPressed: () {
                                 pushReplacement(
                                   context,
-                                  BlocProvider(
-                                    create: (context) => AuthCubit(),
-                                    child:
-                                        LogInScreen(userType: widget.userType),
-                                  ),
+                                  LogInScreen(userType: widget.userType),
                                 );
                               },
                               child: Text(
-                                ' Log In',
+                                "logIn".tr(),
                                 style: getSmallTextStyle(
                                     color: AppColors.primaryColor),
                               ))

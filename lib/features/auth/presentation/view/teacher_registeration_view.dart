@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:classconnect/core/constants/assets_manager.dart';
 import 'package:classconnect/core/constants/specialization_data.dart';
+import 'package:classconnect/core/enum/user_type_enum.dart';
+import 'package:classconnect/core/functions/dialogs.dart';
 import 'package:classconnect/core/functions/navigation.dart';
 import 'package:classconnect/core/utils/app_colors.dart';
 import 'package:classconnect/core/utils/styles.dart';
@@ -9,17 +11,19 @@ import 'package:classconnect/core/widgets/custom_botton.dart';
 import 'package:classconnect/features/auth/models/teacher_model.dart';
 import 'package:classconnect/features/auth/presentation/manager/auth_cubit.dart';
 import 'package:classconnect/features/auth/presentation/manager/auth_state.dart';
+import 'package:classconnect/features/student/student_nav_bar/student_nav_bar_screen.dart';
 import 'package:classconnect/features/teacher/teacher_nav_bar/teacher-nav_bar_screen.dart';
+import 'package:classconnect/service/dio/upload_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:lottie/lottie.dart';
 
 class TeacherRegistrationView extends StatefulWidget {
-  const TeacherRegistrationView({super.key});
+  final UserType userType;
+  const TeacherRegistrationView({super.key, required this.userType});
 
   @override
   _TeacherRegistrationViewState createState() =>
@@ -48,17 +52,6 @@ class _TeacherRegistrationViewState extends State<TeacherRegistrationView> {
     userID = FirebaseAuth.instance.currentUser!.uid;
   }
 
-  // Future<String> uploadImageToFirebase(File image) async {
-  //   Reference ref =
-  //       FirebaseStorage.instanceFor(bucket: "gs://se7ety-117.appspot.com")
-  //           .ref()
-  //           .child('doctors/$userID-${DateTime.now().toUtc()}');
-  //   SettableMetadata metadata = SettableMetadata(contentType: 'image/jpeg');
-  //   await ref.putFile(image, metadata);
-  //   String url = await ref.getDownloadURL();
-  //   return url;
-  // }
-
   Future<void> _pickImage() async {
     _getUser();
     final pickedFile =
@@ -77,40 +70,78 @@ class _TeacherRegistrationViewState extends State<TeacherRegistrationView> {
     return BlocProvider(
       create: (context) => AuthCubit(),
       child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: AppColors.primaryColor,
-          title: Center(
-            child: Text(
-              'Complete registration process',
-              style: getTitleTextStyle(color: AppColors.whiteColor),
-            ),
-          ),
-        ),
-        body: BlocBuilder<AuthCubit, AuthState>(
-          builder: (context, state) {
-            if (state is AuthLoadingState) {
-              return Center(
-                child: Lottie.asset(
-                  AssetsManager.classroomjson,
-                  width: 200,
-                ),
-              );
+        body: BlocConsumer<AuthCubit, AuthState>(
+          listener: (context, state) {
+            if (state is AuthErrorState) {
+              Navigator.pop(context);
+              showErrorDialog(context, "something went wrong".tr());
+            } else if (state is AuthLoadingState) {
+              showLoadingDialog(context);
             } else if (state is AuthSuccessState) {
-              return Center(
-                child: Text(
-                  'Registration successful',
-                  style: getSmallTextStyle(color: AppColors.whiteColor),
-                ),
-              );
+              if (widget.userType == UserType.teacher) {
+                  pushAndRemoveUntil(context, const TeacherNavBarScreen());
+              } else {
+                pushAndRemoveUntil(context, const StudentNavBarScreen());
+              }
             }
+          },
+          builder: (context, state) {
             return SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    Form(
-                      key: _formKey,
+              child: Column(
+                children: [
+                  Stack(
+                    children: [
+                      Container(
+                        height: 200,
+                        width: double.infinity,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AssetImage(
+                              AssetsManager.girlStudent,
+                            ),
+                          ),
+                          color: AppColors.primaryColor,
+                          borderRadius: BorderRadius.only(
+                            bottomRight: Radius.circular(80),
+                          ),
+                        ),
+                        child: Container(
+                          height: 200,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color:
+                                    AppColors.greyColor.withValues(alpha: 0.5),
+                                spreadRadius: 6,
+                                blurRadius: 6,
+                              ),
+                            ],
+                            borderRadius: const BorderRadius.only(
+                              bottomRight: Radius.circular(80),
+                            ),
+                            color:
+                                AppColors.primaryColor.withValues(alpha: 0.6),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 20,
+                        left: 25,
+                        child: Text(
+                          "complete registration process".tr(),
+                          style: getTitleTextStyle()
+                              .copyWith(color: AppColors.whiteColor),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Gap(20),
+                  Form(
+                    key: _formKey,
+                    child: Padding(
+                      padding: const EdgeInsets.all(15),
                       child: Column(
                         children: [
                           Stack(
@@ -121,8 +152,8 @@ class _TeacherRegistrationViewState extends State<TeacherRegistrationView> {
                                 // backgroundColor: AppColors.lightBg,
                                 child: CircleAvatar(
                                   radius: 60,
-                                  backgroundImage: (_imagePath != null)
-                                      ? FileImage(File(_imagePath!))
+                                  backgroundImage: (file != null)
+                                      ? FileImage(file!)
                                       : const AssetImage(
                                           AssetsManager.smilingBoy),
                                 ),
@@ -149,7 +180,7 @@ class _TeacherRegistrationViewState extends State<TeacherRegistrationView> {
                             child: Row(
                               children: [
                                 Text(
-                                  'Specialization',
+                                  "specialization".tr(),
                                   style: getBodyTextStyle(
                                       color: AppColors.primaryColor),
                                 ),
@@ -176,7 +207,7 @@ class _TeacherRegistrationViewState extends State<TeacherRegistrationView> {
                             value: _specialization,
                             onChanged: (String? newValue) {
                               setState(() {
-                                _specialization = newValue ?? specialization[0];
+                                _specialization = newValue ?? specialization[0].tr();
                               });
                             },
                             items: specialization.map((element) {
@@ -195,7 +226,7 @@ class _TeacherRegistrationViewState extends State<TeacherRegistrationView> {
                             child: Row(
                               children: [
                                 Text(
-                                  'Introduction',
+                                  "introduction".tr(),
                                   style: getBodyTextStyle(
                                       color: AppColors.primaryColor),
                                 ),
@@ -209,7 +240,7 @@ class _TeacherRegistrationViewState extends State<TeacherRegistrationView> {
                             controller: _bio,
                             decoration: InputDecoration(
                               hintText:
-                                  'Record general educational information such as your academic education and previous experiences.',
+                                  "record general educational information such as your academic education and previous experiences.".tr(),
                               hintStyle: getBodyTextStyle()
                                   .copyWith(color: AppColors.greyColor),
                               border: OutlineInputBorder(
@@ -232,7 +263,7 @@ class _TeacherRegistrationViewState extends State<TeacherRegistrationView> {
                             ),
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return 'Please enter your bio';
+                                return "please enter your bio".tr();
                               } else {
                                 return null;
                               }
@@ -247,7 +278,7 @@ class _TeacherRegistrationViewState extends State<TeacherRegistrationView> {
                             child: Row(
                               children: [
                                 Text(
-                                  ' Phone Number',
+                                  "phone Number".tr(),
                                   style: getBodyTextStyle(
                                       color: AppColors.primaryColor),
                                 )
@@ -259,7 +290,7 @@ class _TeacherRegistrationViewState extends State<TeacherRegistrationView> {
                             style: getSmallTextStyle(),
                             controller: _phone,
                             decoration: InputDecoration(
-                              hintText: '+20xxxxxxxxxx',
+                              hintText: "+20xxxxxxxxxx".tr(),
                               hintStyle: getBodyTextStyle()
                                   .copyWith(color: AppColors.greyColor),
                               border: OutlineInputBorder(
@@ -282,7 +313,7 @@ class _TeacherRegistrationViewState extends State<TeacherRegistrationView> {
                             ),
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return 'Please enter your phone number';
+                                return "please enter your phone number".tr();
                               } else {
                                 return null;
                               }
@@ -290,9 +321,9 @@ class _TeacherRegistrationViewState extends State<TeacherRegistrationView> {
                           ),
                         ],
                       ),
-                    )
-                  ],
-                ),
+                    ),
+                  )
+                ],
               ),
             );
           },
@@ -303,36 +334,38 @@ class _TeacherRegistrationViewState extends State<TeacherRegistrationView> {
           child: SizedBox(
             width: double.infinity,
             height: 50,
-            child: CustomButton(
-              onPressed: () async {
-                if (_formKey.currentState!.validate()) {
-                  // profileUrl = await uploadImageToFirebase(file!);
-                  context
-                      .read<AuthCubit>()
-                      .updateTeacherRegistration(TeacherModel(
-                        uid: userID,
-                        image: profileUrl,
-                        phone1: _phone.text,
-                        specialization: _specialization,
-                        bio: _bio.text,
-                      ));
-                  // ignore: use_build_context_synchronously
-                  return push(context, const TeacherNavBarScreen());
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      backgroundColor: AppColors.primaryColor,
-                      content: Text(
-                        'Please upload your profile picture',
-                        style: getSmallTextStyle(
-                          color: AppColors.whiteColor,
+            child: BlocBuilder<AuthCubit, AuthState>(
+              builder: (context, state) {
+                return CustomButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      profileUrl = await uploadImage(file!);
+                      context
+                          .read<AuthCubit>()
+                          .updateTeacherRegistration(TeacherModel(
+                            uid: userID,
+                            image: profileUrl,
+                            phone1: _phone.text,
+                            specialization: _specialization,
+                            bio: _bio.text,
+                          ));
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: AppColors.primaryColor,
+                          content: Text(
+                            "please upload your profile picture".tr(),
+                            style: getSmallTextStyle(
+                              color: AppColors.whiteColor,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  );
-                }
+                      );
+                    }
+                  },
+                  text: "registration".tr(),
+                );
               },
-              text: 'Registration',
             ),
           ),
         ),

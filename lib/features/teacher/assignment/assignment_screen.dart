@@ -1,5 +1,6 @@
 import 'package:classconnect/core/utils/app_colors.dart';
 import 'package:classconnect/core/utils/styles.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/models/subjects_data.dart';
@@ -54,7 +55,7 @@ class AssignmentScreen extends StatelessWidget {
                 bottom: 20.h,
                 left: 15.w,
                 child: Text(
-                  "ASSIGNMENTS",
+                  "assignments".tr(),
                   style: getHeadTextStyle().copyWith(color: AppColors.whiteColor),
                 ),
               ),
@@ -78,7 +79,8 @@ class AssignmentScreen extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => SubjectsDetails(
-                                  subject: details[index],
+                                  subjectName: details[index].subjectsName,
+                                  feedbackType: "Assignment",
                                 ),
                               ),
                             );
