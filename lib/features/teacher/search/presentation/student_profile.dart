@@ -6,7 +6,9 @@ import 'package:classconnect/features/teacher/search/widgets/item_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:lottie/lottie.dart';
 
 class StudentProfile extends StatelessWidget {
   final StudentModel? studentModel;
@@ -28,7 +30,7 @@ class StudentProfile extends StatelessWidget {
           style: getTitleTextStyle(color: AppColors.whiteColor),
         ),
         leading: Padding(
-          padding: const EdgeInsets.only(right: 10),
+          padding: EdgeInsets.only(right: 10.w),
           child: IconButton(
             icon: const Icon(
               Icons.arrow_back_ios,
@@ -45,18 +47,25 @@ class StudentProfile extends StatelessWidget {
               .get(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return const Center(child: CircularProgressIndicator());
+              return Center(
+                child: Lottie.asset(
+                  'assets/icons/Classroom.json',
+                  height: 200.h,
+                  width: double.infinity.w,
+                  fit: BoxFit.contain,
+                ),
+              );
             }
             var studentModel = snapshot.data;
             return Padding(
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(20.sp),
               child: Column(
                 children: [
-                  const Gap(60),
+                  Gap(60.sp),
                   CircleAvatar(
-                    radius: 80,
+                    radius: 80.r,
                     child: CircleAvatar(
-                      radius: 90,
+                      radius: 90.r,
                       backgroundImage:
                           (studentModel?.data()?['image'] != null &&
                                       studentModel!
@@ -77,14 +86,14 @@ class StudentProfile extends StatelessWidget {
                           "information contact".tr(),
                           style: getBodyTextStyle(),
                         ),
-                        const SizedBox(
-                          height: 10,
+                        SizedBox(
+                          height: 10.h,
                         ),
                         Container(
-                          padding: const EdgeInsets.all(15),
+                          padding: EdgeInsets.all(15.sp),
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(10.r),
                             color: AppColors.primaryColor.withAlpha(50),
                           ),
                           child: Column(
@@ -93,9 +102,10 @@ class StudentProfile extends StatelessWidget {
                               TileWidget(
                                   text: studentModel?.data()?['email'] ?? '',
                                   icon: Icons.email),
-                              const Gap(15),
+                              Gap(15.sp),
                               TileWidget(
-                                  text: studentModel?.data()?['phone1'] ?? ''.tr(),
+                                  text: studentModel?.data()?['phone1'] ??
+                                      ''.tr(),
                                   icon: Icons.call),
                             ],
                           ),

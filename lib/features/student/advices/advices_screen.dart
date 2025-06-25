@@ -1,4 +1,4 @@
-import 'package:classconnect/core/widgets/custom_botton.dart';
+import 'package:classconnect/core/constants/assets_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,21 +30,21 @@ class _AdvicesScreenState extends State<AdvicesScreen> {
                     image: DecorationImage(
                       fit: BoxFit.cover,
                       image: AssetImage(
-                        "assets/images/girl-student-with-clapping-teacher.jpg",
+                        AssetsManager.girlStudent,
                       ),
                     ),
-                    color: Colors.blue,
+                    color: AppColors.primaryColor,
                     borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(80.r),
                     ),
                   ),
                   child: Container(
                     height: 200.h,
-                    width: double.infinity,
+                    width: double.infinity.w,
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey.withValues(alpha: 0.5),
+                          color: AppColors.greyColor.withValues(alpha: 0.5),
                           spreadRadius: 6,
                           blurRadius: 6,
                         ),
@@ -52,29 +52,31 @@ class _AdvicesScreenState extends State<AdvicesScreen> {
                       borderRadius: BorderRadius.only(
                         bottomRight: Radius.circular(80.r),
                       ),
-                      color: Colors.blue.withValues(alpha: 0.6),
+                      color: AppColors.primaryColor.withValues(alpha: 0.6),
                     ),
                   ),
                 ),
                 Positioned(
-                  bottom: 20,
+                  bottom: 10.h,
+                  right: 20.w,
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20.w),
-                    child: CustomButton(
-                      width: 300.w,
-                      bgColor: AppColors.whiteColor,
-                      fgColor: AppColors.primaryColor,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.language,
+                        color: AppColors.whiteColor,
+                      ),
                       onPressed: () {
                         setState(() {
                           _isArabic = !_isArabic;
                         });
                       },
-                      text: _isArabic ? 'Switch to English' : 'Translate to Arabic',
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(left: 20.w, top: 50.h),
+                Positioned(
+                  bottom: 10.h,
+                  left: 10.w,
                   child: Text(
                     "advices".tr(),
                     style: getHeadTextStyle()
@@ -83,11 +85,11 @@ class _AdvicesScreenState extends State<AdvicesScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 15),
+            SizedBox(height: 15.h),
             Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: EdgeInsets.all(10.0.sp),
                   child: Text(
                     textAlign: TextAlign.center,
                     _isArabic

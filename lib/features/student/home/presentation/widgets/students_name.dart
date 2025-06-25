@@ -1,6 +1,7 @@
 import 'package:classconnect/core/utils/styles.dart';
 import 'package:classconnect/features/auth/models/student_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class StudentsName extends StatelessWidget {
   final StudentModel student;
@@ -13,8 +14,8 @@ class StudentsName extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        height: 200,
-        width: 200,
+        height: 200.h,
+        width: 200.w,
         child: Transform.translate(
           offset: const Offset(0, -60),
           child: Card(
@@ -26,9 +27,9 @@ class StudentsName extends StatelessWidget {
                     Stack(
                       children: [
                         SizedBox(
-                          height: 150,
+                          height: 150.h,
                           child: CircleAvatar(
-                            radius: 60,
+                            radius: 60.r,
                             backgroundImage: NetworkImage(
                               student.image as String,
                             ),

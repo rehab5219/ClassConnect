@@ -1,3 +1,4 @@
+import 'package:classconnect/core/constants/assets_manager.dart';
 import 'package:classconnect/core/utils/app_colors.dart';
 import 'package:classconnect/core/utils/styles.dart';
 import 'package:classconnect/features/student/today_lessons/receive_feedback.dart';
@@ -19,12 +20,12 @@ class AssignmentScreen extends StatelessWidget {
             children: [
               Container(
                 height: 200.h,
-                width: double.infinity,
+                width: double.infinity.w,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     fit: BoxFit.cover,
                     image: AssetImage(
-                      "assets/images/girl-student-with-clapping-teacher.jpg",
+                      AssetsManager.girlStudent,
                     ),
                   ),
                   color: Colors.blue,
@@ -38,7 +39,7 @@ class AssignmentScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withValues(alpha: 0.5),
+                        color: AppColors.greyColor.withValues(alpha: 0.5), // Fixed withOpacity
                         spreadRadius: 6,
                         blurRadius: 6,
                       ),
@@ -46,11 +47,10 @@ class AssignmentScreen extends StatelessWidget {
                     borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(80.r),
                     ),
-                    color: Colors.blue.withValues(alpha: 0.6),
+                    color: AppColors.primaryColor.withValues(alpha: 0.6), // Fixed withOpacity
                   ),
                 ),
               ),
-              // Padding(
               Positioned(
                 bottom: 20.h,
                 left: 15.w,
@@ -63,29 +63,34 @@ class AssignmentScreen extends StatelessWidget {
           ),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.all(12.w),
+              padding: EdgeInsets.all(12.sp),
               child: GridView.count(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 15.w,
-                  mainAxisSpacing: 15.h,
-                  padding: EdgeInsets.all(5.w),
-                  children: [
-                    ...List.generate(
-                      details.length,
-                          (index) {
-                        return InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ReceiveFeedback(feedbackType: "Assignment",subjectName:details[index].subjectsName ,),
+                crossAxisCount: 2,
+                crossAxisSpacing: 15.w,
+                mainAxisSpacing: 15.h,
+                padding: EdgeInsets.all(5.sp),
+                children: [
+                  ...List.generate(
+                    details.length,
+                    (index) {
+                      return InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ReceiveFeedback(
+                                feedbackType: "Assignment",
+                                subjectName: details[index].subjectsName,
                               ),
-                            );
-                          },
-                          child: SubjectsName(details: details[index]),);
-                      },
-                    ),
-                  ]),
+                            ),
+                          );
+                        },
+                        child: SubjectsName(details: details[index]), 
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ],

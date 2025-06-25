@@ -83,22 +83,22 @@ class _SubjectsDetailsState extends State<SubjectsDetails> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: EdgeInsets.all(10.sp),
         child: ListView.separated(
           itemBuilder: (context, index) {
             return Column(
               children: [
                 SizedBox(
-                  height: 20.w,
+                  height: 20.h,
                 ),
                 WeekTextFormField(
                   weekList: WeekLessonsData(weekName: weekList[index]),
                   controller:
-                      feedbackControllers[index], // Assign controller from list
+                      feedbackControllers[index],
                 ),
-                const Gap(15),
+                 Gap(15.sp),
                 SizedBox(
-                  height: 50.w,
+                  height: 50.h,
                   child: CustomButton(
                     text: "send Feedback".tr(),
                     bgColor: AppColors.whiteColor,
@@ -114,7 +114,7 @@ class _SubjectsDetailsState extends State<SubjectsDetails> {
                         if (message.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text("Please enter a feedback message",
+                              content: Text("please enter a feedback message".tr(),
                                   style: getBodyTextStyle()),
                               backgroundColor: AppColors.whiteColor,
                             ),
@@ -138,7 +138,7 @@ class _SubjectsDetailsState extends State<SubjectsDetails> {
 
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text("Feedback sent successfully",
+                            content: Text("feedback sent successfully".tr(),
                                 style: getBodyTextStyle()),
                             backgroundColor: AppColors.whiteColor,
                           ),
@@ -146,7 +146,7 @@ class _SubjectsDetailsState extends State<SubjectsDetails> {
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text("Teacher not logged in",
+                            content: Text("teacher not logged in".tr(),
                                 style: getBodyTextStyle()),
                             backgroundColor: AppColors.whiteColor,
                           ),

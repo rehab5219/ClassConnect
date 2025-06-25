@@ -1,5 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
-
 class SubjectsData{
   final String subjectsName;
 
@@ -10,48 +8,48 @@ class SubjectsData{
 
 List<SubjectsData> details = [
   SubjectsData(
-    subjectsName: "arabic".tr(),
+    subjectsName: "ARABIC",
   ),
   SubjectsData(
-    subjectsName: "math".tr(),
+    subjectsName: "MATH",
   ),
   SubjectsData(
-    subjectsName: "science".tr(),
+    subjectsName: "SCIENCE",
   ),
   SubjectsData(
-    subjectsName: "english".tr(),
+    subjectsName: "ENGLISH",
   ),
   SubjectsData(
-    subjectsName: "religion".tr(),
+    subjectsName: "RELIGION",
   ),
   SubjectsData(
-    subjectsName: "social".tr(),
+    subjectsName: "SOCIAL",
   ),
   SubjectsData(
-    subjectsName: "french".tr(),
+    subjectsName: "FRENCH",
   ),
   SubjectsData(
-    subjectsName: "german".tr(),
+    subjectsName: "GERMAN",
   ),
   SubjectsData(
-    subjectsName: "physics".tr(),
+    subjectsName: "PHYSICS",
   ),
   SubjectsData(
-    subjectsName: "chemistry".tr(),
+    subjectsName: "CHEMISTRY",
   ),
   SubjectsData(
-    subjectsName: "biology".tr(),
+    subjectsName: "BIOLOGY",
   ),
   SubjectsData(
-    subjectsName: "history".tr(),
+    subjectsName: "HISTORY",
   ),
   SubjectsData(
-    subjectsName: "geography".tr(),
+    subjectsName: "GEOGRAPHY",
   ),
   SubjectsData(
-    subjectsName: "philosophy".tr(),
+    subjectsName: "PHILOSOPHY",
   ),
   SubjectsData(
-    subjectsName: "psychology".tr(),
+    subjectsName: "PSYCHOLOGY",
   ),
 ];

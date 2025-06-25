@@ -1,3 +1,4 @@
+import 'package:classconnect/core/constants/assets_manager.dart';
 import 'package:classconnect/core/enum/user_type_enum.dart';
 import 'package:classconnect/core/functions/navigation.dart';
 import 'package:classconnect/core/utils/app_colors.dart';
@@ -8,6 +9,7 @@ import 'package:classconnect/features/intro/welcome_screen.dart';
 import 'package:classconnect/service/local/local_storage.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -42,23 +44,23 @@ class _OnboardingViewState extends State<OnboardingView> {
               children: [
                 Image.asset(
                   pages[index].image,
-                  width: double.infinity,
-                  height: double.infinity,
+                  width: double.infinity.w,
+                  height: double.infinity.h,
                   fit: BoxFit.cover,
                 ),
                 Container(
-                  margin: const EdgeInsets.only(top: 450),
-                  height: 295,
-                  decoration: const BoxDecoration(
-                    color: Colors.black,
+                  margin: EdgeInsets.only(top: 450.sp),
+                  height: 295.h,
+                  decoration: BoxDecoration(
+                    color: AppColors.black,
                     image: DecorationImage(
                       fit: BoxFit.cover,
                       image: AssetImage(
-                        "assets/images/girl-student-with-clapping-teacher.jpg",
+                        AssetsManager.girlStudent,
                       ),
                     ),
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(127),
+                      topLeft: Radius.circular(127.r),
                     ),
                   ),
                   child: Container(
@@ -71,21 +73,21 @@ class _OnboardingViewState extends State<OnboardingView> {
                         ),
                       ],
                       color: Colors.blue.withValues(alpha: 0.5),
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(125),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(125.r),
                       ),
                     ),
                   ),
                 ),
                 if (currentPage == 2)
                   PositionedDirectional(
-                    bottom: 20,
-                    start: 20,
-                    end: 20,
+                    bottom: 20.h,
+                    start: 20.w,
+                    end: 20.w,
                     child: Center(
                       child: CustomButton(
-                        height: 45,
-                        width: 245,
+                        height: 45.h,
+                        width: 245.w,
                         bgColor: AppColors.whiteColor,
                         fgColor: AppColors.primaryColor,
                         text: "get started".tr(),
@@ -100,9 +102,9 @@ class _OnboardingViewState extends State<OnboardingView> {
                     ),
                   ),
                 PositionedDirectional(
-                  bottom: 20,
-                  start: 20,
-                  end: 20,
+                  bottom: 20.h,
+                  start: 20.w,
+                  end: 20.w,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -127,47 +129,47 @@ class _OnboardingViewState extends State<OnboardingView> {
                   ),
                 ),
                 PositionedDirectional(
-                  bottom: 80,
-                  start: 70,
-                  end: 50,
+                  bottom: 80.h,
+                  start: 70.w,
+                  end: 50.w,
                   child: Text(
                     pages[index].body,
                     textAlign: TextAlign.center,
                     style: getTitleTextStyle().copyWith(
                       color: AppColors.whiteColor,
-                      fontSize: 20,
+                      fontSize: 20.sp,
                     ),
                   ),
                 ),
-                const Gap(50),
+                Gap(50.sp),
                 PositionedDirectional(
-                  top: 510,
-                  start: 45,
-                  end: 10,
+                  top: 510.h,
+                  start: 45.w,
+                  end: 10.w,
                   child: Text(
                     pages[index].title,
                     textAlign: TextAlign.center,
                     style: getHeadTextStyle().copyWith(
                       color: AppColors.whiteColor,
                       fontWeight: FontWeight.bold,
-                      fontSize: 26,
+                      fontSize: 26.sp,
                     ),
                   ),
                 ),
                 PositionedDirectional(
-                  bottom: 250,
-                  start: 20,
-                  end: 20,
+                  bottom: 250.h,
+                  start: 20.w,
+                  end: 20.w,
                   child: Center(
                     child: SmoothPageIndicator(
                       controller: pageController,
                       count: 3,
-                      effect: const ExpandingDotsEffect(
-                        dotHeight: 8,
-                        dotWidth: 10,
+                      effect: ExpandingDotsEffect(
+                        dotHeight: 8.h,
+                        dotWidth: 10.w,
                         activeDotColor: AppColors.whiteColor,
                         dotColor: AppColors.greyColor,
-                        spacing: 8,
+                        spacing: 8.sp,
                       ),
                     ),
                   ),

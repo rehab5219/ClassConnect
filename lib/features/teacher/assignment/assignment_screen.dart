@@ -1,3 +1,4 @@
+import 'package:classconnect/core/constants/assets_manager.dart';
 import 'package:classconnect/core/utils/app_colors.dart';
 import 'package:classconnect/core/utils/styles.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -24,7 +25,7 @@ class AssignmentScreen extends StatelessWidget {
                   image: DecorationImage(
                     fit: BoxFit.cover,
                     image: AssetImage(
-                      "assets/images/girl-student-with-clapping-teacher.jpg",
+                      AssetsManager.girlStudent,
                     ),
                   ),
                   color: Colors.blue,
@@ -38,7 +39,7 @@ class AssignmentScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withValues(alpha: 0.5),
+                        color: AppColors.greyColor.withValues(alpha: 0.5),
                         spreadRadius: 6,
                         blurRadius: 6,
                       ),
@@ -46,7 +47,7 @@ class AssignmentScreen extends StatelessWidget {
                     borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(80.r),
                     ),
-                    color: Colors.blue.withValues(alpha: 0.6),
+                    color: AppColors.primaryColor.withValues(alpha: 0.6),
                   ),
                 ),
               ),
@@ -56,7 +57,8 @@ class AssignmentScreen extends StatelessWidget {
                 left: 15.w,
                 child: Text(
                   "assignments".tr(),
-                  style: getHeadTextStyle().copyWith(color: AppColors.whiteColor),
+                  style:
+                      getHeadTextStyle().copyWith(color: AppColors.whiteColor),
                 ),
               ),
             ],
@@ -68,11 +70,11 @@ class AssignmentScreen extends StatelessWidget {
                   crossAxisCount: 2,
                   crossAxisSpacing: 15.w,
                   mainAxisSpacing: 15.h,
-                  padding: EdgeInsets.all(5.w),
+                  padding: EdgeInsets.all(5.sp),
                   children: [
                     ...List.generate(
                       details.length,
-                          (index) {
+                      (index) {
                         return InkWell(
                           onTap: () {
                             Navigator.push(
@@ -85,7 +87,10 @@ class AssignmentScreen extends StatelessWidget {
                               ),
                             );
                           },
-                          child: SubjectsName(details: details[index]),);
+                          child: SubjectsName(
+                            details: details[index],
+                          ),
+                        );
                       },
                     ),
                   ]),

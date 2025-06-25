@@ -32,25 +32,25 @@ class _SearchScreenState extends State<SearchScreen> {
                 children: [
                   Container(
                     height: 200.h,
-                    width: double.infinity,
+                    width: double.infinity.w,
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         image: const AssetImage(AssetsManager.girlStudent),
                         alignment: Alignment.topCenter,
                       ),
-                      color: Colors.blue,
+                      color: AppColors.primaryColor,
                       borderRadius: BorderRadius.only(
                         bottomRight: Radius.circular(80.r),
                       ),
                     ),
                     child: Container(
                       height: 200.h,
-                      width: double.infinity,
+                      width: double.infinity.w,
                       decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withValues(alpha: 0.5),
+                            color: AppColors.greyColor.withValues(alpha: 0.5),
                             spreadRadius: 6,
                             blurRadius: 6,
                           ),
@@ -58,7 +58,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         borderRadius: BorderRadius.only(
                           bottomRight: Radius.circular(80.r),
                         ),
-                        color: Colors.blue.withValues(alpha: 0.6),
+                        color: AppColors.primaryColor.withValues(alpha: 0.6),
                       ),
                     ),
                   ),
@@ -73,9 +73,9 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                 ],
               ),
-              const Gap(20),
+               Gap(20.sp),
               Padding(
-                padding: const EdgeInsets.all(15),
+                padding: EdgeInsets.all(15.sp),
                 child: TextField(
                   controller: _searchController,
                   style: getSmallTextStyle(),
@@ -87,17 +87,17 @@ class _SearchScreenState extends State<SearchScreen> {
                   decoration: InputDecoration(
                     hintText: "search".tr(),
                     hintStyle: getSmallTextStyle(color: AppColors.greyColor),
-                    suffixIcon: const SizedBox(
-                      width: 50,
+                    suffixIcon: SizedBox(
+                      width: 50.w,
                       child: Icon(Icons.search, color: AppColors.primaryColor),
                     ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(
+                      borderSide: BorderSide(
                         color: AppColors.primaryColor,
-                        width: 2,
+                        width: 2.w,
                       ),
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -109,7 +109,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Gap(50),
+                       Gap(50.sp),
                       Text("show all students".tr(),
                           style: getHeadTextStyle()),
                       Image(image: AssetImage(AssetsManager.searchConcept)),

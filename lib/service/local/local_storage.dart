@@ -3,11 +3,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AppLocalStorage {
   static const String token = "token";
   static const String isOnboardingShown = "isOnboardingShown";
-  static const String hasSeenWelcome = "hasSeenWelcome"; // Added to match SplashScreen
-  static const String isLoggedIn = "isLoggedIn"; // Added for login state
+  static const String hasSeenWelcome = "hasSeenWelcome"; 
+  static const String isLoggedIn = "isLoggedIn"; 
   static const String userType = 'userType';
-  static const String uid = 'uid'; // Added for user ID
-  static const String email = 'email'; // Added for email
+  static const String uid = 'uid';
+  static const String email = 'email'; 
 
   static late SharedPreferences _sharedPreferences;
 

@@ -1,6 +1,7 @@
 import 'package:classconnect/core/utils/app_colors.dart';
 import 'package:classconnect/core/utils/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
 showErrorDialog(BuildContext context, String text) {
@@ -30,7 +31,7 @@ showLoadingDialog(BuildContext context) {
           children: [
             Lottie.asset(
               'assets/icons/Classroom.json',
-              width: 250,
+              width: 250.w,
             ),
           ],
         );

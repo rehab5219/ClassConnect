@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     fit: BoxFit.cover,
                     image: AssetImage(AssetsManager.girlStudent),
                   ),
-                  color: Colors.blue,
+                  color: AppColors.primaryColor,
                   borderRadius: BorderRadius.only(
                     bottomRight: Radius.circular(80.r),
                   ),
@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withAlpha(150),
+                        color: AppColors.greyColor.withAlpha(150),
                         spreadRadius: 6,
                         blurRadius: 6,
                       ),
@@ -85,12 +85,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(80.r),
                     ),
-                    color: Colors.blue.withAlpha(150),
+                    color: AppColors.primaryColor.withAlpha(150),
                   ),
                 ),
               ),
               PositionedDirectional(
-                top: 40,
+                top: 40.h,
                 child: IconButton(
                   icon: Icon(Icons.refresh, color: AppColors.whiteColor),
                   onPressed: _refreshStudents,
@@ -107,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-          const Gap(15),
+           Gap(15.sp),
           Expanded(
             child: FutureBuilder<QuerySnapshot>(
               future: _studentsFuture,
@@ -116,8 +116,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   return Center(
                     child: Lottie.asset(
                       'assets/icons/Classroom.json',
-                      height: 200,
-                      width: double.infinity,
+                      height: 200.h,
+                      width: double.infinity.w,
                       fit: BoxFit.contain,
                     ),
                   );
@@ -135,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         Text("no selected students yet".tr(),
                             style: getTitleTextStyle()),
-                        Gap(10.h),
+                        Gap(10.sp),
                         Image(image: AssetImage(AssetsManager.searchConcept)),
                       ],
                     ),

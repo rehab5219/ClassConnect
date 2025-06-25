@@ -71,8 +71,8 @@ class _TeacherProfileScreenState extends State<TeacherProfileScreen> {
               return Center(
                 child: Lottie.asset(
                   'assets/icons/Classroom.json',
-                  height: 200,
-                  width: double.infinity,
+                  height: 200.h,
+                  width: double.infinity.w,
                   fit: BoxFit.contain,
                 ),
               );
@@ -85,12 +85,12 @@ class _TeacherProfileScreenState extends State<TeacherProfileScreen> {
                   children: [
                     Container(
                       height: 200.h,
-                      width: double.infinity,
+                      width: double.infinity.w,
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           fit: BoxFit.cover,
                           image: AssetImage(
-                            "assets/images/girl-student-with-clapping-teacher.jpg",
+                            AssetsManager.girlStudent,
                           ),
                         ),
                         color: Colors.blue,
@@ -104,7 +104,7 @@ class _TeacherProfileScreenState extends State<TeacherProfileScreen> {
                         decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey.withValues(alpha: 0.5),
+                              color: AppColors.greyColor.withValues(alpha: 0.5),
                               spreadRadius: 6,
                               blurRadius: 6,
                             ),
@@ -112,7 +112,7 @@ class _TeacherProfileScreenState extends State<TeacherProfileScreen> {
                           borderRadius: BorderRadius.only(
                             bottomRight: Radius.circular(80.r),
                           ),
-                          color: Colors.blue.withValues(alpha: 0.6),
+                          color: AppColors.primaryColor.withValues(alpha: 0.6),
                         ),
                       ),
                     ),
@@ -143,7 +143,10 @@ class _TeacherProfileScreenState extends State<TeacherProfileScreen> {
                       bottom: 20.h,
                       right: 20.w,
                       child: IconButton(
-                        icon: Icon(Icons.language,color: AppColors.whiteColor,),
+                        icon: Icon(
+                          Icons.language,
+                          color: AppColors.whiteColor,
+                        ),
                         onPressed: () {
                           final currentLocale = context.locale;
                           final newLocale = currentLocale.languageCode == 'en'
@@ -156,17 +159,17 @@ class _TeacherProfileScreenState extends State<TeacherProfileScreen> {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding: EdgeInsets.all(20.sp),
                   child: Column(
                     children: [
-                      const Gap(10),
+                      Gap(10.sp),
                       Stack(
                         alignment: Alignment.bottomRight,
                         children: [
                           CircleAvatar(
-                            radius: 50,
+                            radius: 50.r,
                             child: CircleAvatar(
-                              radius: 60,
+                              radius: 60.r,
                               backgroundImage: (_imagePath != null)
                                   ? FileImage(File(_imagePath!))
                                   : (teacherModel?.data()?['image'] != null &&
@@ -186,18 +189,18 @@ class _TeacherProfileScreenState extends State<TeacherProfileScreen> {
                               await _pickImage();
                             },
                             child: CircleAvatar(
-                              radius: 15,
+                              radius: 15.r,
                               backgroundColor:
                                   Theme.of(context).scaffoldBackgroundColor,
-                              child: const Icon(
+                              child: Icon(
                                 Icons.camera_alt_rounded,
-                                size: 20,
+                                size: 20.sp,
                               ),
                             ),
                           ),
                         ],
                       ),
-                      const Gap(20),
+                      Gap(20.sp),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -216,7 +219,7 @@ class _TeacherProfileScreenState extends State<TeacherProfileScreen> {
                               style: getBodyTextStyle(),
                             ),
                           ),
-                          const Gap(15),
+                          Gap(15.sp),
                           Text(
                             "introduction".tr(),
                             style: getBodyTextStyle(),
@@ -225,18 +228,18 @@ class _TeacherProfileScreenState extends State<TeacherProfileScreen> {
                             teacherModel!.data()?['bio'] ?? '',
                             style: getSmallTextStyle(),
                           ),
-                          const Gap(20),
+                           Gap(20.sp),
                           const Divider(),
                           Text(
                             "information contact".tr(),
                             style: getBodyTextStyle(),
                           ),
-                          const Gap(5),
+                           Gap(5.sp),
                           Container(
-                            padding: const EdgeInsets.all(15),
-                            width: double.infinity,
+                            padding: EdgeInsets.all(15.sp),
+                            width: double.infinity.w,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(10.r),
                               color: AppColors.primaryColor.withAlpha(50),
                             ),
                             child: Column(
@@ -245,7 +248,7 @@ class _TeacherProfileScreenState extends State<TeacherProfileScreen> {
                                 TileWidget(
                                     text: teacherModel.data()?['email'] ?? '',
                                     icon: Icons.email),
-                                const Gap(15),
+                                 Gap(15.sp),
                                 TileWidget(
                                     text: teacherModel.data()?['phone1'] ?? '',
                                     icon: Icons.call),

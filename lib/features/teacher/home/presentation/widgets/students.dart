@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // ignore: must_be_immutable
 class Students extends StatefulWidget {
@@ -68,17 +69,17 @@ Future<void> deleteStudent(String uid) async {
             backgroundColor: AppColors.primaryColor,
             title: Text(
               "delete student".tr(),
-              style: const TextStyle(color: AppColors.whiteColor),
+              style: getBodyTextStyle(color: AppColors.whiteColor),
             ),
             content: Text(
               "are you sure you want to delete this student?".tr(),
-              style: const TextStyle(color: AppColors.whiteColor),
+              style: getBodyTextStyle(color: AppColors.whiteColor),
             ),
             actions: [
               TextButton(
                 child: Text(
                   "no".tr(),
-                  style: const TextStyle(color: AppColors.whiteColor),
+                  style: getBodyTextStyle(color: AppColors.whiteColor),
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -87,7 +88,7 @@ Future<void> deleteStudent(String uid) async {
               TextButton(
                 child: Text(
                   "yes".tr(),
-                  style: const TextStyle(color: AppColors.whiteColor),
+                  style: getBodyTextStyle(color: AppColors.whiteColor),
                 ),
                 onPressed: () async {
                   await deleteStudent(uid);
@@ -118,7 +119,7 @@ Future<void> deleteStudent(String uid) async {
             Stack(
               children: [
                 CircleAvatar(
-                  radius: 40,
+                  radius: 40.r,
                   backgroundImage: NetworkImage(
                     widget.student.image as String,
                   ),
@@ -133,7 +134,7 @@ Future<void> deleteStudent(String uid) async {
               onPressed: () {
                 showAlertDialog(context, widget.student.uid ?? '');
               },
-              icon: const Icon(Icons.delete, color: Colors.red),
+              icon: const Icon(Icons.delete, color: AppColors.redColor),
             )
           ],
         ),

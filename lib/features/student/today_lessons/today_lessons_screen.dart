@@ -1,3 +1,4 @@
+import 'package:classconnect/core/constants/assets_manager.dart';
 import 'package:classconnect/core/models/subjects_data.dart';
 import 'package:classconnect/core/widgets/subjects_name.dart';
 import 'package:classconnect/features/student/today_lessons/receive_feedback.dart';
@@ -24,10 +25,10 @@ class TodayLessonsScreen extends StatelessWidget {
                   image: DecorationImage(
                     fit: BoxFit.cover,
                     image: AssetImage(
-                      "assets/images/girl-student-with-clapping-teacher.jpg",
+                      AssetsManager.girlStudent,
                     ),
                   ),
-                  color: Colors.blue,
+                  color: AppColors.primaryColor,
                   borderRadius: BorderRadius.only(
                     bottomRight: Radius.circular(80.r),
                   ),
@@ -38,7 +39,7 @@ class TodayLessonsScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withValues(alpha: 0.5),
+                        color: AppColors.greyColor.withValues(alpha: 0.5),
                         spreadRadius: 6,
                         blurRadius: 6,
                       ),
@@ -46,7 +47,7 @@ class TodayLessonsScreen extends StatelessWidget {
                     borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(80.r),
                     ),
-                    color: Colors.blue.withValues(alpha: 0.6),
+                    color: AppColors.primaryColor.withValues(alpha: 0.6),
                   ),
                 ),
               ),
@@ -82,11 +83,10 @@ class TodayLessonsScreen extends StatelessWidget {
                                 builder: (context) => ReceiveFeedback(
                                   feedbackType: "Today_Lessons",
                                   subjectName: details[index]
-                                      .subjectsName, // Pass subjectName
+                                      .subjectsName, 
                                 ),
                               ),
                             );
-                            print(details[index].subjectsName);
                           },
                           child: SubjectsName(details: details[index]),
                         );

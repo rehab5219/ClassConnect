@@ -84,7 +84,7 @@ class _AllStudentsScreenState extends State<AllStudentsScreen> {
                     fit: BoxFit.cover,
                     image: AssetImage(AssetsManager.girlStudent),
                   ),
-                  color: Colors.blue,
+                  color: AppColors.primaryColor,
                   borderRadius: BorderRadius.only(
                     bottomRight: Radius.circular(80.r),
                   ),
@@ -95,7 +95,7 @@ class _AllStudentsScreenState extends State<AllStudentsScreen> {
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withAlpha(150),
+                        color: AppColors.greyColor.withAlpha(150),
                         spreadRadius: 6,
                         blurRadius: 6,
                       ),
@@ -123,7 +123,7 @@ class _AllStudentsScreenState extends State<AllStudentsScreen> {
                         color: AppColors.whiteColor,
                       ),
                     ),
-                    const Gap(10),
+                     Gap(10.sp),
                     Text(
                       "all Students".tr(),
                       style: getHeadTextStyle()
@@ -134,7 +134,7 @@ class _AllStudentsScreenState extends State<AllStudentsScreen> {
               ),
             ],
           ),
-          const Gap(15),
+           Gap(15.sp),
           FutureBuilder<QuerySnapshot>(
             future: FirebaseFirestore.instance.collection('students').get(),
             builder: (context, snapshot) {
@@ -142,8 +142,8 @@ class _AllStudentsScreenState extends State<AllStudentsScreen> {
                 return Center(
                   child: Lottie.asset(
                     'assets/icons/Classroom.json',
-                    height: 200,
-                    width: double.infinity,
+                    height: 200.h,
+                    width: double.infinity.w,
                     fit: BoxFit.contain,
                   ),
                 );
@@ -156,7 +156,7 @@ class _AllStudentsScreenState extends State<AllStudentsScreen> {
                   child: Column(
                     children: [
                       Text("no students yet".tr(), style: getBodyTextStyle()),
-                      Gap(10.h),
+                      Gap(10.sp),
                       Image.asset(AssetsManager.searchConcept),
                     ],
                   ),
@@ -177,7 +177,7 @@ class _AllStudentsScreenState extends State<AllStudentsScreen> {
                         crossAxisCount: 2,
                         crossAxisSpacing: 15.w,
                         mainAxisSpacing: 15.h,
-                        padding: EdgeInsets.all(12.w),
+                        padding: EdgeInsets.all(12.sp),
                         children: List.generate(students.length, (index) {
                           final student = students[index];
                           final isSelected =
@@ -193,7 +193,7 @@ class _AllStudentsScreenState extends State<AllStudentsScreen> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       CircleAvatar(
-                                        radius: 40,
+                                        radius: 40.r,
                                         backgroundImage: NetworkImage(
                                           student.image ?? '',
                                         ),
@@ -209,8 +209,8 @@ class _AllStudentsScreenState extends State<AllStudentsScreen> {
                                   ),
                                 ),
                                 Positioned(
-                                  bottom: 0,
-                                  left: 53,
+                                  bottom: 0.h,
+                                  left: 53.w,
                                   child: Checkbox(
                                     activeColor: AppColors.primaryColor,
                                     value: isSelected,
@@ -225,9 +225,9 @@ class _AllStudentsScreenState extends State<AllStudentsScreen> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(10),
+                      padding: EdgeInsets.all(10.sp),
                       child: CustomButton(
-                        width: 320,
+                        width: 320.w,
                         text: "save selected students".tr(),
                         onPressed: () => saveSelectedStudents(students),
                         bgColor: AppColors.primaryColor,

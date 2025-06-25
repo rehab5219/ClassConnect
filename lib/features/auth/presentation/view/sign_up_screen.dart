@@ -11,6 +11,7 @@ import 'package:classconnect/features/auth/presentation/view/teacher_registerati
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import '../manager/auth_cubit.dart';
 import '../manager/auth_state.dart';
@@ -69,10 +70,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Stack(
                       children: [
                         Container(
-                          height: 200,
-                          width: double.infinity,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
+                          height: 200.h,
+                          width: double.infinity.w,
+                          decoration: BoxDecoration(
+                            image: const DecorationImage(
                               fit: BoxFit.cover,
                               image: AssetImage(
                                 AssetsManager.girlStudent,
@@ -80,11 +81,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             color: AppColors.primaryColor,
                             borderRadius: BorderRadius.only(
-                              bottomRight: Radius.circular(80),
+                              bottomRight: Radius.circular(80.r),
                             ),
                           ),
                           child: Container(
-                            height: 200,
+                            height: 200.h,
                             width: double.infinity,
                             decoration: BoxDecoration(
                               boxShadow: [
@@ -95,8 +96,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   blurRadius: 6,
                                 ),
                               ],
-                              borderRadius: const BorderRadius.only(
-                                bottomRight: Radius.circular(80),
+                              borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(80.r),
                               ),
                               color:
                                   AppColors.primaryColor.withValues(alpha: 0.6),
@@ -104,8 +105,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ),
                         Positioned(
-                          bottom: 20,
-                          left: 25,
+                          bottom: 20.h,
+                          left: 25.w,
                           child: Text(
                             "sign up to Classconnect".tr(),
                             style: getTitleTextStyle()
@@ -114,9 +115,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ],
                     ),
-                    const Gap(20),
+                     Gap(20.sp),
                     Padding(
-                      padding: const EdgeInsets.all(10),
+                      padding: EdgeInsets.all(10.sp),
                       child: TextFormField(
                         controller: firstName,
                         style: getSmallTextStyle(),
@@ -127,38 +128,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           prefixIcon: const Icon(Icons.person,
                               color: AppColors.primaryColor),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
+                            borderSide: BorderSide(
                               color: AppColors.primaryColor,
-                              width: 2,
+                              width: 2.w,
                             ),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
+                            borderSide: BorderSide(
                               color: AppColors.redColor,
-                              width: 2,
+                              width: 2.w,
                             ),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
                         ),
                         textInputAction: TextInputAction.next,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "please, enter your first name".tr();
-                            // } else if (value != "Rehab") {
-                            //   return "Wrong first name";
                           } else {
                             return null;
                           }
                         },
                       ),
                     ),
-                    const Gap(5),
+                    Gap(5.sp),
                     Padding(
-                      padding: const EdgeInsets.all(10),
+                      padding: EdgeInsets.all(10.sp),
                       child: TextFormField(
                         controller: secondName,
                         style: getSmallTextStyle(),
@@ -171,38 +170,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             color: AppColors.primaryColor,
                           ),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
+                            borderSide: BorderSide(
                               color: AppColors.primaryColor,
-                              width: 2,
+                              width: 2.w,
                             ),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
+                            borderSide: BorderSide(
                               color: AppColors.redColor,
-                              width: 2,
+                              width: 2.w,
                             ),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
                         ),
                         textInputAction: TextInputAction.next,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "please, enter your second name".tr();
-                            // } else if (value != "Kamal") {
-                            //   return "Wrong second name";
                           } else {
                             return null;
                           }
                         },
                       ),
                     ),
-                    const Gap(5),
+                    Gap(5.sp),
                     Padding(
-                      padding: const EdgeInsets.all(10),
+                      padding: EdgeInsets.all(10.sp),
                       child: TextFormField(
                         controller: email,
                         style: getSmallTextStyle(),
@@ -215,21 +212,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             color: AppColors.primaryColor,
                           ),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
+                            borderSide: BorderSide(
                               color: AppColors.primaryColor,
-                              width: 2,
+                              width: 2.w,
                             ),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
+                            borderSide: BorderSide(
                               color: AppColors.redColor,
-                              width: 2,
+                              width: 2.w,
                             ),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
                         ),
                         textInputAction: TextInputAction.next,
@@ -246,9 +243,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         },
                       ),
                     ),
-                    const Gap(5),
+                    Gap(5.sp),
                     Padding(
-                      padding: const EdgeInsets.all(10),
+                      padding: EdgeInsets.all(10.sp),
                       child: TextFormField(
                         controller: password,
                         style: getSmallTextStyle(),
@@ -273,21 +270,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                           ),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
+                            borderSide: BorderSide(
                               color: AppColors.primaryColor,
-                              width: 2,
+                              width: 2.w,
                             ),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
+                            borderSide: BorderSide(
                               color: AppColors.redColor,
-                              width: 2,
+                              width: 2.w,
                             ),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
                         ),
                         obscureText: isVisible,
@@ -300,10 +297,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         },
                       ),
                     ),
-                    const Gap(20),
+                    Gap(20.sp),
                     CustomButton(
-                        height: 45,
-                        width: 220,
+                        height: 45.h,
+                        width: 250.w,
                         bgColor: AppColors.primaryColor,
                         fgColor: AppColors.whiteColor,
                         text: "sign Up".tr(),
@@ -319,9 +316,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             });
                           }
                         }),
-                    const Gap(20),
+                     Gap(20.sp),
                     Padding(
-                      padding: const EdgeInsets.only(top: 30),
+                      padding: EdgeInsets.only(top: 30.sp),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

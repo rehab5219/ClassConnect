@@ -1,3 +1,4 @@
+import 'package:classconnect/core/constants/assets_manager.dart';
 import 'package:classconnect/core/functions/navigation.dart';
 import 'package:classconnect/core/utils/app_colors.dart';
 import 'package:classconnect/features/intro/onboarding/onboarding_view.dart';
@@ -6,6 +7,7 @@ import 'package:classconnect/features/student/student_nav_bar/student_nav_bar_sc
 import 'package:classconnect/features/teacher/teacher_nav_bar/teacher-nav_bar_screen.dart';
 import 'package:classconnect/service/local/local_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -17,7 +19,6 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Ensure SharedPreferences is initialized (move to main.dart if not already)
     AppLocalStorage.init();
     Future.delayed(const Duration(seconds: 3), () {
       bool isOnboardingShown =
@@ -55,8 +56,8 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             // Lottie.asset('assets/icons/Main Scene class.json',width: 300),
             Image.asset(
-              "assets/images/logo 1.png",
-              height: 500,
+              AssetsManager.logo1,
+              height: 500.h,
             ),
           ],
         ),

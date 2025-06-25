@@ -11,6 +11,7 @@ import 'package:classconnect/features/teacher/teacher_nav_bar/teacher-nav_bar_sc
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import '../manager/auth_cubit.dart';
 import '../manager/auth_state.dart';
@@ -34,7 +35,6 @@ class _LoginScreenState extends State<LogInScreen> {
   String handleUserType() {
     return widget.userType == UserType.teacher ? 'teacher' : 'student';
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -65,10 +65,10 @@ class _LoginScreenState extends State<LogInScreen> {
                     Stack(
                       children: [
                         Container(
-                          height: 250,
+                          height: 250.h,
                           width: double.infinity,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
+                          decoration: BoxDecoration(
+                            image: const DecorationImage(
                               fit: BoxFit.cover,
                               image: AssetImage(
                                 AssetsManager.girlStudent,
@@ -76,12 +76,12 @@ class _LoginScreenState extends State<LogInScreen> {
                             ),
                             color: AppColors.primaryColor,
                             borderRadius: BorderRadius.only(
-                              bottomRight: Radius.circular(80),
+                              bottomRight: Radius.circular(80.r),
                             ),
                           ),
                           child: Container(
-                            height: 200,
-                            width: double.infinity,
+                            height: 200.h,
+                            width: double.infinity.w,
                             decoration: BoxDecoration(
                               boxShadow: [
                                 BoxShadow(
@@ -91,8 +91,8 @@ class _LoginScreenState extends State<LogInScreen> {
                                   blurRadius: 8,
                                 ),
                               ],
-                              borderRadius: const BorderRadius.only(
-                                bottomRight: Radius.circular(80),
+                              borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(80.r),
                               ),
                               color:
                                   AppColors.primaryColor.withValues(alpha: 0.6),
@@ -100,8 +100,8 @@ class _LoginScreenState extends State<LogInScreen> {
                           ),
                         ),
                         Positioned(
-                          bottom: 20,
-                          left: 25,
+                          bottom: 20.h,
+                          left: 25.w,
                           child: Text(
                             "welcome back".tr(),
                             style: getHeadTextStyle()
@@ -110,9 +110,9 @@ class _LoginScreenState extends State<LogInScreen> {
                         ),
                       ],
                     ),
-                    const Gap(80),
+                     Gap(80.sp),
                     Padding(
-                      padding: const EdgeInsets.all(10),
+                      padding: EdgeInsets.all(10.sp),
                       child: TextFormField(
                         controller: email,
                         style: getSmallTextStyle(),
@@ -125,19 +125,19 @@ class _LoginScreenState extends State<LogInScreen> {
                             color: AppColors.primaryColor,
                           ),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
+                            borderSide: BorderSide(
                               color: AppColors.primaryColor,
-                              width: 2,
+                              width: 2.w,
                             ),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
+                            borderSide: BorderSide(
                               color: AppColors.redColor,
-                              width: 2,
+                              width: 2.w,
                             ),
                             borderRadius: BorderRadius.circular(20),
                           ),
@@ -156,9 +156,9 @@ class _LoginScreenState extends State<LogInScreen> {
                         },
                       ),
                     ),
-                    const Gap(5),
+                    Gap(5.sp),
                     Padding(
-                      padding: const EdgeInsets.all(10),
+                      padding: EdgeInsets.all(10.sp),
                       child: TextFormField(
                         controller: password,
                         style: getSmallTextStyle(),
@@ -183,21 +183,21 @@ class _LoginScreenState extends State<LogInScreen> {
                             ),
                           ),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
+                            borderSide: BorderSide(
                               color: AppColors.primaryColor,
-                              width: 2,
+                              width: 2.w,
                             ),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
                           focusedErrorBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
+                            borderSide: BorderSide(
                               color: AppColors.redColor,
-                              width: 2,
+                              width: 2.w,
                             ),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
                         ),
                         obscureText: isVisible,
@@ -210,10 +210,10 @@ class _LoginScreenState extends State<LogInScreen> {
                         },
                       ),
                     ),
-                    const Gap(20),
+                    Gap(20.sp),
                     CustomButton(
-                        height: 45,
-                        width: 220,
+                        height: 45.h,
+                        width: 300.w,
                         bgColor: AppColors.primaryColor,
                         fgColor: AppColors.whiteColor,
                         text: "logIn".tr(),
@@ -238,9 +238,9 @@ class _LoginScreenState extends State<LogInScreen> {
                             }
                           }
                         }),
-                    const Gap(20),
+                    Gap(20.sp),
                     Padding(
-                      padding: const EdgeInsets.only(top: 30),
+                      padding: EdgeInsets.only(top: 30.sp),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

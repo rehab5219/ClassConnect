@@ -17,6 +17,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -89,9 +90,9 @@ class _StudentRegistrationViewState extends State<StudentRegistrationView> {
                   Stack(
                     children: [
                       Container(
-                        height: 200,
+                        height: 200.h,
                         width: double.infinity,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           image: DecorationImage(
                             fit: BoxFit.cover,
                             image: AssetImage(
@@ -100,12 +101,12 @@ class _StudentRegistrationViewState extends State<StudentRegistrationView> {
                           ),
                           color: AppColors.primaryColor,
                           borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(80),
+                            bottomRight: Radius.circular(80.r),
                           ),
                         ),
                         child: Container(
-                          height: 200,
-                          width: double.infinity,
+                          height: 200.h,
+                          width: double.infinity.w,
                           decoration: BoxDecoration(
                             boxShadow: [
                               BoxShadow(
@@ -115,8 +116,8 @@ class _StudentRegistrationViewState extends State<StudentRegistrationView> {
                                 blurRadius: 6,
                               ),
                             ],
-                            borderRadius: const BorderRadius.only(
-                              bottomRight: Radius.circular(80),
+                            borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(80.r),
                             ),
                             color:
                                 AppColors.primaryColor.withValues(alpha: 0.6),
@@ -124,8 +125,8 @@ class _StudentRegistrationViewState extends State<StudentRegistrationView> {
                         ),
                       ),
                       Positioned(
-                        bottom: 20,
-                        left: 25,
+                        bottom: 20.h,
+                        left: 25.w,
                         child: Text(
                           "complete registration process".tr(),
                           style: getTitleTextStyle()
@@ -134,21 +135,20 @@ class _StudentRegistrationViewState extends State<StudentRegistrationView> {
                       ),
                     ],
                   ),
-                  const Gap(20),
+                   Gap(20.sp),
                   Form(
                     key: _formKey,
                     child: Padding(
-                      padding: const EdgeInsets.all(15),
+                      padding: EdgeInsets.all(15.sp),
                       child: Column(
                         children: [
                           Stack(
                             alignment: Alignment.bottomRight,
                             children: [
                               CircleAvatar(
-                                radius: 50,
-                                // backgroundColor: AppColors.lightBg,
+                                radius: 50.r,
                                 child: CircleAvatar(
-                                  radius: 60,
+                                  radius: 60.r,
                                   backgroundImage: (file != null)
                                       ? FileImage(file!)
                                       : const AssetImage(
@@ -160,21 +160,20 @@ class _StudentRegistrationViewState extends State<StudentRegistrationView> {
                                   await _pickImage();
                                 },
                                 child: CircleAvatar(
-                                  radius: 15,
+                                  radius: 15.r,
                                   backgroundColor:
                                       Theme.of(context).scaffoldBackgroundColor,
-                                  child: const Icon(
+                                  child: Icon(
                                     Icons.camera_alt_rounded,
-                                    size: 20,
-                                    // color: AppColors.color1,
+                                    size: 20.sp,
                                   ),
                                 ),
                               ),
                             ],
                           ),
-                          const Gap(85),
+                           Gap(85.sp),
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: EdgeInsets.all(8.0.sp),
                             child: Row(
                               children: [
                                 Text(
@@ -194,21 +193,21 @@ class _StudentRegistrationViewState extends State<StudentRegistrationView> {
                               hintStyle: getBodyTextStyle()
                                   .copyWith(color: AppColors.greyColor),
                               border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(20.r),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
+                                borderSide: BorderSide(
                                   color: AppColors.primaryColor,
-                                  width: 2,
+                                  width: 2.w,
                                 ),
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(20.r),
                               ),
                               focusedErrorBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
+                                borderSide: BorderSide(
                                   color: AppColors.redColor,
-                                  width: 2,
+                                  width: 2.w,
                                 ),
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(20.r),
                               ),
                             ),
                             validator: (value) {
@@ -229,11 +228,11 @@ class _StudentRegistrationViewState extends State<StudentRegistrationView> {
           },
         ),
         bottomNavigationBar: Container(
-          margin: const EdgeInsets.all(10),
-          padding: const EdgeInsets.only(top: 25.0),
+          margin: EdgeInsets.all(10.sp),
+          padding: EdgeInsets.only(top: 25.0.sp),
           child: SizedBox(
-            width: double.infinity,
-            height: 50,
+            width: double.infinity.w,
+            height: 50.h,
             child: BlocBuilder<AuthCubit, AuthState>(
               builder: (context, state) {
                 return CustomButton(
@@ -247,7 +246,6 @@ class _StudentRegistrationViewState extends State<StudentRegistrationView> {
                             image: profileUrl,
                             phone1: _phone.text, 
                           ));
-                      // ignore: use_build_context_synchronously
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
