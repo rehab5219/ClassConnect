@@ -131,7 +131,7 @@ class _SubjectsDetailsState extends State<SubjectsDetails> {
                           'feedbackType': widget.feedbackType,
                           'day': weekList[index],
                           'date': date,
-                          'subjectName': widget.subjectName, // Add subject name
+                          'subjectName': widget.subjectName,
                         });
 
                         feedbackControllers[index].clear();
