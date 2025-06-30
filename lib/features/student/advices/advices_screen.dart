@@ -2,6 +2,7 @@ import 'package:classconnect/core/constants/assets_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:iconsax/iconsax.dart';
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/styles.dart';
 
@@ -63,8 +64,9 @@ class _AdvicesScreenState extends State<AdvicesScreen> {
                     padding: EdgeInsets.symmetric(horizontal: 20.w),
                     child: IconButton(
                       icon: Icon(
-                        Icons.language,
+                        Iconsax.language_square,
                         color: AppColors.whiteColor,
+                        size: 35.sp,
                       ),
                       onPressed: () {
                         setState(() {

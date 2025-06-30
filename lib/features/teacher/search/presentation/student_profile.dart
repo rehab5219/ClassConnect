@@ -8,6 +8,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
 
 class StudentProfile extends StatelessWidget {
@@ -33,7 +34,7 @@ class StudentProfile extends StatelessWidget {
           padding: EdgeInsets.only(right: 10.w),
           child: IconButton(
             icon: const Icon(
-              Icons.arrow_back_ios,
+              Iconsax.arrow_left,
               color: AppColors.whiteColor,
             ),
             onPressed: () => Navigator.of(context).pop(),
@@ -101,12 +102,12 @@ class StudentProfile extends StatelessWidget {
                             children: [
                               TileWidget(
                                   text: studentModel?.data()?['email'] ?? '',
-                                  icon: Icons.email),
+                                  icon: Iconsax.sms5),
                               Gap(15.sp),
                               TileWidget(
                                   text: studentModel?.data()?['phone1'] ??
                                       ''.tr(),
-                                  icon: Icons.call),
+                                  icon: Iconsax.call5),
                             ],
                           ),
                         ),

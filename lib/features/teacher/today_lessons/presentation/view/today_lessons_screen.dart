@@ -9,7 +9,13 @@ import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../../core/utils/styles.dart';
 
 class TodayLessonsScreen extends StatelessWidget {
-  const TodayLessonsScreen({super.key});
+  TodayLessonsScreen({super.key});
+
+  final Map<String, List<String>> subjectSubfields = {
+    "math": ["STATIC", "DYNAMIC", "ALGEBRA", "GEOMETRY", "CALCULUS"],
+    "science": ["PHYSICS", "CHEMISTRY", "BIOLOGY"],
+    "social": ["HISTORY", "GEOGRAPHY"],
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +62,8 @@ class TodayLessonsScreen extends StatelessWidget {
                 left: 15.w,
                 child: Text(
                   "today's lessons".tr(),
-                  style: getHeadTextStyle().copyWith(color: AppColors.whiteColor),
+                  style:
+                      getHeadTextStyle().copyWith(color: AppColors.whiteColor),
                 ),
               ),
             ],
@@ -65,29 +72,58 @@ class TodayLessonsScreen extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.all(12.sp),
               child: GridView.count(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 15.w,
-                  mainAxisSpacing: 15.h,
-                  padding: EdgeInsets.all(5.sp),
-                  children: [
-                    ...List.generate(
-                      details.length,
-                          (index) {
-                        return InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SubjectsDetails(
-                                    subjectName: details[index].subjectsName,feedbackType: "Today_Lessons",
-                                  ),
-                                ),
-                              );
-                            },
-                            child: SubjectsName(details: details[index],),);
-                      },
-                    ),
-                  ]),
+                crossAxisCount: 2,
+                crossAxisSpacing: 15.w,
+                mainAxisSpacing: 15.h,
+                padding: EdgeInsets.all(5.sp),
+                children: [
+                  ...List.generate(details.length, (index) {
+                    final subject = details[index].subjectsName.toLowerCase();
+
+                    if (subjectSubfields.containsKey(subject)) {
+                      return PopupMenuButton<String>(
+                        onSelected: (value) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SubjectsDetails(
+                                subjectName: value,
+                                feedbackType: "Today_Lessons",
+                              ),
+                            ),
+                          );
+                        },
+                        itemBuilder: (context) {
+                          return subjectSubfields[subject]!
+                              .map((field) => PopupMenuItem(
+                                  value: field,
+                                  child: Text(
+                                    field.tr(),
+                                    style: getBodyTextStyle(),
+                                  )))
+                              .toList();
+                        },
+                        child: SubjectsName(details: details[index]),
+                      );
+                    } else {
+                      return InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SubjectsDetails(
+                                subjectName: details[index].subjectsName,
+                                feedbackType: "Today_Lessons",
+                              ),
+                            ),
+                          );
+                        },
+                        child: SubjectsName(details: details[index]),
+                      );
+                    }
+                  }),
+                ],
+              ),
             ),
           ),
         ],

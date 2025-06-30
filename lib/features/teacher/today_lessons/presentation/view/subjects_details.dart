@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:iconsax/iconsax.dart';
 import '../../../../../../core/utils/app_colors.dart';
 
 class SubjectsDetails extends StatefulWidget {
@@ -77,7 +78,7 @@ class _SubjectsDetailsState extends State<SubjectsDetails> {
             });
           },
           icon: const Icon(
-            Icons.arrow_back_ios_new_outlined,
+            Iconsax.arrow_left,
             color: AppColors.whiteColor,
           ),
         ),

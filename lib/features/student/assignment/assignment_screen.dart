@@ -9,7 +9,13 @@ import '../../../../core/models/subjects_data.dart';
 import '../../../../core/widgets/subjects_name.dart';
 
 class AssignmentScreen extends StatelessWidget {
-  const AssignmentScreen({super.key});
+  AssignmentScreen({super.key});
+
+  final Map<String, List<String>> subjectSubfields = {
+    "math": ["STATIC", "DYNAMIC", "ALGEBRA", "GEOMETRY", "CALCULUS"],
+    "science": ["PHYSICS", "CHEMISTRY", "BIOLOGY"],
+    "social": ["HISTORY", "GEOGRAPHY"],
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +45,8 @@ class AssignmentScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.greyColor.withValues(alpha: 0.5), // Fixed withOpacity
+                        color: AppColors.greyColor
+                            .withValues(alpha: 0.5), // Fixed withOpacity
                         spreadRadius: 6,
                         blurRadius: 6,
                       ),
@@ -47,7 +54,8 @@ class AssignmentScreen extends StatelessWidget {
                     borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(80.r),
                     ),
-                    color: AppColors.primaryColor.withValues(alpha: 0.6), // Fixed withOpacity
+                    color: AppColors.primaryColor
+                        .withValues(alpha: 0.6), // Fixed withOpacity
                   ),
                 ),
               ),
@@ -56,7 +64,8 @@ class AssignmentScreen extends StatelessWidget {
                 left: 15.w,
                 child: Text(
                   "assignments".tr(),
-                  style: getHeadTextStyle().copyWith(color: AppColors.whiteColor),
+                  style:
+                      getHeadTextStyle().copyWith(color: AppColors.whiteColor),
                 ),
               ),
             ],
@@ -70,25 +79,51 @@ class AssignmentScreen extends StatelessWidget {
                 mainAxisSpacing: 15.h,
                 padding: EdgeInsets.all(5.sp),
                 children: [
-                  ...List.generate(
-                    details.length,
-                    (index) {
+                  ...List.generate(details.length, (index) {
+                    final subject = details[index].subjectsName.toLowerCase();
+
+                    if (subjectSubfields.containsKey(subject)) {
+                      return PopupMenuButton<String>(
+                        onSelected: (value) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ReceiveFeedback(
+                                subjectName: value,
+                                feedbackType: "Today_Lessons",
+                              ),
+                            ),
+                          );
+                        },
+                        itemBuilder: (context) {
+                          return subjectSubfields[subject]!
+                              .map((field) => PopupMenuItem(
+                                  value: field,
+                                  child: Text(
+                                    field.tr(),
+                                    style: getBodyTextStyle(),
+                                  )))
+                              .toList();
+                        },
+                        child: SubjectsName(details: details[index]),
+                      );
+                    } else {
                       return InkWell(
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => ReceiveFeedback(
-                                feedbackType: "Assignment",
                                 subjectName: details[index].subjectsName,
+                                feedbackType: "Today_Lessons",
                               ),
                             ),
                           );
                         },
-                        child: SubjectsName(details: details[index]), 
+                        child: SubjectsName(details: details[index]),
                       );
-                    },
-                  ),
+                    }
+                  }),
                 ],
               ),
             ),

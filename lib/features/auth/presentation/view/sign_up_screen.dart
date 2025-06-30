@@ -120,6 +120,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       padding: EdgeInsets.all(10.sp),
                       child: TextFormField(
                         controller: firstName,
+                        cursorColor: AppColors.primaryColor,
                         style: getSmallTextStyle(),
                         decoration: InputDecoration(
                           hintText: "first name".tr(),
@@ -160,6 +161,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       padding: EdgeInsets.all(10.sp),
                       child: TextFormField(
                         controller: secondName,
+                         cursorColor: AppColors.primaryColor,
                         style: getSmallTextStyle(),
                         decoration: InputDecoration(
                           hintText: "second name".tr(),
@@ -202,6 +204,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       padding: EdgeInsets.all(10.sp),
                       child: TextFormField(
                         controller: email,
+                         cursorColor: AppColors.primaryColor,
                         style: getSmallTextStyle(),
                         decoration: InputDecoration(
                           hintText: "email".tr(),
@@ -248,6 +251,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       padding: EdgeInsets.all(10.sp),
                       child: TextFormField(
                         controller: password,
+                         cursorColor: AppColors.primaryColor,
                         style: getSmallTextStyle(),
                         decoration: InputDecoration(
                           hintText: "password".tr(),

@@ -23,6 +23,7 @@ class WeekTextFormField extends StatelessWidget {
       onTap: onTap,
       validator: validator,
       keyboardType: keyboardType,
+      cursorColor: AppColors.whiteColor,
       decoration: InputDecoration(
         label: Text(
             weekList.weekName,

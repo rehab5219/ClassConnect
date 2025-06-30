@@ -1,4 +1,3 @@
-import 'package:classconnect/core/constants/assets_manager.dart';
 import 'package:classconnect/core/functions/navigation.dart';
 import 'package:classconnect/core/utils/app_colors.dart';
 import 'package:classconnect/features/intro/onboarding/onboarding_view.dart';
@@ -8,6 +7,7 @@ import 'package:classconnect/features/teacher/teacher_nav_bar/teacher-nav_bar_sc
 import 'package:classconnect/service/local/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     AppLocalStorage.init();
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 8), () {
       bool isOnboardingShown =
           AppLocalStorage.getData(key: AppLocalStorage.isOnboardingShown) ?? false;
       bool hasSeenWelcome =
@@ -37,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
         if (userType == 'teacher') {
           pushAndRemoveUntil(context, const TeacherNavBarScreen());
         } else if (userType == 'student') {
-          pushAndRemoveUntil(context, const StudentNavBarScreen()); // Adjust to student screen if different
+          pushAndRemoveUntil(context, const StudentNavBarScreen()); 
         } else {
           pushAndRemoveUntil(context, const WelcomeScreen());
         }
@@ -54,11 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Lottie.asset('assets/icons/Main Scene class.json',width: 300),
-            Image.asset(
-              AssetsManager.logo1,
-              height: 500.h,
-            ),
+            Lottie.asset('assets/icons/Main Scene class.json',width: 300.w),
           ],
         ),
       ),

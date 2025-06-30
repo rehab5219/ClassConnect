@@ -1,9 +1,9 @@
-import 'package:classconnect/core/constants/assets_manager.dart';
 import 'package:classconnect/features/teacher/profile/teacher_profile_screen.dart';
 import 'package:classconnect/features/teacher/search/presentation/search_screen.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:iconsax/iconsax.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../teacher/assignment/assignment_screen.dart';
 import '../home/presentation/view/home_screen.dart';
@@ -22,7 +22,7 @@ class _TeacherNavBarScreenState extends State<TeacherNavBarScreen> {
   List<Widget> screens = [
       HomeScreen(),
      TodayLessonsScreen(),
-    const AssignmentScreen(),
+     AssignmentScreen(),
      SearchScreen(),
     const TeacherProfileScreen(),
   ];
@@ -34,37 +34,31 @@ class _TeacherNavBarScreenState extends State<TeacherNavBarScreen> {
     return Scaffold(
       extendBody: true,
       bottomNavigationBar: CurvedNavigationBar(
-        height: 45.h,
+        height: 50.h,
         key: _bottomNavigationKey,
         items: <Widget>[
-          Image.asset(
-            AssetsManager.homePng,
-            width: 35.w,
-            height: 35.h,
+          Icon(_pages == 0 ? Iconsax.home_21 : Iconsax.home_2,
+            size: 35.sp,
             color: AppColors.whiteColor,
           ),
-          Image.asset(
-            AssetsManager.todayLessonsPng,
-            width: 35.w,
-            height: 35.h,
+
+          Icon(_pages == 1 ? Iconsax.calendar5 : Iconsax.calendar_1,
+            size: 35.sp,
             color: AppColors.whiteColor,
           ),
-          Image.asset(
-            AssetsManager.assignmentPng,
-            width: 35.w,
-            height: 35.h,
+
+          Icon(_pages == 2 ? Iconsax.task_square5 : Iconsax.task_square,
+            size: 35.sp,
             color: AppColors.whiteColor,
           ),
-          Image.asset(
-            AssetsManager.searchPng,
-            width: 35.w,
-            height: 35.h,
+
+          Icon(Iconsax.search_normal,
+            size: 35.sp,
             color: AppColors.whiteColor,
           ),
-          Image.asset(
-            AssetsManager.personPng,
-            width: 35.w,
-            height: 35.h,
+
+          Icon(_pages == 4 ? Iconsax.profile_circle5 : Iconsax.profile_circle,
+            size: 35.sp,
             color: AppColors.whiteColor,
           ),
         ],

@@ -6,11 +6,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
 
 class ReceiveFeedback extends StatelessWidget {
-  final String? feedbackType; // Optional parameter for filtering
-  final String? subjectName; // Optional parameter for subject filtering
+  final String? feedbackType; 
+  final String? subjectName; 
 
   ReceiveFeedback({
     super.key,
@@ -31,7 +32,7 @@ class ReceiveFeedback extends StatelessWidget {
             Navigator.pop(context);
           },
           icon: const Icon(
-            Icons.arrow_back_ios_new_outlined,
+            Iconsax.arrow_left,
             color: AppColors.whiteColor,
           ),
         ),
@@ -83,6 +84,7 @@ class ReceiveFeedback extends StatelessWidget {
                         subtitle: Text(
                           'Date: ${formatDate(feedback['date'])}\n'
                           'Day: ${feedback['day'] ?? 'N/A'}\n',
+                          style: getBodyTextStyle(),
                           textAlign: TextAlign.center,
                         ),
                       ),

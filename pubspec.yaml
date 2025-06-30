@@ -50,6 +50,8 @@ dependencies:
   cloud_firestore: ^5.6.6
   dio: ^5.8.0+1
   shared_preferences: ^2.5.3
+  flutter_native_splash: ^2.4.6
+  iconsax: ^0.0.8
 
 
 dev_dependencies:
@@ -62,7 +64,6 @@ flutter_icons:
   ios: true
   image_path: "assets/images/logo.png"
   
-
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -108,3 +109,10 @@ flutter:
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+flutter_native_splash:
+  color: "0xff007AFF"
+  image: assets/images/Group 1.png
+  android: true
+  ios: true
+  web: false

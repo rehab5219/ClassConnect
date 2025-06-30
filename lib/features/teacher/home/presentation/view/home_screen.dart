@@ -12,6 +12,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -92,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
               PositionedDirectional(
                 top: 40.h,
                 child: IconButton(
-                  icon: Icon(Icons.refresh, color: AppColors.whiteColor),
+                  icon: Icon(Iconsax.refresh, color: AppColors.whiteColor),
                   onPressed: _refreshStudents,
                 ),
               ),
@@ -181,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
           push(context, AllStudentsScreen());
         },
         backgroundColor: AppColors.primaryColor,
-        child: Icon(Icons.add, color: AppColors.whiteColor, size: 40.sp),
+        child: Icon(Iconsax.user_add, color: AppColors.whiteColor, size: 40.sp),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndTop,
     );

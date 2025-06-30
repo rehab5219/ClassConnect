@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
 
 class AllStudentsScreen extends StatefulWidget {
@@ -119,11 +120,11 @@ class _AllStudentsScreenState extends State<AllStudentsScreen> {
                         });
                       },
                       icon: const Icon(
-                        Icons.arrow_back_ios_new_outlined,
+                        Iconsax.arrow_left,
                         color: AppColors.whiteColor,
                       ),
                     ),
-                     Gap(10.sp),
+                    Gap(10.sp),
                     Text(
                       "all Students".tr(),
                       style: getHeadTextStyle()
@@ -134,7 +135,7 @@ class _AllStudentsScreenState extends State<AllStudentsScreen> {
               ),
             ],
           ),
-           Gap(15.sp),
+          Gap(15.sp),
           FutureBuilder<QuerySnapshot>(
             future: FirebaseFirestore.instance.collection('students').get(),
             builder: (context, snapshot) {

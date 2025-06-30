@@ -6,6 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:iconsax/iconsax.dart';
 
 // ignore: must_be_immutable
 class Students extends StatefulWidget {
@@ -134,7 +135,7 @@ Future<void> deleteStudent(String uid) async {
               onPressed: () {
                 showAlertDialog(context, widget.student.uid ?? '');
               },
-              icon: const Icon(Icons.delete, color: AppColors.redColor),
+              icon: Icon(Iconsax.user_remove, color: AppColors.redColor),
             )
           ],
         ),

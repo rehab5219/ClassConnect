@@ -12,8 +12,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TeacherProfileScreen extends StatefulWidget {
   const TeacherProfileScreen({
@@ -32,7 +34,17 @@ class _TeacherProfileScreenState extends State<TeacherProfileScreen> {
   }
 
   Future<void> _signOut() async {
-    await FirebaseAuth.instance.signOut();
+    try {
+      await FirebaseAuth.instance.signOut();
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('uid');
+      await prefs.remove('email');
+      await prefs.remove('userType');
+      await prefs.remove('isLoggedIn');
+      await prefs.remove('hasSeenWelcome');
+    } catch (e) {
+      print('Error signing out: $e');
+    }
   }
 
   String? _imagePath;
@@ -117,7 +129,7 @@ class _TeacherProfileScreenState extends State<TeacherProfileScreen> {
                       ),
                     ),
                     PositionedDirectional(
-                      bottom: 130.h,
+                      bottom: 120.h,
                       start: 300.w,
                       child: IconButton(
                         onPressed: () {
@@ -125,8 +137,9 @@ class _TeacherProfileScreenState extends State<TeacherProfileScreen> {
                           pushAndRemoveUntil(context, const WelcomeScreen());
                         },
                         icon: const Icon(
-                          Icons.logout,
+                          Iconsax.logout,
                           color: AppColors.whiteColor,
+                          size: 30,
                         ),
                       ),
                     ),
@@ -141,11 +154,12 @@ class _TeacherProfileScreenState extends State<TeacherProfileScreen> {
                     ),
                     Positioned(
                       bottom: 20.h,
-                      right: 20.w,
+                      right: 30.w,
                       child: IconButton(
                         icon: Icon(
-                          Icons.language,
+                          Iconsax.language_square,
                           color: AppColors.whiteColor,
+                          size: 35,
                         ),
                         onPressed: () {
                           final currentLocale = context.locale;
@@ -193,8 +207,9 @@ class _TeacherProfileScreenState extends State<TeacherProfileScreen> {
                               backgroundColor:
                                   Theme.of(context).scaffoldBackgroundColor,
                               child: Icon(
-                                Icons.camera_alt_rounded,
-                                size: 20.sp,
+                                Iconsax.camera,
+                                size: 25.sp,
+                                color: AppColors.primaryColor,
                               ),
                             ),
                           ),
@@ -228,13 +243,13 @@ class _TeacherProfileScreenState extends State<TeacherProfileScreen> {
                             teacherModel!.data()?['bio'] ?? '',
                             style: getSmallTextStyle(),
                           ),
-                           Gap(20.sp),
+                          Gap(20.sp),
                           const Divider(),
                           Text(
                             "information contact".tr(),
                             style: getBodyTextStyle(),
                           ),
-                           Gap(5.sp),
+                          Gap(5.sp),
                           Container(
                             padding: EdgeInsets.all(15.sp),
                             width: double.infinity.w,
@@ -246,12 +261,13 @@ class _TeacherProfileScreenState extends State<TeacherProfileScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 TileWidget(
-                                    text: teacherModel.data()?['email'] ?? '',
-                                    icon: Icons.email),
-                                 Gap(15.sp),
+                                  text: teacherModel.data()?['email'] ?? '',
+                                  icon: Iconsax.sms5,
+                                ),
+                                Gap(15.sp),
                                 TileWidget(
                                     text: teacherModel.data()?['phone1'] ?? '',
-                                    icon: Icons.call),
+                                    icon: Iconsax.call5),
                               ],
                             ),
                           ),

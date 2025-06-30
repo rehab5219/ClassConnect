@@ -135,7 +135,7 @@ class _StudentRegistrationViewState extends State<StudentRegistrationView> {
                       ),
                     ],
                   ),
-                   Gap(20.sp),
+                  Gap(20.sp),
                   Form(
                     key: _formKey,
                     child: Padding(
@@ -171,7 +171,7 @@ class _StudentRegistrationViewState extends State<StudentRegistrationView> {
                               ),
                             ],
                           ),
-                           Gap(85.sp),
+                          Gap(85.sp),
                           Padding(
                             padding: EdgeInsets.all(8.0.sp),
                             child: Row(
@@ -186,6 +186,7 @@ class _StudentRegistrationViewState extends State<StudentRegistrationView> {
                           ),
                           TextFormField(
                             keyboardType: TextInputType.text,
+                            cursorColor: AppColors.primaryColor,
                             style: getSmallTextStyle(),
                             controller: _phone,
                             decoration: InputDecoration(
@@ -244,7 +245,7 @@ class _StudentRegistrationViewState extends State<StudentRegistrationView> {
                           .updateStudentRegistration(StudentModel(
                             uid: userID,
                             image: profileUrl,
-                            phone1: _phone.text, 
+                            phone1: _phone.text,
                           ));
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(

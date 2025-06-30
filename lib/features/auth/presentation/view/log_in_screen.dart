@@ -115,6 +115,7 @@ class _LoginScreenState extends State<LogInScreen> {
                       padding: EdgeInsets.all(10.sp),
                       child: TextFormField(
                         controller: email,
+                         cursorColor: AppColors.primaryColor,
                         style: getSmallTextStyle(),
                         decoration: InputDecoration(
                           hintText: "email".tr(),
@@ -161,6 +162,7 @@ class _LoginScreenState extends State<LogInScreen> {
                       padding: EdgeInsets.all(10.sp),
                       child: TextFormField(
                         controller: password,
+                         cursorColor: AppColors.primaryColor,
                         style: getSmallTextStyle(),
                         decoration: InputDecoration(
                           hintText: "password".tr(),

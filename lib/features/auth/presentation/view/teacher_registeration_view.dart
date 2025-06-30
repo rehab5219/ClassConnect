@@ -80,7 +80,7 @@ class _TeacherRegistrationViewState extends State<TeacherRegistrationView> {
               showLoadingDialog(context);
             } else if (state is AuthSuccessState) {
               if (widget.userType == UserType.teacher) {
-                  pushAndRemoveUntil(context, const TeacherNavBarScreen());
+                pushAndRemoveUntil(context, const TeacherNavBarScreen());
               } else {
                 pushAndRemoveUntil(context, const StudentNavBarScreen());
               }
@@ -138,7 +138,7 @@ class _TeacherRegistrationViewState extends State<TeacherRegistrationView> {
                       ),
                     ],
                   ),
-                   Gap(20.sp),
+                  Gap(20.sp),
                   Form(
                     key: _formKey,
                     child: Padding(
@@ -206,7 +206,8 @@ class _TeacherRegistrationViewState extends State<TeacherRegistrationView> {
                             value: _specialization,
                             onChanged: (String? newValue) {
                               setState(() {
-                                _specialization = newValue ?? specialization[0].tr();
+                                _specialization =
+                                    newValue ?? specialization[0].tr();
                               });
                             },
                             items: specialization.map((element) {
@@ -219,7 +220,7 @@ class _TeacherRegistrationViewState extends State<TeacherRegistrationView> {
                               );
                             }).toList(),
                           ),
-                           Gap(10.sp),
+                          Gap(10.sp),
                           Padding(
                             padding: EdgeInsets.all(8.0.sp),
                             child: Row(
@@ -234,12 +235,14 @@ class _TeacherRegistrationViewState extends State<TeacherRegistrationView> {
                           ),
                           TextFormField(
                             keyboardType: TextInputType.text,
+                            cursorColor: AppColors.primaryColor,
                             style: getSmallTextStyle(),
                             maxLines: 5,
                             controller: _bio,
                             decoration: InputDecoration(
                               hintText:
-                                  "record general educational information such as your academic education and previous experiences.".tr(),
+                                  "record general educational information such as your academic education and previous experiences."
+                                      .tr(),
                               hintStyle: getBodyTextStyle()
                                   .copyWith(color: AppColors.greyColor),
                               border: OutlineInputBorder(
@@ -268,7 +271,7 @@ class _TeacherRegistrationViewState extends State<TeacherRegistrationView> {
                               }
                             },
                           ),
-                           Padding(
+                          Padding(
                             padding: EdgeInsets.only(top: 8.0.sp),
                             child: Divider(),
                           ),
@@ -286,6 +289,7 @@ class _TeacherRegistrationViewState extends State<TeacherRegistrationView> {
                           ),
                           TextFormField(
                             keyboardType: TextInputType.text,
+                            cursorColor: AppColors.primaryColor,
                             style: getSmallTextStyle(),
                             controller: _phone,
                             decoration: InputDecoration(

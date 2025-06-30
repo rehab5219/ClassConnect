@@ -32,21 +32,6 @@ List<SubjectsData> details = [
     subjectsName: "GERMAN",
   ),
   SubjectsData(
-    subjectsName: "PHYSICS",
-  ),
-  SubjectsData(
-    subjectsName: "CHEMISTRY",
-  ),
-  SubjectsData(
-    subjectsName: "BIOLOGY",
-  ),
-  SubjectsData(
-    subjectsName: "HISTORY",
-  ),
-  SubjectsData(
-    subjectsName: "GEOGRAPHY",
-  ),
-  SubjectsData(
     subjectsName: "PHILOSOPHY",
   ),
   SubjectsData(

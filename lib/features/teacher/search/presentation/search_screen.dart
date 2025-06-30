@@ -6,6 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:iconsax/iconsax.dart';
 
 class SearchScreen extends StatefulWidget {
   SearchScreen({super.key});
@@ -74,33 +75,34 @@ class _SearchScreenState extends State<SearchScreen> {
                 ],
               ),
                Gap(20.sp),
-              Padding(
+                Padding(
                 padding: EdgeInsets.all(15.sp),
                 child: TextField(
                   controller: _searchController,
                   style: getSmallTextStyle(),
+                  cursorColor: AppColors.primaryColor,
                   onChanged: (searchKey) {
-                    setState(() {
-                      search = searchKey;
-                    });
+                  setState(() {
+                    search = searchKey;
+                  });
                   },
                   decoration: InputDecoration(
-                    hintText: "search".tr(),
-                    hintStyle: getSmallTextStyle(color: AppColors.greyColor),
-                    suffixIcon: SizedBox(
-                      width: 50.w,
-                      child: Icon(Icons.search, color: AppColors.primaryColor),
+                  hintText: "search".tr(),
+                  hintStyle: getSmallTextStyle(color: AppColors.greyColor),
+                  prefixIcon: SizedBox(
+                    width: 50.w,
+                    child: Icon(Iconsax.search_normal, color: AppColors.primaryColor),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                    color: AppColors.primaryColor,
+                    width: 2.w,
                     ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: AppColors.primaryColor,
-                        width: 2.w,
-                      ),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   ),
                 ),
               ),
