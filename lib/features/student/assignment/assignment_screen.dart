@@ -46,7 +46,7 @@ class AssignmentScreen extends StatelessWidget {
                     boxShadow: [
                       BoxShadow(
                         color: AppColors.greyColor
-                            .withValues(alpha: 0.5), // Fixed withOpacity
+                            .withValues(alpha: 0.5), 
                         spreadRadius: 6,
                         blurRadius: 6,
                       ),
@@ -55,7 +55,7 @@ class AssignmentScreen extends StatelessWidget {
                       bottomRight: Radius.circular(80.r),
                     ),
                     color: AppColors.primaryColor
-                        .withValues(alpha: 0.6), // Fixed withOpacity
+                        .withValues(alpha: 0.6),
                   ),
                 ),
               ),
@@ -90,7 +90,7 @@ class AssignmentScreen extends StatelessWidget {
                             MaterialPageRoute(
                               builder: (context) => ReceiveFeedback(
                                 subjectName: value,
-                                feedbackType: "Today_Lessons",
+                                feedbackType: "Assignments",
                               ),
                             ),
                           );
@@ -115,7 +115,7 @@ class AssignmentScreen extends StatelessWidget {
                             MaterialPageRoute(
                               builder: (context) => ReceiveFeedback(
                                 subjectName: details[index].subjectsName,
-                                feedbackType: "Today_Lessons",
+                                feedbackType: "Assignments",
                               ),
                             ),
                           );

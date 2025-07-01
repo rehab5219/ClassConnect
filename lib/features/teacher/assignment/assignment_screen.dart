@@ -89,7 +89,7 @@ class AssignmentScreen extends StatelessWidget {
                               MaterialPageRoute(
                                 builder: (context) => SubjectsDetails(
                                   subjectName: value,
-                                  feedbackType: "Today_Lessons",
+                                  feedbackType: "Assignments",
                                 ),
                               ),
                             );
@@ -114,7 +114,7 @@ class AssignmentScreen extends StatelessWidget {
                               MaterialPageRoute(
                                 builder: (context) => SubjectsDetails(
                                   subjectName: details[index].subjectsName,
-                                  feedbackType: "Today_Lessons",
+                                  feedbackType: "Assignments",
                                 ),
                               ),
                             );

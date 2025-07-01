@@ -74,35 +74,36 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                 ],
               ),
-               Gap(20.sp),
-                Padding(
+              Gap(20.sp),
+              Padding(
                 padding: EdgeInsets.all(15.sp),
                 child: TextField(
                   controller: _searchController,
                   style: getSmallTextStyle(),
                   cursorColor: AppColors.primaryColor,
                   onChanged: (searchKey) {
-                  setState(() {
-                    search = searchKey;
-                  });
+                    setState(() {
+                      search = searchKey;
+                    });
                   },
                   decoration: InputDecoration(
-                  hintText: "search".tr(),
-                  hintStyle: getSmallTextStyle(color: AppColors.greyColor),
-                  prefixIcon: SizedBox(
-                    width: 50.w,
-                    child: Icon(Iconsax.search_normal, color: AppColors.primaryColor),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                    color: AppColors.primaryColor,
-                    width: 2.w,
+                    hintText: "search".tr(),
+                    hintStyle: getSmallTextStyle(color: AppColors.greyColor),
+                    prefixIcon: SizedBox(
+                      width: 50.w,
+                      child: Icon(Iconsax.search_normal,
+                          color: AppColors.primaryColor),
                     ),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: AppColors.primaryColor,
+                        width: 2.w,
+                      ),
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
                   ),
                 ),
               ),
@@ -111,9 +112,8 @@ class _SearchScreenState extends State<SearchScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                       Gap(50.sp),
-                      Text("show all students".tr(),
-                          style: getHeadTextStyle()),
+                      Gap(50.sp),
+                      Text("show all students".tr(), style: getHeadTextStyle()),
                       Image(image: AssetImage(AssetsManager.searchConcept)),
                     ],
                   ),

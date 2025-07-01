@@ -20,8 +20,10 @@ class AllStudentsScreen extends StatefulWidget {
 }
 
 class _AllStudentsScreenState extends State<AllStudentsScreen> {
-  // final teacherId = FirebaseAuth.instance.currentUser?.uid;
   Set<String> selectedStudentIds = {};
+
+  TextEditingController searchController = TextEditingController();
+  String searchQuery = '';
 
   void toggleStudentSelection(String id) {
     setState(() {
@@ -136,6 +138,43 @@ class _AllStudentsScreenState extends State<AllStudentsScreen> {
             ],
           ),
           Gap(15.sp),
+
+          /// SEARCH FIELD
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12.w),
+            child: TextField(
+              controller: searchController,
+              style: getSmallTextStyle(),
+              cursorColor: AppColors.primaryColor,
+              onChanged: (value) {
+                setState(() {
+                  searchQuery = value.toLowerCase();
+                });
+              },
+              decoration: InputDecoration(
+                hintText: "search".tr(),
+                hintStyle: getSmallTextStyle(color: AppColors.greyColor),
+                prefixIcon: SizedBox(
+                  width: 50.w,
+                  child: Icon(Iconsax.search_normal,
+                      color: AppColors.primaryColor),
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20.r),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: AppColors.primaryColor,
+                    width: 2.w,
+                  ),
+                  borderRadius: BorderRadius.circular(20.r),
+                ),
+              ),
+            ),
+          ),
+          Gap(10.h),
+
+          /// STUDENT LIST
           FutureBuilder<QuerySnapshot>(
             future: FirebaseFirestore.instance.collection('students').get(),
             builder: (context, snapshot) {
@@ -169,74 +208,97 @@ class _AllStudentsScreenState extends State<AllStudentsScreen> {
                       StudentModel.fromJson(doc.data() as Map<String, dynamic>))
                   .toList();
 
+              final filteredStudents = students.where((student) {
+                final fullName =
+                    '${student.firstName ?? ''} ${student.secondName ?? ''}'
+                        .toLowerCase();
+                return fullName.contains(searchQuery);
+              }).toList();
+
               return Expanded(
                 flex: 2,
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: GridView.count(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 15.w,
-                        mainAxisSpacing: 15.h,
-                        padding: EdgeInsets.all(12.sp),
-                        children: List.generate(students.length, (index) {
-                          final student = students[index];
-                          final isSelected =
-                              selectedStudentIds.contains(student.uid);
-                          return InkWell(
-                            onTap: () => toggleStudentSelection(student.uid!),
-                            child: Stack(
-                              children: [
-                                Card(
-                                  margin: EdgeInsets.zero,
-                                  elevation: 7,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                child: filteredStudents.isEmpty
+                    ? Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "no student for this name".tr(),
+                              style: getHeadTextStyle(),
+                            ),
+                          ],
+                        ),
+                      )
+                    : Column(
+                        children: [
+                          Expanded(
+                            child: GridView.count(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 15.w,
+                              mainAxisSpacing: 15.h,
+                              padding: EdgeInsets.all(12.sp),
+                              children: List.generate(filteredStudents.length,
+                                  (index) {
+                                final student = filteredStudents[index];
+                                final isSelected =
+                                    selectedStudentIds.contains(student.uid);
+                                return InkWell(
+                                  onTap: () =>
+                                      toggleStudentSelection(student.uid!),
+                                  child: Stack(
                                     children: [
-                                      CircleAvatar(
-                                        radius: 40.r,
-                                        backgroundImage: NetworkImage(
-                                          student.image ?? '',
+                                      Card(
+                                        margin: EdgeInsets.zero,
+                                        elevation: 7,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            CircleAvatar(
+                                              radius: 40.r,
+                                              backgroundImage: NetworkImage(
+                                                student.image ?? '',
+                                              ),
+                                            ),
+                                            Align(
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                '${student.firstName ?? ''} ${student.secondName ?? ''}',
+                                                style: getBodyTextStyle(),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                      Align(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          '${student.firstName ?? ''} ${student.secondName ?? ''}',
-                                          style: getBodyTextStyle(),
+                                      Positioned(
+                                        bottom: 0.h,
+                                        left: 53.w,
+                                        child: Checkbox(
+                                          activeColor: AppColors.primaryColor,
+                                          value: isSelected,
+                                          onChanged: (_) =>
+                                              toggleStudentSelection(
+                                                  student.uid!),
                                         ),
                                       ),
                                     ],
                                   ),
-                                ),
-                                Positioned(
-                                  bottom: 0.h,
-                                  left: 53.w,
-                                  child: Checkbox(
-                                    activeColor: AppColors.primaryColor,
-                                    value: isSelected,
-                                    onChanged: (_) =>
-                                        toggleStudentSelection(student.uid!),
-                                  ),
-                                ),
-                              ],
+                                );
+                              }),
                             ),
-                          );
-                        }),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(10.sp),
+                            child: CustomButton(
+                              width: 320.w,
+                              text: "save selected students".tr(),
+                              onPressed: () => saveSelectedStudents(students),
+                              bgColor: AppColors.primaryColor,
+                              fgColor: AppColors.whiteColor,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(10.sp),
-                      child: CustomButton(
-                        width: 320.w,
-                        text: "save selected students".tr(),
-                        onPressed: () => saveSelectedStudents(students),
-                        bgColor: AppColors.primaryColor,
-                        fgColor: AppColors.whiteColor,
-                      ),
-                    ),
-                  ],
-                ),
               );
             },
           ),

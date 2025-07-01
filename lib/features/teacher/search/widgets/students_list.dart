@@ -26,15 +26,15 @@ class StudentsList extends StatefulWidget {
 class _StudentsListState extends State<StudentsList> {
   @override
   Widget build(BuildContext context) {
-    print('Search Key: ${widget.searchKey}'); // Debug log for search key
+    print('Search Key: ${widget.searchKey}');
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection('students')
-          .orderBy('firstName') // Corrected to 'firstName'
+          .orderBy('firstName')
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          print('Waiting for data...'); // Debug log
+          print('Waiting for data...');
           return Center(
             child: Lottie.asset(
               'assets/icons/Classroom.json',
@@ -64,20 +64,12 @@ class _StudentsListState extends State<StudentsList> {
                 SizedBox(height: 16.h),
                 Text(
                   "no student for this name".tr(),
-                  style: getBodyTextStyle().copyWith(
-                    color: AppColors.primaryColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
+                  style: getHeadTextStyle(),
                 ),
               ],
             ),
           );
         }
-        print(
-            'Data fetched: ${snapshot.data!.docs.length} documents'); // Debug log
-
-        // Filter students based on searchKey
         final filteredStudents = snapshot.data!.docs.where((doc) {
           final student =
               StudentModel.fromJson(doc.data() as Map<String, dynamic>);
