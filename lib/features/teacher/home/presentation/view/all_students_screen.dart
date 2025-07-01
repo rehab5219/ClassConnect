@@ -254,10 +254,12 @@ class _AllStudentsScreenState extends State<AllStudentsScreen> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            CircleAvatar(
-                                              radius: 40.r,
-                                              backgroundImage: NetworkImage(
-                                                student.image ?? '',
+                                            Center(
+                                              child: CircleAvatar(
+                                                radius: 40.r,
+                                                backgroundImage: NetworkImage(
+                                                  student.image ?? '',
+                                                ),
                                               ),
                                             ),
                                             Align(

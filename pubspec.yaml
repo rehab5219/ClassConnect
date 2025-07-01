@@ -111,8 +111,12 @@ flutter:
   # see https://flutter.dev/to/font-from-package
 
 flutter_native_splash:
-  color: "0xff007AFF"
-  image: assets/images/Group 1.png
+  color: "#007AFF"
+  image: assets/images/logo 1.png
+
+  android_12:
+    image: assets/images/logo 1.png
+    icon_background_color: "#007AFF"
+
   android: true
   ios: true
-  web: false

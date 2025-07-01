@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:iconsax/iconsax.dart';
 import '../manager/auth_cubit.dart';
 import '../manager/auth_state.dart';
 
@@ -126,7 +127,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           hintText: "first name".tr(),
                           hintStyle: getBodyTextStyle()
                               .copyWith(color: AppColors.greyColor),
-                          prefixIcon: const Icon(Icons.person,
+                          prefixIcon: Icon(Iconsax.profile_circle5,
                               color: AppColors.primaryColor),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.r),
@@ -168,7 +169,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           hintStyle: getBodyTextStyle()
                               .copyWith(color: AppColors.greyColor),
                           prefixIcon: const Icon(
-                            Icons.person,
+                            Iconsax.profile_circle5,
                             color: AppColors.primaryColor,
                           ),
                           border: OutlineInputBorder(
@@ -211,7 +212,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           hintStyle: getBodyTextStyle()
                               .copyWith(color: AppColors.greyColor),
                           prefixIcon: const Icon(
-                            Icons.email,
+                            Iconsax.sms5,
                             color: AppColors.primaryColor,
                           ),
                           border: OutlineInputBorder(
@@ -258,7 +259,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           hintStyle: getBodyTextStyle()
                               .copyWith(color: AppColors.greyColor),
                           prefixIcon: const Icon(
-                            Icons.lock,
+                            Iconsax.lock5,
                             color: AppColors.primaryColor,
                           ),
                           suffixIcon: IconButton(
@@ -269,8 +270,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             },
                             icon: Icon(
                               (isVisible)
-                                  ? Icons.visibility_off_outlined
-                                  : Icons.visibility_outlined,
+                                  ? Iconsax.eye_slash5
+                                  : Iconsax.eye4,
                             ),
                           ),
                           border: OutlineInputBorder(

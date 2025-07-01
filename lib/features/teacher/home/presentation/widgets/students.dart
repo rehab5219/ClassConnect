@@ -29,38 +29,39 @@ class _StudentsState extends State<Students> {
     user = _auth.currentUser;
   }
 
-Future<void> deleteStudent(String uid) async {
-  try {
-    final currentTeacherId = FirebaseAuth.instance.currentUser?.uid ?? 'unknown';
-    final docRef = FirebaseFirestore.instance
-        .collection('selected_students')
-        .doc(uid);
+  Future<void> deleteStudent(String uid) async {
+    try {
+      final currentTeacherId =
+          FirebaseAuth.instance.currentUser?.uid ?? 'unknown';
+      final docRef =
+          FirebaseFirestore.instance.collection('selected_students').doc(uid);
 
-    // Fetch the current document to get teacherIds
-    final docSnapshot = await docRef.get();
-    if (docSnapshot.exists) {
-      final teacherIds = (docSnapshot.data()?['teacherIds'] as List?)?.cast<String>() ?? [];
-      if (teacherIds.contains(currentTeacherId)) {
-        teacherIds.remove(currentTeacherId); // Remove current teacher ID
+      // Fetch the current document to get teacherIds
+      final docSnapshot = await docRef.get();
+      if (docSnapshot.exists) {
+        final teacherIds =
+            (docSnapshot.data()?['teacherIds'] as List?)?.cast<String>() ?? [];
+        if (teacherIds.contains(currentTeacherId)) {
+          teacherIds.remove(currentTeacherId); // Remove current teacher ID
 
-        // Update the document with the new teacherIds array
-        await docRef.update({'teacherIds': teacherIds});
+          // Update the document with the new teacherIds array
+          await docRef.update({'teacherIds': teacherIds});
 
-        // If no teacherIds remain, delete the document
-        if (teacherIds.isEmpty) {
-          await docRef.delete();
+          // If no teacherIds remain, delete the document
+          if (teacherIds.isEmpty) {
+            await docRef.delete();
+          }
         }
       }
-    }
 
-    if (widget.onDelete != null) {
-      widget.onDelete!(); // Call the refresh callback
+      if (widget.onDelete != null) {
+        widget.onDelete!(); // Call the refresh callback
+      }
+    } catch (e) {
+      print('Error deleting student $uid: $e');
+      rethrow;
     }
-  } catch (e) {
-    print('Error deleting student $uid: $e');
-    rethrow;
   }
-}
 
   showAlertDialog(BuildContext context, String uid) {
     showDialog(
@@ -114,30 +115,35 @@ Future<void> deleteStudent(String uid) async {
       child: Card(
         margin: EdgeInsets.zero,
         elevation: 7,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Stack(
-              children: [
-                CircleAvatar(
+        child: Container(
+          height: 200.h,
+          padding: EdgeInsets.symmetric(horizontal: 12.w),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: CircleAvatar(
                   radius: 40.r,
                   backgroundImage: NetworkImage(
                     widget.student.image as String,
                   ),
                 ),
-              ],
-            ),
-            Text(
-              '${widget.student.firstName ?? ''} ${widget.student.secondName ?? ''}',
-              style: getBodyTextStyle(),
-            ),
-            IconButton(
-              onPressed: () {
-                showAlertDialog(context, widget.student.uid ?? '');
-              },
-              icon: Icon(Iconsax.user_remove, color: AppColors.redColor),
-            )
-          ],
+              ),
+              Text(
+                '${widget.student.firstName ?? ''} ${widget.student.secondName ?? ''}',
+                style: getBodyTextStyle(),
+                textAlign: TextAlign.center,
+              ),
+              Center(
+                child: IconButton(
+                  onPressed: () {
+                    showAlertDialog(context, widget.student.uid ?? '');
+                  },
+                  icon: Icon(Iconsax.user_remove, color: AppColors.redColor),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

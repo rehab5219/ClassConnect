@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     AppLocalStorage.init();
-    Future.delayed(const Duration(seconds: 8), () {
+    Future.delayed(const Duration(seconds: 7), () {
       bool isOnboardingShown =
           AppLocalStorage.getData(key: AppLocalStorage.isOnboardingShown) ?? false;
       bool hasSeenWelcome =

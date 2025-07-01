@@ -19,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
 
 class StudentRegistrationView extends StatefulWidget {
@@ -164,8 +165,8 @@ class _StudentRegistrationViewState extends State<StudentRegistrationView> {
                                   backgroundColor:
                                       Theme.of(context).scaffoldBackgroundColor,
                                   child: Icon(
-                                    Icons.camera_alt_rounded,
-                                    size: 20.sp,
+                                    Iconsax.camera,
+                                    size: 25.sp,
                                   ),
                                 ),
                               ),

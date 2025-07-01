@@ -11,6 +11,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnboardingView extends StatefulWidget {
@@ -72,7 +73,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                           blurRadius: 5,
                         ),
                       ],
-                      color: Colors.blue.withValues(alpha: 0.5),
+                      color: AppColors.primaryColor.withValues(alpha: 0.5),
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(125.r),
                       ),
@@ -122,7 +123,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                                   duration: const Duration(milliseconds: 300),
                                   curve: Curves.easeInOut,
                                 ),
-                            icon: const Icon(Icons.arrow_forward,
+                            icon: const Icon(Iconsax.arrow_right,
                                 color: AppColors.whiteColor)),
                       }
                     ],
