@@ -41,34 +41,44 @@ class StudentProfile extends StatelessWidget {
           ),
         ),
       ),
-      body: FutureBuilder(
-          future: FirebaseFirestore.instance
-              .collection('students')
-              .doc(userId)
-              .get(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return Center(
-                child: Lottie.asset(
-                  'assets/icons/Classroom.json',
-                  height: 200.h,
-                  width: double.infinity.w,
-                  fit: BoxFit.contain,
-                ),
-              );
-            }
-            var studentModel = snapshot.data;
-            return Padding(
-              padding: EdgeInsets.all(20.sp),
-              child: Column(
-                children: [
-                  Gap(60.sp),
-                  CircleAvatar(
-                    radius: 80.r,
-                    child: CircleAvatar(
-                      radius: 90.r,
-                      backgroundImage:
-                          (studentModel?.data()?['image'] != null &&
+      body: Stack(
+        children: [
+          Opacity(
+            opacity: 0.3,
+            child: Image.asset(
+              AssetsManager.backpackItems,
+              fit: BoxFit.cover,
+              height: double.infinity,
+            ),
+          ),
+          FutureBuilder(
+              future: FirebaseFirestore.instance
+                  .collection('students')
+                  .doc(userId)
+                  .get(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: Lottie.asset(
+                      'assets/icons/Classroom.json',
+                      height: 200.h,
+                      width: double.infinity.w,
+                      fit: BoxFit.contain,
+                    ),
+                  );
+                }
+                var studentModel = snapshot.data;
+                return Padding(
+                  padding: EdgeInsets.all(20.sp),
+                  child: Column(
+                    children: [
+                      Gap(60.sp),
+                      CircleAvatar(
+                        radius: 80.r,
+                        child: CircleAvatar(
+                          radius: 90.r,
+                          backgroundImage: (studentModel?.data()?['image'] !=
+                                          null &&
                                       studentModel!
                                           .data()!['image']
                                           .toString()
@@ -76,48 +86,51 @@ class StudentProfile extends StatelessWidget {
                                   ? NetworkImage(studentModel.data()!['image'])
                                   : const AssetImage(AssetsManager.smilingBoy))
                               as ImageProvider,
-                    ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "information contact".tr(),
+                              style: getBodyTextStyle(),
+                            ),
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(15.sp),
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.r),
+                                color: AppColors.primaryColor.withAlpha(50),
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  TileWidget(
+                                      text:
+                                          studentModel?.data()?['email'] ?? '',
+                                      icon: Iconsax.sms5),
+                                  Gap(15.sp),
+                                  TileWidget(
+                                      text: studentModel?.data()?['phone1'] ??
+                                          ''.tr(),
+                                      icon: Iconsax.call5),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "information contact".tr(),
-                          style: getBodyTextStyle(),
-                        ),
-                        SizedBox(
-                          height: 10.h,
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(15.sp),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.r),
-                            color: AppColors.primaryColor.withAlpha(50),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              TileWidget(
-                                  text: studentModel?.data()?['email'] ?? '',
-                                  icon: Iconsax.sms5),
-                              Gap(15.sp),
-                              TileWidget(
-                                  text: studentModel?.data()?['phone1'] ??
-                                      ''.tr(),
-                                  icon: Iconsax.call5),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }),
+                );
+              }),
+        ],
+      ),
     );
   }
 }

@@ -55,125 +55,138 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: Stack(
         children: [
-          Stack(
+          Opacity(
+            opacity: 0.3,
+            child: Image.asset(
+              AssetsManager.backpackItems,
+              fit: BoxFit.cover,
+              height: double.infinity,
+            ),
+          ),
+          Column(
             children: [
-              Container(
-                height: 200.h,
-                width: double.infinity.w,
-                decoration: BoxDecoration(
-                  image: const DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage(AssetsManager.girlStudent),
-                  ),
-                  color: AppColors.primaryColor,
-                  borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(80.r),
-                  ),
-                ),
-                child: Container(
-                  height: 200.h,
-                  width: double.infinity.w,
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.greyColor.withAlpha(150),
-                        spreadRadius: 6,
-                        blurRadius: 6,
+              Stack(
+                children: [
+                  Container(
+                    height: 200.h,
+                    width: double.infinity.w,
+                    decoration: BoxDecoration(
+                      image: const DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage(AssetsManager.girlStudent),
                       ),
-                    ],
-                    borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(80.r),
+                      color: AppColors.primaryColor,
+                      borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(80.r),
+                      ),
                     ),
-                    color: AppColors.primaryColor.withAlpha(150),
+                    child: Container(
+                      height: 200.h,
+                      width: double.infinity.w,
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.greyColor.withAlpha(150),
+                            spreadRadius: 6,
+                            blurRadius: 6,
+                          ),
+                        ],
+                        borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(80.r),
+                        ),
+                        color: AppColors.primaryColor.withAlpha(150),
+                      ),
+                    ),
                   ),
-                ),
+                  PositionedDirectional(
+                    top: 40.h,
+                    child: IconButton(
+                      icon: Icon(Iconsax.refresh, color: AppColors.whiteColor),
+                      onPressed: _refreshStudents,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 20.h,
+                    left: 15.w,
+                    child: Text(
+                      "classconnect".tr(),
+                      style: getHeadTextStyle()
+                          .copyWith(color: AppColors.whiteColor),
+                    ),
+                  ),
+                ],
               ),
-              PositionedDirectional(
-                top: 40.h,
-                child: IconButton(
-                  icon: Icon(Iconsax.refresh, color: AppColors.whiteColor),
-                  onPressed: _refreshStudents,
-                ),
-              ),
-              Positioned(
-                bottom: 20.h,
-                left: 15.w,
-                child: Text(
-                  "classconnect".tr(),
-                  style:
-                      getHeadTextStyle().copyWith(color: AppColors.whiteColor),
+              Gap(15.sp),
+              Expanded(
+                child: FutureBuilder<QuerySnapshot>(
+                  future: _studentsFuture,
+                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: Lottie.asset(
+                          'assets/icons/Classroom.json',
+                          height: 200.h,
+                          width: double.infinity.w,
+                          fit: BoxFit.contain,
+                        ),
+                      );
+                    }
+
+                    final students = snapshot.data!.docs;
+
+                    if (students.isEmpty) {
+                      return InkWell(
+                        onTap: () {
+                          _refreshStudents();
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("no selected students yet".tr(),
+                                style: getTitleTextStyle()),
+                            Gap(10.sp),
+                            Image(
+                                image: AssetImage(AssetsManager.searchConcept)),
+                          ],
+                        ),
+                      );
+                    }
+
+                    return GridView.count(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 15.w,
+                      mainAxisSpacing: 15.h,
+                      padding: EdgeInsets.all(12.w),
+                      children: List.generate(students.length, (index) {
+                        final student = StudentModel.fromJson(
+                            students[index].data() as Map<String, dynamic>);
+
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => SubjectsDetails(
+                                  subjectName: student.firstName ?? '',
+                                  studentId: student.uid ?? '',
+                                  feedbackType: "Students",
+                                ),
+                              ),
+                            );
+                          },
+                          child: Students(
+                            student: student,
+                            onDelete: _refreshStudents,
+                          ),
+                        );
+                      }),
+                    );
+                  },
                 ),
               ),
             ],
-          ),
-           Gap(15.sp),
-          Expanded(
-            child: FutureBuilder<QuerySnapshot>(
-              future: _studentsFuture,
-              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (!snapshot.hasData) {
-                  return Center(
-                    child: Lottie.asset(
-                      'assets/icons/Classroom.json',
-                      height: 200.h,
-                      width: double.infinity.w,
-                      fit: BoxFit.contain,
-                    ),
-                  );
-                }
-
-                final students = snapshot.data!.docs;
-
-                if (students.isEmpty) {
-                  return InkWell(
-                    onTap: () {
-                      _refreshStudents();
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("no selected students yet".tr(),
-                            style: getTitleTextStyle()),
-                        Gap(10.sp),
-                        Image(image: AssetImage(AssetsManager.searchConcept)),
-                      ],
-                    ),
-                  );
-                }
-
-                return GridView.count(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 15.w,
-                  mainAxisSpacing: 15.h,
-                  padding: EdgeInsets.all(12.w),
-                  children: List.generate(students.length, (index) {
-                    final student = StudentModel.fromJson(
-                        students[index].data() as Map<String, dynamic>);
-
-                    return InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => SubjectsDetails(
-                              subjectName: student.firstName ?? '',
-                              studentId: student.uid ?? '',
-                              feedbackType: "Students",
-                            ),
-                          ),
-                        );
-                      },
-                      child: Students(
-                        student: student,
-                        onDelete: _refreshStudents,
-                      ),
-                    );
-                  }),
-                );
-              },
-            ),
           ),
         ],
       ),

@@ -94,10 +94,9 @@ class _SubjectsDetailsState extends State<SubjectsDetails> {
                 ),
                 WeekTextFormField(
                   weekList: WeekLessonsData(weekName: weekList[index]),
-                  controller:
-                      feedbackControllers[index],
+                  controller: feedbackControllers[index],
                 ),
-                 Gap(15.sp),
+                Gap(15.sp),
                 SizedBox(
                   height: 50.h,
                   child: CustomButton(
@@ -115,7 +114,8 @@ class _SubjectsDetailsState extends State<SubjectsDetails> {
                         if (message.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text("please enter a feedback message".tr(),
+                              content: Text(
+                                  "please enter a feedback message".tr(),
                                   style: getBodyTextStyle()),
                               backgroundColor: AppColors.whiteColor,
                             ),

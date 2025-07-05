@@ -69,165 +69,177 @@ class _StudentRegistrationViewState extends State<StudentRegistrationView> {
     return BlocProvider(
       create: (context) => AuthCubit(),
       child: Scaffold(
-        body: BlocConsumer<AuthCubit, AuthState>(
-          listener: (context, state) {
-            if (state is AuthErrorState) {
-              Navigator.pop(context);
-              showErrorDialog(context, "something went wrong".tr());
-            } else if (state is AuthLoadingState) {
-              showLoadingDialog(context);
-            } else if (state is AuthSuccessState) {
-              if (widget.userType == UserType.student) {
-                pushAndRemoveUntil(context, const StudentNavBarScreen());
-              } else {
-                pushAndRemoveUntil(context, const TeacherNavBarScreen());
-              }
-            }
-          },
-          builder: (context, state) {
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  Stack(
+        body: Stack(
+          children: [
+            Opacity(
+              opacity: 0.3,
+              child: Image.asset(
+                AssetsManager.backpackItems,
+                fit: BoxFit.cover,
+                height: double.infinity,
+              ),
+            ),
+            BlocConsumer<AuthCubit, AuthState>(
+              listener: (context, state) {
+                if (state is AuthErrorState) {
+                  Navigator.pop(context);
+                  showErrorDialog(context, "something went wrong".tr());
+                } else if (state is AuthLoadingState) {
+                  showLoadingDialog(context);
+                } else if (state is AuthSuccessState) {
+                  if (widget.userType == UserType.student) {
+                    pushAndRemoveUntil(context, const StudentNavBarScreen());
+                  } else {
+                    pushAndRemoveUntil(context, const TeacherNavBarScreen());
+                  }
+                }
+              },
+              builder: (context, state) {
+                return SingleChildScrollView(
+                  child: Column(
                     children: [
-                      Container(
-                        height: 200.h,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage(
-                              AssetsManager.girlStudent,
-                            ),
-                          ),
-                          color: AppColors.primaryColor,
-                          borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(80.r),
-                          ),
-                        ),
-                        child: Container(
-                          height: 200.h,
-                          width: double.infinity.w,
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color:
-                                    AppColors.greyColor.withValues(alpha: 0.5),
-                                spreadRadius: 6,
-                                blurRadius: 6,
-                              ),
-                            ],
-                            borderRadius: BorderRadius.only(
-                              bottomRight: Radius.circular(80.r),
-                            ),
-                            color:
-                                AppColors.primaryColor.withValues(alpha: 0.6),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 20.h,
-                        left: 25.w,
-                        child: Text(
-                          "complete registration process".tr(),
-                          style: getTitleTextStyle()
-                              .copyWith(color: AppColors.whiteColor),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Gap(20.sp),
-                  Form(
-                    key: _formKey,
-                    child: Padding(
-                      padding: EdgeInsets.all(15.sp),
-                      child: Column(
+                      Stack(
                         children: [
-                          Stack(
-                            alignment: Alignment.bottomRight,
-                            children: [
-                              CircleAvatar(
-                                radius: 50.r,
-                                child: CircleAvatar(
-                                  radius: 60.r,
-                                  backgroundImage: (file != null)
-                                      ? FileImage(file!)
-                                      : const AssetImage(
-                                          AssetsManager.smilingBoy),
+                          Container(
+                            height: 200.h,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage(
+                                  AssetsManager.girlStudent,
                                 ),
                               ),
-                              GestureDetector(
-                                onTap: () async {
-                                  await _pickImage();
-                                },
-                                child: CircleAvatar(
-                                  radius: 15.r,
-                                  backgroundColor:
-                                      Theme.of(context).scaffoldBackgroundColor,
-                                  child: Icon(
-                                    Iconsax.camera,
-                                    size: 25.sp,
+                              color: AppColors.primaryColor,
+                              borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(80.r),
+                              ),
+                            ),
+                            child: Container(
+                              height: 200.h,
+                              width: double.infinity.w,
+                              decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppColors.greyColor
+                                        .withValues(alpha: 0.5),
+                                    spreadRadius: 6,
+                                    blurRadius: 6,
                                   ),
+                                ],
+                                borderRadius: BorderRadius.only(
+                                  bottomRight: Radius.circular(80.r),
                                 ),
+                                color: AppColors.primaryColor
+                                    .withValues(alpha: 0.6),
                               ),
-                            ],
-                          ),
-                          Gap(85.sp),
-                          Padding(
-                            padding: EdgeInsets.all(8.0.sp),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "phone Number".tr(),
-                                  style: getBodyTextStyle(
-                                      color: AppColors.primaryColor),
-                                )
-                              ],
                             ),
                           ),
-                          TextFormField(
-                            keyboardType: TextInputType.text,
-                            cursorColor: AppColors.primaryColor,
-                            style: getSmallTextStyle(),
-                            controller: _phone,
-                            decoration: InputDecoration(
-                              hintText: "+20xxxxxxxxxx".tr(),
-                              hintStyle: getBodyTextStyle()
-                                  .copyWith(color: AppColors.greyColor),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20.r),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: AppColors.primaryColor,
-                                  width: 2.w,
-                                ),
-                                borderRadius: BorderRadius.circular(20.r),
-                              ),
-                              focusedErrorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: AppColors.redColor,
-                                  width: 2.w,
-                                ),
-                                borderRadius: BorderRadius.circular(20.r),
-                              ),
+                          Positioned(
+                            bottom: 20.h,
+                            left: 25.w,
+                            child: Text(
+                              "complete registration process".tr(),
+                              style: getTitleTextStyle()
+                                  .copyWith(color: AppColors.whiteColor),
                             ),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "please enter your phone number".tr();
-                              } else {
-                                return null;
-                              }
-                            },
                           ),
                         ],
                       ),
-                    ),
-                  )
-                ],
-              ),
-            );
-          },
+                      Gap(20.sp),
+                      Form(
+                        key: _formKey,
+                        child: Padding(
+                          padding: EdgeInsets.all(15.sp),
+                          child: Column(
+                            children: [
+                              Stack(
+                                alignment: Alignment.bottomRight,
+                                children: [
+                                  CircleAvatar(
+                                    radius: 50.r,
+                                    child: CircleAvatar(
+                                      radius: 60.r,
+                                      backgroundImage: (file != null)
+                                          ? FileImage(file!)
+                                          : const AssetImage(
+                                              AssetsManager.smilingBoy),
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () async {
+                                      await _pickImage();
+                                    },
+                                    child: CircleAvatar(
+                                      radius: 15.r,
+                                      backgroundColor: Theme.of(context)
+                                          .scaffoldBackgroundColor,
+                                      child: Icon(
+                                        Iconsax.camera,
+                                        size: 25.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Gap(85.sp),
+                              Padding(
+                                padding: EdgeInsets.all(8.0.sp),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "phone Number".tr(),
+                                      style: getBodyTextStyle(),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              TextFormField(
+                                keyboardType: TextInputType.text,
+                                cursorColor: AppColors.primaryColor,
+                                style: getSmallTextStyle(),
+                                controller: _phone,
+                                decoration: InputDecoration(
+                                  hintText: "+20xxxxxxxxxx".tr(),
+                                  hintStyle: getBodyTextStyle()
+                                      .copyWith(color: AppColors.whiteColor),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.r),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.primaryColor,
+                                      width: 2.w,
+                                    ),
+                                    borderRadius: BorderRadius.circular(20.r),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.redColor,
+                                      width: 2.w,
+                                    ),
+                                    borderRadius: BorderRadius.circular(20.r),
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "please enter your phone number"
+                                        .tr();
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
         ),
         bottomNavigationBar: Container(
           margin: EdgeInsets.all(10.sp),

@@ -54,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Lottie.asset('assets/icons/Main Scene class.json',width: 300.w),
+            Lottie.asset('assets/icons/Main Scene class.json',width: 400.w),
           ],
         ),
       ),

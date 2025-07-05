@@ -10,8 +10,8 @@ import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
 
 class ReceiveFeedback extends StatelessWidget {
-  final String? feedbackType; 
-  final String? subjectName; 
+  final String? feedbackType;
+  final String? subjectName;
 
   ReceiveFeedback({
     super.key,

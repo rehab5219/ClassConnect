@@ -42,236 +42,248 @@ class _LoginScreenState extends State<LogInScreen> {
     return BlocProvider(
       create: (context) => AuthCubit(),
       child: Scaffold(
-        body: BlocConsumer<AuthCubit, AuthState>(
-          listener: (context, state) {
-            if (state is AuthErrorState) {
-              Navigator.pop(context);
-              showErrorDialog(context, "something went wrong".tr());
-            } else if (state is AuthLoadingState) {
-              showLoadingDialog(context);
-            } else if (state is AuthSuccessState) {
-              if (widget.userType == UserType.teacher) {
-                pushAndRemoveUntil(context, const TeacherNavBarScreen());
-              } else {
-                pushAndRemoveUntil(context, const StudentNavBarScreen());
-              }
-            }
-          },
-          builder: (context, state) {
-            return SingleChildScrollView(
-              child: Form(
-                key: formKey,
-                child: Column(
-                  children: [
-                    Stack(
+        body: Stack(
+          children: [
+            Opacity(
+              opacity: 0.3,
+              child: Image.asset(
+                AssetsManager.backpackItems,
+                fit: BoxFit.cover,
+                height: double.infinity,
+              ),
+            ),
+            BlocConsumer<AuthCubit, AuthState>(
+              listener: (context, state) {
+                if (state is AuthErrorState) {
+                  Navigator.pop(context);
+                  showErrorDialog(context, "something went wrong".tr());
+                } else if (state is AuthLoadingState) {
+                  showLoadingDialog(context);
+                } else if (state is AuthSuccessState) {
+                  if (widget.userType == UserType.teacher) {
+                    pushAndRemoveUntil(context, const TeacherNavBarScreen());
+                  } else {
+                    pushAndRemoveUntil(context, const StudentNavBarScreen());
+                  }
+                }
+              },
+              builder: (context, state) {
+                return SingleChildScrollView(
+                  child: Form(
+                    key: formKey,
+                    child: Column(
                       children: [
-                        Container(
-                          height: 250.h,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            image: const DecorationImage(
-                              fit: BoxFit.cover,
-                              image: AssetImage(
-                                AssetsManager.girlStudent,
-                              ),
-                            ),
-                            color: AppColors.primaryColor,
-                            borderRadius: BorderRadius.only(
-                              bottomRight: Radius.circular(80.r),
-                            ),
-                          ),
-                          child: Container(
-                            height: 200.h,
-                            width: double.infinity.w,
-                            decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  color: AppColors.greyColor
-                                      .withValues(alpha: 0.5),
-                                  spreadRadius: 8,
-                                  blurRadius: 8,
+                        Stack(
+                          children: [
+                            Container(
+                              height: 250.h,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                image: const DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: AssetImage(
+                                    AssetsManager.girlStudent,
+                                  ),
                                 ),
-                              ],
-                              borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(80.r),
+                                color: AppColors.primaryColor,
+                                borderRadius: BorderRadius.only(
+                                  bottomRight: Radius.circular(80.r),
+                                ),
                               ),
-                              color:
-                                  AppColors.primaryColor.withValues(alpha: 0.6),
+                              child: Container(
+                                height: 200.h,
+                                width: double.infinity.w,
+                                decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppColors.greyColor
+                                          .withValues(alpha: 0.5),
+                                      spreadRadius: 8,
+                                      blurRadius: 8,
+                                    ),
+                                  ],
+                                  borderRadius: BorderRadius.only(
+                                    bottomRight: Radius.circular(80.r),
+                                  ),
+                                  color: AppColors.primaryColor
+                                      .withValues(alpha: 0.6),
+                                ),
+                              ),
                             ),
+                            Positioned(
+                              bottom: 20.h,
+                              left: 25.w,
+                              child: Text(
+                                "welcome back".tr(),
+                                style: getHeadTextStyle()
+                                    .copyWith(color: AppColors.whiteColor),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Gap(80.sp),
+                        Padding(
+                          padding: EdgeInsets.all(10.sp),
+                          child: TextFormField(
+                            controller: email,
+                            cursorColor: AppColors.primaryColor,
+                            style: getSmallTextStyle(),
+                            decoration: InputDecoration(
+                              hintText: "email".tr(),
+                              hintStyle: getBodyTextStyle()
+                                  .copyWith(color: AppColors.whiteColor),
+                              prefixIcon: const Icon(
+                                Iconsax.sms5,
+                                color: AppColors.primaryColor,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.r),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: AppColors.primaryColor,
+                                  width: 2.w,
+                                ),
+                                borderRadius: BorderRadius.circular(20.r),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: AppColors.redColor,
+                                  width: 2.w,
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            textInputAction: TextInputAction.next,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "please, enter your email".tr();
+                              } else if (!RegExp(
+                                      r"^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$")
+                                  .hasMatch(value)) {
+                                return "please, enter valid email".tr();
+                              } else {
+                                return null;
+                              }
+                            },
                           ),
                         ),
-                        Positioned(
-                          bottom: 20.h,
-                          left: 25.w,
-                          child: Text(
-                            "welcome back".tr(),
-                            style: getHeadTextStyle()
-                                .copyWith(color: AppColors.whiteColor),
+                        Gap(5.sp),
+                        Padding(
+                          padding: EdgeInsets.all(10.sp),
+                          child: TextFormField(
+                            controller: password,
+                            cursorColor: AppColors.primaryColor,
+                            style: getSmallTextStyle(),
+                            decoration: InputDecoration(
+                              hintText: "password".tr(),
+                              hintStyle: getBodyTextStyle()
+                                  .copyWith(color: AppColors.whiteColor),
+                              prefixIcon: const Icon(
+                                Iconsax.lock5,
+                                color: AppColors.primaryColor,
+                              ),
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    isVisible = !isVisible;
+                                  });
+                                },
+                                icon: Icon(
+                                  (isVisible)
+                                      ? Iconsax.eye_slash5
+                                      : Iconsax.eye4,
+                                ),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.r),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: AppColors.primaryColor,
+                                  width: 2.w,
+                                ),
+                                borderRadius: BorderRadius.circular(20.r),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: AppColors.redColor,
+                                  width: 2.w,
+                                ),
+                                borderRadius: BorderRadius.circular(20.r),
+                              ),
+                            ),
+                            obscureText: isVisible,
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return "please, enter your password".tr();
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                        ),
+                        Gap(20.sp),
+                        CustomButton(
+                            height: 45.h,
+                            width: 300.w,
+                            bgColor: AppColors.primaryColor,
+                            fgColor: AppColors.whiteColor,
+                            text: "logIn".tr(),
+                            onPressed: () {
+                              if (formKey.currentState!.validate()) {
+                                setState(() {
+                                  context.read<AuthCubit>().login(
+                                        email: email.text,
+                                        password: password.text,
+                                      );
+                                });
+                                if (widget.userType == UserType.teacher) {
+                                  push(
+                                    context,
+                                    const TeacherNavBarScreen(),
+                                  );
+                                } else {
+                                  push(
+                                    context,
+                                    const StudentNavBarScreen(),
+                                  );
+                                }
+                              }
+                            }),
+                        Gap(20.sp),
+                        Padding(
+                          padding: EdgeInsets.only(top: 30.sp),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "don\'t have an account?".tr(),
+                                style: getSmallTextStyle(
+                                    color: AppColors.whiteColor),
+                              ),
+                              TextButton(
+                                  onPressed: () {
+                                    pushReplacement(
+                                      context,
+                                      SignUpScreen(userType: widget.userType),
+                                    );
+                                  },
+                                  child: Text(
+                                    "sign Up".tr(),
+                                    style: getSmallTextStyle(
+                                        color: AppColors.primaryColor),
+                                  ))
+                            ],
                           ),
                         ),
                       ],
                     ),
-                     Gap(80.sp),
-                    Padding(
-                      padding: EdgeInsets.all(10.sp),
-                      child: TextFormField(
-                        controller: email,
-                         cursorColor: AppColors.primaryColor,
-                        style: getSmallTextStyle(),
-                        decoration: InputDecoration(
-                          hintText: "email".tr(),
-                          hintStyle: getBodyTextStyle()
-                              .copyWith(color: AppColors.greyColor),
-                          prefixIcon: const Icon(
-                            Iconsax.sms5,
-                            color: AppColors.primaryColor,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20.r),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: AppColors.primaryColor,
-                              width: 2.w,
-                            ),
-                            borderRadius: BorderRadius.circular(20.r),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: AppColors.redColor,
-                              width: 2.w,
-                            ),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                        textInputAction: TextInputAction.next,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "please, enter your email".tr();
-                          } else if (!RegExp(
-                                  r"^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$")
-                              .hasMatch(value)) {
-                            return "please, enter valid email".tr();
-                          } else {
-                            return null;
-                          }
-                        },
-                      ),
-                    ),
-                    Gap(5.sp),
-                    Padding(
-                      padding: EdgeInsets.all(10.sp),
-                      child: TextFormField(
-                        controller: password,
-                         cursorColor: AppColors.primaryColor,
-                        style: getSmallTextStyle(),
-                        decoration: InputDecoration(
-                          hintText: "password".tr(),
-                          hintStyle: getBodyTextStyle()
-                              .copyWith(color: AppColors.greyColor),
-                          prefixIcon: const Icon(
-                            Iconsax.lock5,
-                            color: AppColors.primaryColor,
-                          ),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                isVisible = !isVisible;
-                              });
-                            },
-                            icon: Icon(
-                              (isVisible)
-                                  ? Iconsax.eye_slash5
-                                  : Iconsax.eye4,
-                            ),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20.r),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: AppColors.primaryColor,
-                              width: 2.w,
-                            ),
-                            borderRadius: BorderRadius.circular(20.r),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: AppColors.redColor,
-                              width: 2.w,
-                            ),
-                            borderRadius: BorderRadius.circular(20.r),
-                          ),
-                        ),
-                        obscureText: isVisible,
-                        validator: (value) {
-                          if (value == null || value.trim().isEmpty) {
-                            return "please, enter your password".tr();
-                          } else {
-                            return null;
-                          }
-                        },
-                      ),
-                    ),
-                    Gap(20.sp),
-                    CustomButton(
-                        height: 45.h,
-                        width: 300.w,
-                        bgColor: AppColors.primaryColor,
-                        fgColor: AppColors.whiteColor,
-                        text: "logIn".tr(),
-                        onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            setState(() {
-                              context.read<AuthCubit>().login(
-                                    email: email.text,
-                                    password: password.text,
-                                  );
-                            });
-                            if (widget.userType == UserType.teacher) {
-                              push(
-                                context,
-                                const TeacherNavBarScreen(),
-                              );
-                            } else {
-                              push(
-                                context,
-                                const StudentNavBarScreen(),
-                              );
-                            }
-                          }
-                        }),
-                    Gap(20.sp),
-                    Padding(
-                      padding: EdgeInsets.only(top: 30.sp),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "don\'t have an account?".tr(),
-                            style:
-                                getSmallTextStyle(color: AppColors.greyColor),
-                          ),
-                          TextButton(
-                              onPressed: () {
-                                pushReplacement(
-                                  context,
-                                  SignUpScreen(userType: widget.userType),
-                                );
-                              },
-                              child: Text(
-                                "sign Up".tr(),
-                                style: getSmallTextStyle(
-                                    color: AppColors.primaryColor),
-                              ))
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
+                  ),
+                );
+              },
+            ),
+          ],
         ),
       ),
     );

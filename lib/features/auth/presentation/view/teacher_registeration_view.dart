@@ -72,265 +72,280 @@ class _TeacherRegistrationViewState extends State<TeacherRegistrationView> {
     return BlocProvider(
       create: (context) => AuthCubit(),
       child: Scaffold(
-        body: BlocConsumer<AuthCubit, AuthState>(
-          listener: (context, state) {
-            if (state is AuthErrorState) {
-              Navigator.pop(context);
-              showErrorDialog(context, "something went wrong".tr());
-            } else if (state is AuthLoadingState) {
-              showLoadingDialog(context);
-            } else if (state is AuthSuccessState) {
-              if (widget.userType == UserType.teacher) {
-                pushAndRemoveUntil(context, const TeacherNavBarScreen());
-              } else {
-                pushAndRemoveUntil(context, const StudentNavBarScreen());
-              }
-            }
-          },
-          builder: (context, state) {
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  Stack(
+        body: Stack(
+          children: [
+            Opacity(
+              opacity: 0.3,
+              child: Image.asset(
+                AssetsManager.backpackItems,
+                fit: BoxFit.cover,
+                height: double.infinity,
+              ),
+            ),
+            BlocConsumer<AuthCubit, AuthState>(
+              listener: (context, state) {
+                if (state is AuthErrorState) {
+                  Navigator.pop(context);
+                  showErrorDialog(context, "something went wrong".tr());
+                } else if (state is AuthLoadingState) {
+                  showLoadingDialog(context);
+                } else if (state is AuthSuccessState) {
+                  if (widget.userType == UserType.teacher) {
+                    pushAndRemoveUntil(context, const TeacherNavBarScreen());
+                  } else {
+                    pushAndRemoveUntil(context, const StudentNavBarScreen());
+                  }
+                }
+              },
+              builder: (context, state) {
+                return SingleChildScrollView(
+                  child: Column(
                     children: [
-                      Container(
-                        height: 200.h,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage(
-                              AssetsManager.girlStudent,
-                            ),
-                          ),
-                          color: AppColors.primaryColor,
-                          borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(80.r),
-                          ),
-                        ),
-                        child: Container(
-                          height: 200.h,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color:
-                                    AppColors.greyColor.withValues(alpha: 0.5),
-                                spreadRadius: 6,
-                                blurRadius: 6,
-                              ),
-                            ],
-                            borderRadius: BorderRadius.only(
-                              bottomRight: Radius.circular(80.r),
-                            ),
-                            color:
-                                AppColors.primaryColor.withValues(alpha: 0.6),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 20,
-                        left: 25,
-                        child: Text(
-                          "complete registration process".tr(),
-                          style: getTitleTextStyle()
-                              .copyWith(color: AppColors.whiteColor),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Gap(20.sp),
-                  Form(
-                    key: _formKey,
-                    child: Padding(
-                      padding: EdgeInsets.all(15.sp),
-                      child: Column(
+                      Stack(
                         children: [
-                          Stack(
-                            alignment: Alignment.bottomRight,
-                            children: [
-                              CircleAvatar(
-                                radius: 50.r,
-                                child: CircleAvatar(
-                                  radius: 60.r,
-                                  backgroundImage: (file != null)
-                                      ? FileImage(file!)
-                                      : const AssetImage(
-                                          AssetsManager.smilingBoy),
+                          Container(
+                            height: 200.h,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage(
+                                  AssetsManager.girlStudent,
                                 ),
                               ),
-                              GestureDetector(
-                                onTap: () async {
-                                  await _pickImage();
-                                },
-                                child: CircleAvatar(
-                                  radius: 15.r,
-                                  backgroundColor:
-                                      Theme.of(context).scaffoldBackgroundColor,
-                                  child: Icon(
-                                    Iconsax.camera,
-                                    size: 25.sp,
+                              color: AppColors.primaryColor,
+                              borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(80.r),
+                              ),
+                            ),
+                            child: Container(
+                              height: 200.h,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppColors.greyColor
+                                        .withValues(alpha: 0.5),
+                                    spreadRadius: 6,
+                                    blurRadius: 6,
                                   ),
+                                ],
+                                borderRadius: BorderRadius.only(
+                                  bottomRight: Radius.circular(80.r),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(8, 12, 8, 8),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "specialization".tr(),
-                                  style: getBodyTextStyle(
-                                      color: AppColors.primaryColor),
-                                ),
-                              ],
-                            ),
-                          ),
-                          // التخصص---------------
-                          DropdownButtonFormField(
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20.r),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: AppColors.primaryColor,
-                                  width: 2.w,
-                                ),
-                                borderRadius: BorderRadius.circular(20.r),
+                                color: AppColors.primaryColor
+                                    .withValues(alpha: 0.6),
                               ),
                             ),
-                            isExpanded: true,
-                            iconEnabledColor: AppColors.primaryColor,
-                            icon: const Icon(Icons.expand_circle_down_outlined),
-                            value: _specialization,
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                _specialization =
-                                    newValue ?? specialization[0].tr();
-                              });
-                            },
-                            items: specialization.map((element) {
-                              return DropdownMenuItem(
-                                value: element,
-                                child: Text(
-                                  element,
-                                  style: getSmallTextStyle(),
-                                ),
-                              );
-                            }).toList(),
                           ),
-                          Gap(10.sp),
-                          Padding(
-                            padding: EdgeInsets.all(8.0.sp),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "introduction".tr(),
-                                  style: getBodyTextStyle(
-                                      color: AppColors.primaryColor),
-                                ),
-                              ],
+                          Positioned(
+                            bottom: 20,
+                            left: 25,
+                            child: Text(
+                              "complete registration process".tr(),
+                              style: getTitleTextStyle()
+                                  .copyWith(color: AppColors.whiteColor),
                             ),
-                          ),
-                          TextFormField(
-                            keyboardType: TextInputType.text,
-                            cursorColor: AppColors.primaryColor,
-                            style: getSmallTextStyle(),
-                            maxLines: 5,
-                            controller: _bio,
-                            decoration: InputDecoration(
-                              hintText:
-                                  "record general educational information such as your academic education and previous experiences."
-                                      .tr(),
-                              hintStyle: getBodyTextStyle()
-                                  .copyWith(color: AppColors.greyColor),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20.r),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: AppColors.primaryColor,
-                                  width: 2.w,
-                                ),
-                                borderRadius: BorderRadius.circular(20.r),
-                              ),
-                              focusedErrorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: AppColors.redColor,
-                                  width: 2.w,
-                                ),
-                                borderRadius: BorderRadius.circular(20.r),
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "please enter your bio".tr();
-                              } else {
-                                return null;
-                              }
-                            },
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 8.0.sp),
-                            child: Divider(),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(8.0.sp),
-                            child: Row(
-                              children: [
-                                Text(
-                                  "phone Number".tr(),
-                                  style: getBodyTextStyle(
-                                      color: AppColors.primaryColor),
-                                )
-                              ],
-                            ),
-                          ),
-                          TextFormField(
-                            keyboardType: TextInputType.text,
-                            cursorColor: AppColors.primaryColor,
-                            style: getSmallTextStyle(),
-                            controller: _phone,
-                            decoration: InputDecoration(
-                              hintText: "+20xxxxxxxxxx".tr(),
-                              hintStyle: getBodyTextStyle()
-                                  .copyWith(color: AppColors.greyColor),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20.r),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: AppColors.primaryColor,
-                                  width: 2.w,
-                                ),
-                                borderRadius: BorderRadius.circular(20.r),
-                              ),
-                              focusedErrorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: AppColors.redColor,
-                                  width: 2.w,
-                                ),
-                                borderRadius: BorderRadius.circular(20.r),
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "please enter your phone number".tr();
-                              } else {
-                                return null;
-                              }
-                            },
                           ),
                         ],
                       ),
-                    ),
-                  )
-                ],
-              ),
-            );
-          },
+                      Gap(20.sp),
+                      Form(
+                        key: _formKey,
+                        child: Padding(
+                          padding: EdgeInsets.all(15.sp),
+                          child: Column(
+                            children: [
+                              Stack(
+                                alignment: Alignment.bottomRight,
+                                children: [
+                                  CircleAvatar(
+                                    radius: 50.r,
+                                    child: CircleAvatar(
+                                      radius: 60.r,
+                                      backgroundImage: (file != null)
+                                          ? FileImage(file!)
+                                          : const AssetImage(
+                                              AssetsManager.smilingBoy),
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () async {
+                                      await _pickImage();
+                                    },
+                                    child: CircleAvatar(
+                                      radius: 15.r,
+                                      backgroundColor: Theme.of(context)
+                                          .scaffoldBackgroundColor,
+                                      child: Icon(
+                                        Iconsax.camera,
+                                        color: AppColors.primaryColor,
+                                        size: 25.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(8, 12, 8, 8),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "specialization".tr(),
+                                      style: getBodyTextStyle(),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              // التخصص---------------
+                              DropdownButtonFormField(
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.r),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.primaryColor,
+                                      width: 2.w,
+                                    ),
+                                    borderRadius: BorderRadius.circular(20.r),
+                                  ),
+                                ),
+                                isExpanded: true,
+                                iconEnabledColor: AppColors.primaryColor,
+                                icon: const Icon(
+                                    Iconsax.arrow_circle_down),
+                                value: _specialization,
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    _specialization =
+                                        newValue ?? specialization[0].tr();
+                                  });
+                                },
+                                items: specialization.map((element) {
+                                  return DropdownMenuItem(
+                                    value: element,
+                                    child: Text(
+                                      element,
+                                      style: getSmallTextStyle(),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                              Gap(10.sp),
+                              Padding(
+                                padding: EdgeInsets.all(8.0.sp),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "introduction".tr(),
+                                      style: getBodyTextStyle(),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              TextFormField(
+                                keyboardType: TextInputType.text,
+                                cursorColor: AppColors.primaryColor,
+                                style: getSmallTextStyle(),
+                                maxLines: 5,
+                                controller: _bio,
+                                decoration: InputDecoration(
+                                  hintText:
+                                      "record general educational information such as your academic education and previous experiences."
+                                          .tr(),
+                                  hintStyle: getBodyTextStyle()
+                                      .copyWith(color: AppColors.whiteColor),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.r),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.primaryColor,
+                                      width: 2.w,
+                                    ),
+                                    borderRadius: BorderRadius.circular(20.r),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.redColor,
+                                      width: 2.w,
+                                    ),
+                                    borderRadius: BorderRadius.circular(20.r),
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "please enter your bio".tr();
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(top: 8.0.sp),
+                                child: Divider(
+                                  color: AppColors.whiteColor,
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(8.0.sp),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "phone Number".tr(),
+                                      style: getBodyTextStyle(),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              TextFormField(
+                                keyboardType: TextInputType.text,
+                                cursorColor: AppColors.primaryColor,
+                                style: getSmallTextStyle(),
+                                controller: _phone,
+                                decoration: InputDecoration(
+                                  hintText: "+20xxxxxxxxxx".tr(),
+                                  hintStyle: getBodyTextStyle()
+                                      .copyWith(color: AppColors.whiteColor),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.r),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.primaryColor,
+                                      width: 2.w,
+                                    ),
+                                    borderRadius: BorderRadius.circular(20.r),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.redColor,
+                                      width: 2.w,
+                                    ),
+                                    borderRadius: BorderRadius.circular(20.r),
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "please enter your phone number"
+                                        .tr();
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
+          // <-- This closes the Stack widget
         ),
         bottomNavigationBar: Container(
           margin: EdgeInsets.all(10.sp),

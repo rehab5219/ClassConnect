@@ -33,4 +33,5 @@ class AssetsManager {
   static const String advisePng = "assets/icons/parents 1.png";
   static const String personPng = "assets/icons/user-avatar.png";
   static const String searchPng = "assets/icons/search 1.png";
+  static const String backpackItems = "assets/images/top-view-backpack-full-stationery-items.jpg";
 }
