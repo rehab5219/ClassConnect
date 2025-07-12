@@ -1,6 +1,7 @@
 class SubjectsData{
   final String subjectsName;
 
+
   SubjectsData({
     required this.subjectsName,
   });

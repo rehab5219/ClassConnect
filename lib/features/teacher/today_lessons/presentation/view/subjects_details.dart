@@ -15,12 +15,14 @@ class SubjectsDetails extends StatefulWidget {
   final String subjectName;
   final String? studentId;
   final String feedbackType;
+  final String? stage; 
 
   const SubjectsDetails({
     super.key,
     required this.subjectName,
     required this.feedbackType,
     this.studentId,
+     this.stage, 
   });
 
   @override
@@ -133,6 +135,7 @@ class _SubjectsDetailsState extends State<SubjectsDetails> {
                           'day': weekList[index],
                           'date': date,
                           'subjectName': widget.subjectName,
+                          'stage': widget.stage ?? null, 
                         });
 
                         feedbackControllers[index].clear();

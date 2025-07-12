@@ -16,7 +16,7 @@ class WeekTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      // minLines:1,
+      minLines:1,
       maxLines: 10,
       controller: controller,
       style: getSmallTextStyle().copyWith(color: AppColors.whiteColor),

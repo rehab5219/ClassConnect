@@ -11,12 +11,16 @@ import 'package:lottie/lottie.dart';
 
 class ReceiveFeedback extends StatelessWidget {
   final String? feedbackType;
+
   final String? subjectName;
+
+  final String? stage;
 
   ReceiveFeedback({
     super.key,
     this.feedbackType,
     this.subjectName,
+    this.stage,
   });
 
   final user = FirebaseAuth.instance.currentUser;
@@ -27,14 +31,10 @@ class ReceiveFeedback extends StatelessWidget {
       backgroundColor: AppColors.primaryColor,
       appBar: AppBar(
         backgroundColor: AppColors.transparent,
+        elevation: 0,
         leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Iconsax.arrow_left,
-            color: AppColors.whiteColor,
-          ),
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Iconsax.arrow_left, color: AppColors.whiteColor),
         ),
       ),
       body: FutureBuilder<List<QueryDocumentSnapshot>>(
@@ -45,7 +45,7 @@ class ReceiveFeedback extends StatelessWidget {
               child: Lottie.asset(
                 'assets/icons/Classroom.json',
                 height: 250.h,
-                width: double.infinity.w,
+                width: double.infinity,
                 fit: BoxFit.contain,
               ),
             );
@@ -56,43 +56,83 @@ class ReceiveFeedback extends StatelessWidget {
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return Center(
               child: Text(
-                "no feedbacks available".tr(),
-                style:
-                    getTitleTextStyle().copyWith(color: AppColors.whiteColor),
+                'no feedbacks available'.tr(),
+                style: getTitleTextStyle().copyWith(color: AppColors.whiteColor),
               ),
             );
           }
 
           final feedbacks = snapshot.data!;
 
-          return Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  itemCount: feedbacks.length,
-                  itemBuilder: (context, index) {
-                    final feedback = feedbacks[index];
-                    return Card(
-                      margin: EdgeInsets.all(10.sp),
-                      color: AppColors.whiteColor,
-                      child: ListTile(
-                        title: Text(
-                          feedback['message'] ?? "no message".tr(),
-                          style: getHeadTextStyle(),
-                          textAlign: TextAlign.center,
-                        ),
-                        subtitle: Text(
-                          'Date: ${formatDate(feedback['date'])}\n'
-                          'Day: ${feedback['day'] ?? 'N/A'}\n',
+          return ListView.builder(
+            itemCount: feedbacks.length,
+            padding: EdgeInsets.symmetric(vertical: 10.h),
+            itemBuilder: (context, index) {
+              final f        = feedbacks[index];
+              final fDate    = DateTime.parse(f['date']);
+              final isRecent = DateTime.now().difference(fDate).inDays <= 5;
+
+              if (!isRecent) return const SizedBox.shrink();
+
+              final stageExists = f.data().toString().contains('stage') &&
+                  f['stage'] != null &&
+                  f['stage'] != '' &&
+                  f['stage'] != 'N/A';
+
+              return Card(
+                margin: EdgeInsets.symmetric(horizontal: 14.w, vertical: 6.h),
+                color: AppColors.whiteColor,
+                child: ListTile(
+                  title: Text(
+                    f['message'] ?? 'no message'.tr(),
+                    style: getHeadTextStyle(),
+                    textAlign: TextAlign.center,
+                  ),
+                  subtitle: Padding(
+                    padding: EdgeInsets.only(top: 8.h),
+                    child: Column(
+                      children: [
+                        Text(
+                          'Date: ${formatDate(f['date'])}',
                           style: getBodyTextStyle(),
                           textAlign: TextAlign.center,
                         ),
-                      ),
-                    );
-                  },
+                        Text(
+                          'Day: ${f['day'] ?? 'N/A'}',
+                          style: getBodyTextStyle(),
+                          textAlign: TextAlign.center,
+                        ),
+                        if (stageExists) ...[
+                          SizedBox(height: 5.h),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 10.w,
+                              vertical: 4.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.primaryColor.withAlpha(40),
+                              borderRadius: BorderRadius.circular(8.r),
+                              border: Border.all(
+                                color: AppColors.primaryColor,
+                                width: 1,
+                              ),
+                            ),
+                            child: Text(
+                              'Stage: ${f['stage']}'.tr(),
+                              style: getBodyTextStyle().copyWith(
+                                color: AppColors.primaryColor,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-            ],
+              );
+            },
           );
         },
       ),
@@ -102,43 +142,34 @@ class ReceiveFeedback extends StatelessWidget {
   Future<List<QueryDocumentSnapshot>> _fetchFeedbacks() async {
     if (user == null) return [];
 
-    final studentUid =
-        user!.uid; // Current student's UID, assumed not null for "Students"
-
-    List<QueryDocumentSnapshot> feedbacks = [];
-
-    // Start with an empty query
+    final studentUid = user!.uid;
     Query<Map<String, dynamic>> query =
         FirebaseFirestore.instance.collection('feedbacks');
 
-    // Apply filtering based on feedbackType and subjectName
-    bool hasFeedbackType = feedbackType != null && feedbackType!.isNotEmpty;
-    bool hasSubjectName = subjectName != null && subjectName!.isNotEmpty;
+    // ---------- flags -----------------------------------------------------
+    final hasFeedbackType = feedbackType != null && feedbackType!.isNotEmpty;
+    final hasSubjectName  = subjectName != null && subjectName!.isNotEmpty;
+    final hasStage        = stage != null && stage!.isNotEmpty && stage != 'All';
 
-    if (hasFeedbackType && feedbackType == "Students") {
-      // Special case for "Students": filter by feedbackType and uid
+    // ---------- main filters ---------------------------------------------
+    if (hasFeedbackType && feedbackType == 'Students') {
+      // Personal feedback → must match UID
       query = query
           .where('feedbackType', isEqualTo: feedbackType)
           .where('uid', isEqualTo: studentUid);
-    } else if (hasFeedbackType && hasSubjectName) {
-      // Filter by both feedbackType and subjectName for other types
-      query = query
-          .where('feedbackType', isEqualTo: feedbackType)
-          .where('subjectName', isEqualTo: subjectName);
-    } else if (hasFeedbackType) {
-      // Filter by feedbackType only for other types
-      query = query.where('feedbackType', isEqualTo: feedbackType);
-    } else if (hasSubjectName) {
-      // Filter by subjectName only
-      query = query.where('subjectName', isEqualTo: subjectName);
+    } else {
+      if (hasFeedbackType) query = query.where('feedbackType', isEqualTo: feedbackType);
+      if (hasSubjectName)  query = query.where('subjectName',  isEqualTo: subjectName);
+      if (hasStage)        query = query.where('stage',        isEqualTo: stage);
     }
 
-    // Fetch teacherIds from selected_students only if not "Students" type
-    if (hasFeedbackType && feedbackType != "Students") {
+    // ---------- restrict to this student’s teachers (except 'Students') --
+    if (hasFeedbackType && feedbackType != 'Students') {
       final studentDoc = await FirebaseFirestore.instance
           .collection('selected_students')
           .doc(studentUid)
           .get();
+
       final teacherIds =
           (studentDoc.data()?['teacherIds'] as List?)?.cast<String>() ?? [];
 
@@ -147,17 +178,13 @@ class ReceiveFeedback extends StatelessWidget {
       }
     }
 
-    // Fetch the data without server-side sorting
-    final querySnapshot = await query.get();
+    // ---------- execute ---------------------------------------------------
+    final snapshot = await query.get();
 
-    feedbacks.addAll(querySnapshot.docs);
-
-    // Sort locally by date in descending order
-    feedbacks.sort((a, b) {
-      DateTime dateA = DateTime.parse(a['date'].toString());
-      DateTime dateB = DateTime.parse(b['date'].toString());
-      return dateB.compareTo(dateA); // Descending order
-    });
+    // newest first
+    final feedbacks = snapshot.docs
+      ..sort((a, b) =>
+          DateTime.parse(b['date']).compareTo(DateTime.parse(a['date'])));
 
     return feedbacks;
   }
