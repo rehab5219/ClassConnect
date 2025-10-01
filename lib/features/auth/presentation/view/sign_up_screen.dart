@@ -337,7 +337,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "i have an account?".tr(),
+                                "I have an account?".tr(),
                                 style: getSmallTextStyle(
                                     color: AppColors.whiteColor),
                               ),

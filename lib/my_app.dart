@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'ClassConnect',
         themeMode: ThemeMode.dark,
-        home: const SplashScreen(),
+        home: SplashScreen(),
       ),
     );
   }

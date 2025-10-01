@@ -34,7 +34,7 @@ class _StudentNavBarScreenState extends State<StudentNavBarScreen> {
     return Scaffold(
       extendBody: true,
       bottomNavigationBar: CurvedNavigationBar(
-        height: 45.h,
+        height: 50.h,
         key: _bottomNavigationKey,
         items: <Widget>[
           Icon(

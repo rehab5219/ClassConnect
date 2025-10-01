@@ -16,74 +16,42 @@ class TodayLessonsScreen extends StatefulWidget {
 }
 
 class _TodayLessonsScreenState extends State<TodayLessonsScreen> {
+
   final Map<String, List<String>> subjectSubfields = {
     "math": ["STATIC", "DYNAMIC", "ALGEBRA", "GEOMETRY", "CALCULUS"],
     "science": ["PHYSICS", "CHEMISTRY", "BIOLOGY"],
     "social": ["HISTORY", "GEOGRAPHY"],
   };
 
-  final List<String> stages = [
+  static List<String> stages = [
     'All',
-    'Primary 1',
-    'Primary 2',
-    'Primary 3',
-    'Primary 4',
-    'Primary 5',
-    'Primary 6',
-    'Prep 1',
-    'Prep 2',
-    'Prep 3',
-    'Secondary 1',
-    'Secondary 2',
-    'Secondary 3',
+    ...List.generate(6, (i) => 'Primary ${i + 1}'),
+    ...List.generate(3, (i) => 'Prep ${i + 1}'),
+    ...List.generate(3, (i) => 'Secondary ${i + 1}'),
+  ];
+
+  static const List<String> primarySubjects = [
+    'ARABIC',
+    'MATH',
+    'SCIENCE',
+    'ENGLISH',
+    'RELIGION',
+    'FRENCH',
+    'GERMAN'
+  ];
+
+  static const List<String> prepSubjects = [...primarySubjects, 'SOCIAL'];
+
+  static const List<String> secondarySubjects = [
+    ...prepSubjects,
+    'PHILOSOPHY',
+    'PSYCHOLOGY'
   ];
 
   final Map<String, List<String>> stageSubjects = {
-    'Primary 1': ['ARABIC', 'MATH', 'SCIENCE', 'ENGLISH', 'RELIGION', 'FRENCH' , 'GERMAN'],
-    'Primary 2': ['ARABIC', 'MATH', 'SCIENCE', 'ENGLISH', 'RELIGION', 'FRENCH' , 'GERMAN'],
-    'Primary 3': ['ARABIC', 'MATH', 'SCIENCE', 'ENGLISH', 'RELIGION', 'FRENCH' , 'GERMAN'],
-    'Primary 4': ['ARABIC', 'MATH', 'SCIENCE', 'ENGLISH', 'RELIGION', 'FRENCH' , 'GERMAN'],
-    'Primary 5': ['ARABIC', 'MATH', 'SCIENCE', 'ENGLISH', 'RELIGION', 'FRENCH' , 'GERMAN'],
-    'Primary 6': ['ARABIC', 'MATH', 'SCIENCE', 'ENGLISH', 'RELIGION', 'FRENCH' , 'GERMAN'],
-    'Prep 1': ['ARABIC', 'MATH', 'SCIENCE', 'ENGLISH', 'RELIGION', 'SOCIAL', 'FRENCH', 'GERMAN'],
-    'Prep 2': ['ARABIC', 'MATH', 'SCIENCE', 'ENGLISH', 'RELIGION', 'SOCIAL', 'FRENCH', 'GERMAN'],
-    'Prep 3': ['ARABIC', 'MATH', 'SCIENCE', 'ENGLISH', 'RELIGION', 'SOCIAL', 'FRENCH', 'GERMAN'],
-    'Secondary 1': [
-      'ARABIC',
-      'MATH',
-      'SCIENCE',
-      'ENGLISH',
-      'RELIGION',
-      'SOCIAL',
-      'FRENCH',
-      'GERMAN',
-      'PHILOSOPHY',
-      'PSYCHOLOGY'
-    ],
-    'Secondary 2': [
-      'ARABIC',
-      'MATH',
-      'SCIENCE',
-      'ENGLISH',
-      'RELIGION',
-      'SOCIAL',
-      'FRENCH',
-      'GERMAN',
-      'PHILOSOPHY',
-      'PSYCHOLOGY'
-    ],
-    'Secondary 3': [
-      'ARABIC',
-      'MATH',
-      'SCIENCE',
-      'ENGLISH',
-      'RELIGION',
-      'SOCIAL',
-      'FRENCH',
-      'GERMAN',
-      'PHILOSOPHY',
-      'PSYCHOLOGY'
-    ],
+    for (var i = 1; i <= 6; i++) 'Primary $i': primarySubjects,
+    for (var i = 1; i <= 3; i++) 'Prep $i': prepSubjects,
+    for (var i = 1; i <= 3; i++) 'Secondary $i': secondarySubjects,
   };
 
   String selectedStage = 'All';
@@ -93,8 +61,9 @@ class _TodayLessonsScreenState extends State<TodayLessonsScreen> {
       return details;
     }
     return details.where((subject) {
-      return stageSubjects[selectedStage]!
-          .contains(subject.subjectsName.toUpperCase());
+      return stageSubjects[selectedStage]
+              ?.contains(subject.subjectsName.toUpperCase()) ??
+          false;
     }).toList();
   }
 
@@ -150,7 +119,7 @@ class _TodayLessonsScreenState extends State<TodayLessonsScreen> {
                   ),
                   Positioned(
                     bottom: 20.h,
-                    left: 15.w,
+                    left: 13.w,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -160,56 +129,48 @@ class _TodayLessonsScreenState extends State<TodayLessonsScreen> {
                               .copyWith(color: AppColors.whiteColor),
                         ),
                         SizedBox(width: 10.w),
-                        PopupMenuButton<String>(
-                          onSelected: (value) {
-                            setState(() {
-                              selectedStage = value;
-                            });
-                          },
-                          itemBuilder: (context) {
-                            return stages.map((stage) {
-                              return PopupMenuItem<String>(
-                                value: stage,
-                                child: Text(
-                                  stage.tr(),
-                                  style: getBodyTextStyle(),
-                                ),
-                              );
-                            }).toList();
-                          },
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 10.w,
-                              vertical: 5.h,
-                            ),
-                            decoration: BoxDecoration(
-                              color: AppColors.whiteColor,
-                              borderRadius: BorderRadius.circular(20.r),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: AppColors.greyColor.withAlpha(40),
-                                  spreadRadius: 2,
-                                  blurRadius: 4,
-                                ),
-                              ],
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  "select stage".tr(),
-                                  style: getBodyTextStyle().copyWith(
-                                    color: AppColors.primaryColor,
-                                    fontSize: 14.sp,
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 4.w,
+                            vertical: 7.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.whiteColor,
+                            borderRadius: BorderRadius.circular(20.r),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.greyColor.withAlpha(40),
+                                spreadRadius: 2,
+                                blurRadius: 4,
+                              ),
+                            ],
+                          ),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              value: selectedStage,
+                              icon: Icon(
+                                Icons.arrow_drop_down,
+                                color: AppColors.primaryColor,
+                                size: 25.sp,
+                              ),
+                              style: getBodyTextStyle().copyWith(
+                                fontWeight: FontWeight.w500,
+                              ),
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  selectedStage = newValue!;
+                                });
+                              },
+                              items: stages.map<DropdownMenuItem<String>>(
+                                  (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(
+                                    value.tr(),
+                                    style: getBodyTextStyle(),
                                   ),
-                                ),
-                                SizedBox(width: 5.w),
-                                Icon(
-                                  Icons.arrow_drop_down,
-                                  color: AppColors.primaryColor,
-                                  size: 20.sp,
-                                ),
-                              ],
+                                );
+                              }).toList(),
                             ),
                           ),
                         ),
@@ -231,8 +192,13 @@ class _TodayLessonsScreenState extends State<TodayLessonsScreen> {
                         final subject = getFilteredSubjects()[index]
                             .subjectsName
                             .toLowerCase();
-
-                        if (subjectSubfields.containsKey(subject)) {
+                        final bool hasSubfields =
+                            subjectSubfields.containsKey(subject);
+                        final bool isStageForDropdown =
+                            selectedStage.startsWith('Prep') ||
+                                selectedStage.startsWith('Secondary') ||
+                                selectedStage == 'All';
+                        if (hasSubfields && isStageForDropdown) {
                           return PopupMenuButton<String>(
                             onSelected: (value) {
                               Navigator.push(
