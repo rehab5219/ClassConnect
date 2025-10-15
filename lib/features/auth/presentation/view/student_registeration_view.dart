@@ -12,7 +12,7 @@ import 'package:classconnect/features/auth/presentation/manager/auth_cubit.dart'
 import 'package:classconnect/features/auth/presentation/manager/auth_state.dart';
 import 'package:classconnect/features/student/student_nav_bar/student_nav_bar_screen.dart';
 import 'package:classconnect/features/teacher/teacher_nav_bar/teacher-nav_bar_screen.dart';
-import 'package:classconnect/service/dio/upload_image.dart';
+import 'package:classconnect/core/service/dio/upload_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

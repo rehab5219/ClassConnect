@@ -4,7 +4,7 @@ import 'package:classconnect/features/intro/onboarding/onboarding_view.dart';
 import 'package:classconnect/features/intro/welcome_screen.dart';
 import 'package:classconnect/features/student/student_nav_bar/student_nav_bar_screen.dart';
 import 'package:classconnect/features/teacher/teacher_nav_bar/teacher-nav_bar_screen.dart';
-import 'package:classconnect/service/local/local_storage.dart';
+import 'package:classconnect/core/service/local/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';

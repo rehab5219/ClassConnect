@@ -1,9 +1,9 @@
 import 'package:classconnect/firebase_options.dart';
 import 'package:classconnect/my_app.dart';
-import 'package:classconnect/service/local/local_storage.dart';
+import 'package:classconnect/core/service/local/local_storage.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';     
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
