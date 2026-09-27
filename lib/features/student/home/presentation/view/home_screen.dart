@@ -2,7 +2,7 @@ import 'package:classconnect/core/constants/assets_manager.dart';
 import 'package:classconnect/core/utils/app_colors.dart';
 import 'package:classconnect/core/utils/styles.dart';
 import 'package:classconnect/features/auth/models/student_model.dart';
-import 'package:classconnect/features/student/today_lessons/receive_feedback.dart';
+import 'package:classconnect/features/student/today_lessons/presentation/view/receive_feedback.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';

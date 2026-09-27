@@ -1,7 +1,7 @@
 import 'package:classconnect/core/constants/assets_manager.dart';
 import 'package:classconnect/core/utils/app_colors.dart';
 import 'package:classconnect/core/utils/styles.dart';
-import 'package:classconnect/features/teacher/search/widgets/students_list.dart';
+import 'package:classconnect/features/teacher/search/presentation/widgets/students_list.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

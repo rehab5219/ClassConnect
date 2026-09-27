@@ -1,22 +1,21 @@
 import 'package:classconnect/core/constants/assets_manager.dart';
 import 'package:classconnect/core/models/subjects_data.dart';
 import 'package:classconnect/core/widgets/subjects_name.dart';
-import 'package:classconnect/features/student/today_lessons/receive_feedback.dart';
+import 'package:classconnect/features/student/today_lessons/presentation/view/receive_feedback.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/styles.dart';
+import '../../../../../../core/utils/app_colors.dart';
+import '../../../../../../core/utils/styles.dart';
 
-class AssignmentScreen extends StatefulWidget {
-  AssignmentScreen({super.key});
+class TodayLessonsScreen extends StatefulWidget {
+  TodayLessonsScreen({super.key});
 
   @override
-  _AssignmentScreenState createState() => _AssignmentScreenState();
+  _TodayLessonsScreenState createState() => _TodayLessonsScreenState();
 }
 
-class _AssignmentScreenState extends State<AssignmentScreen> {
-
+class _TodayLessonsScreenState extends State<TodayLessonsScreen> {
   final Map<String, List<String>> subjectSubfields = {
     "math": ["STATIC", "DYNAMIC", "ALGEBRA", "GEOMETRY", "CALCULUS"],
     "science": ["PHYSICS", "CHEMISTRY", "BIOLOGY"],
@@ -119,19 +118,19 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
                   ),
                   Positioned(
                     bottom: 20.h,
-                    left: 15.w,
+                    left: 13.w,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          "assignments".tr(),
+                          "today's lessons".tr(),
                           style: getHeadTextStyle()
                               .copyWith(color: AppColors.whiteColor),
                         ),
                         SizedBox(width: 10.w),
                         Container(
                           padding: EdgeInsets.symmetric(
-                            horizontal: 8.w,
+                            horizontal: 4.w,
                             vertical: 7.h,
                           ),
                           decoration: BoxDecoration(
@@ -206,7 +205,7 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
                                 MaterialPageRoute(
                                   builder: (context) => ReceiveFeedback(
                                     subjectName: value,
-                                    feedbackType: "Assignments",
+                                    feedbackType: "Today_Lessons",
                                     stage: selectedStage,
                                   ),
                                 ),
@@ -235,7 +234,7 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
                                   builder: (context) => ReceiveFeedback(
                                     subjectName: getFilteredSubjects()[index]
                                         .subjectsName,
-                                    feedbackType: "Assignments",
+                                    feedbackType: "Today_Lessons",
                                     stage: selectedStage,
                                   ),
                                 ),

@@ -3,11 +3,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AppLocalStorage {
   static const String token = "token";
   static const String isOnboardingShown = "isOnboardingShown";
-  static const String hasSeenWelcome = "hasSeenWelcome"; 
-  static const String isLoggedIn = "isLoggedIn"; 
+  static const String hasSeenWelcome = "hasSeenWelcome";
+  static const String isLoggedIn = "isLoggedIn";
   static const String userType = 'userType';
   static const String uid = 'uid';
-  static const String email = 'email'; 
+  static const String email = 'email';
+  static const String themeMode = 'themeMode';
 
   static late SharedPreferences _sharedPreferences;
 
@@ -15,7 +16,8 @@ class AppLocalStorage {
     _sharedPreferences = await SharedPreferences.getInstance();
   }
 
-  static Future<void> cacheData({required String key, required dynamic value}) async {
+  static Future<void> cacheData(
+      {required String key, required dynamic value}) async {
     if (value is String) {
       await _sharedPreferences.setString(key, value);
     } else if (value is int) {

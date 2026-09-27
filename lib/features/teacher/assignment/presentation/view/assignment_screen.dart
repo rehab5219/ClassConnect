@@ -1,22 +1,21 @@
 import 'package:classconnect/core/constants/assets_manager.dart';
 import 'package:classconnect/core/models/subjects_data.dart';
 import 'package:classconnect/core/widgets/subjects_name.dart';
-import 'package:classconnect/features/student/today_lessons/receive_feedback.dart';
+import 'package:classconnect/features/teacher/today_lessons/presentation/view/subjects_details.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/styles.dart';
+import '../../../../../../../../core/utils/app_colors.dart';
+import '../../../../../../../../core/utils/styles.dart';
 
-class TodayLessonsScreen extends StatefulWidget {
-  TodayLessonsScreen({super.key});
+class AssignmentScreen extends StatefulWidget {
+  AssignmentScreen({super.key});
 
   @override
-  _TodayLessonsScreenState createState() => _TodayLessonsScreenState();
+  _AssignmentScreenState createState() => _AssignmentScreenState();
 }
 
-class _TodayLessonsScreenState extends State<TodayLessonsScreen> {
-
+class _AssignmentScreenState extends State<AssignmentScreen> {
   final Map<String, List<String>> subjectSubfields = {
     "math": ["STATIC", "DYNAMIC", "ALGEBRA", "GEOMETRY", "CALCULUS"],
     "science": ["PHYSICS", "CHEMISTRY", "BIOLOGY"],
@@ -86,7 +85,7 @@ class _TodayLessonsScreenState extends State<TodayLessonsScreen> {
                 children: [
                   Container(
                     height: 200.h,
-                    width: double.infinity,
+                    width: double.infinity.w,
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         fit: BoxFit.cover,
@@ -94,7 +93,7 @@ class _TodayLessonsScreenState extends State<TodayLessonsScreen> {
                           AssetsManager.girlStudent,
                         ),
                       ),
-                      color: AppColors.primaryColor,
+                      color: Colors.blue,
                       borderRadius: BorderRadius.only(
                         bottomRight: Radius.circular(80.r),
                       ),
@@ -119,19 +118,19 @@ class _TodayLessonsScreenState extends State<TodayLessonsScreen> {
                   ),
                   Positioned(
                     bottom: 20.h,
-                    left: 13.w,
+                    left: 15.w,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          "today's lessons".tr(),
+                          "assignments".tr(),
                           style: getHeadTextStyle()
                               .copyWith(color: AppColors.whiteColor),
                         ),
                         SizedBox(width: 10.w),
                         Container(
                           padding: EdgeInsets.symmetric(
-                            horizontal: 4.w,
+                            horizontal: 8.w,
                             vertical: 7.h,
                           ),
                           decoration: BoxDecoration(
@@ -145,33 +144,29 @@ class _TodayLessonsScreenState extends State<TodayLessonsScreen> {
                               ),
                             ],
                           ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<String>(
-                              value: selectedStage,
-                              icon: Icon(
-                                Icons.arrow_drop_down,
-                                color: AppColors.primaryColor,
-                                size: 25.sp,
-                              ),
-                              style: getBodyTextStyle().copyWith(
-                                fontWeight: FontWeight.w500,
-                              ),
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  selectedStage = newValue!;
-                                });
-                              },
-                              items: stages.map<DropdownMenuItem<String>>(
-                                  (String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(
-                                    value.tr(),
-                                    style: getBodyTextStyle(),
-                                  ),
-                                );
-                              }).toList(),
+                          child: DropdownButton<String>(
+                            value: selectedStage,
+                            underline: Container(),
+                            icon: Icon(
+                              Icons.arrow_drop_down,
+                              color: AppColors.primaryColor,
+                              size: 25.sp,
                             ),
+                            style: getBodyTextStyle().copyWith(
+                              fontWeight: FontWeight.w500,
+                            ),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                selectedStage = newValue!;
+                              });
+                            },
+                            items: stages
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value.tr()),
+                              );
+                            }).toList(),
                           ),
                         ),
                       ],
@@ -181,12 +176,12 @@ class _TodayLessonsScreenState extends State<TodayLessonsScreen> {
               ),
               Expanded(
                 child: Padding(
-                  padding: EdgeInsets.all(12.w),
+                  padding: EdgeInsets.all(12.sp),
                   child: GridView.count(
                     crossAxisCount: 2,
                     crossAxisSpacing: 15.w,
                     mainAxisSpacing: 15.h,
-                    padding: EdgeInsets.all(5.w),
+                    padding: EdgeInsets.all(5.sp),
                     children: [
                       ...List.generate(getFilteredSubjects().length, (index) {
                         final subject = getFilteredSubjects()[index]
@@ -204,9 +199,9 @@ class _TodayLessonsScreenState extends State<TodayLessonsScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ReceiveFeedback(
+                                  builder: (context) => SubjectsDetails(
                                     subjectName: value,
-                                    feedbackType: "Today_Lessons",
+                                    feedbackType: "Assignments",
                                     stage: selectedStage,
                                   ),
                                 ),
@@ -232,10 +227,10 @@ class _TodayLessonsScreenState extends State<TodayLessonsScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ReceiveFeedback(
+                                  builder: (context) => SubjectsDetails(
                                     subjectName: getFilteredSubjects()[index]
                                         .subjectsName,
-                                    feedbackType: "Today_Lessons",
+                                    feedbackType: "Assignments",
                                     stage: selectedStage,
                                   ),
                                 ),

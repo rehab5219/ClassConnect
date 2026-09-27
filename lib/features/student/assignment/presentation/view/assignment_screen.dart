@@ -1,12 +1,12 @@
 import 'package:classconnect/core/constants/assets_manager.dart';
 import 'package:classconnect/core/models/subjects_data.dart';
 import 'package:classconnect/core/widgets/subjects_name.dart';
-import 'package:classconnect/features/teacher/today_lessons/presentation/view/subjects_details.dart';
+import 'package:classconnect/features/student/today_lessons/presentation/view/receive_feedback.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../../core/utils/app_colors.dart';
-import '../../../../../../core/utils/styles.dart';
+import '../../../../core/utils/app_colors.dart';
+import '../../../../core/utils/styles.dart';
 
 class AssignmentScreen extends StatefulWidget {
   AssignmentScreen({super.key});
@@ -16,7 +16,6 @@ class AssignmentScreen extends StatefulWidget {
 }
 
 class _AssignmentScreenState extends State<AssignmentScreen> {
-
   final Map<String, List<String>> subjectSubfields = {
     "math": ["STATIC", "DYNAMIC", "ALGEBRA", "GEOMETRY", "CALCULUS"],
     "science": ["PHYSICS", "CHEMISTRY", "BIOLOGY"],
@@ -86,7 +85,7 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
                 children: [
                   Container(
                     height: 200.h,
-                    width: double.infinity.w,
+                    width: double.infinity,
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         fit: BoxFit.cover,
@@ -94,7 +93,7 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
                           AssetsManager.girlStudent,
                         ),
                       ),
-                      color: Colors.blue,
+                      color: AppColors.primaryColor,
                       borderRadius: BorderRadius.only(
                         bottomRight: Radius.circular(80.r),
                       ),
@@ -145,29 +144,33 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
                               ),
                             ],
                           ),
-                          child: DropdownButton<String>(
-                            value: selectedStage,
-                            underline: Container(),
-                            icon: Icon(
-                              Icons.arrow_drop_down,
-                              color: AppColors.primaryColor,
-                              size: 25.sp,
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              value: selectedStage,
+                              icon: Icon(
+                                Icons.arrow_drop_down,
+                                color: AppColors.primaryColor,
+                                size: 25.sp,
+                              ),
+                              style: getBodyTextStyle().copyWith(
+                                fontWeight: FontWeight.w500,
+                              ),
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  selectedStage = newValue!;
+                                });
+                              },
+                              items: stages.map<DropdownMenuItem<String>>(
+                                  (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(
+                                    value.tr(),
+                                    style: getBodyTextStyle(),
+                                  ),
+                                );
+                              }).toList(),
                             ),
-                            style: getBodyTextStyle().copyWith(
-                              fontWeight: FontWeight.w500,
-                            ),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                selectedStage = newValue!;
-                              });
-                            },
-                            items: stages
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value.tr()),
-                              );
-                            }).toList(),
                           ),
                         ),
                       ],
@@ -177,12 +180,12 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
               ),
               Expanded(
                 child: Padding(
-                  padding: EdgeInsets.all(12.sp),
+                  padding: EdgeInsets.all(12.w),
                   child: GridView.count(
                     crossAxisCount: 2,
                     crossAxisSpacing: 15.w,
                     mainAxisSpacing: 15.h,
-                    padding: EdgeInsets.all(5.sp),
+                    padding: EdgeInsets.all(5.w),
                     children: [
                       ...List.generate(getFilteredSubjects().length, (index) {
                         final subject = getFilteredSubjects()[index]
@@ -200,7 +203,7 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => SubjectsDetails(
+                                  builder: (context) => ReceiveFeedback(
                                     subjectName: value,
                                     feedbackType: "Assignments",
                                     stage: selectedStage,
@@ -228,7 +231,7 @@ class _AssignmentScreenState extends State<AssignmentScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => SubjectsDetails(
+                                  builder: (context) => ReceiveFeedback(
                                     subjectName: getFilteredSubjects()[index]
                                         .subjectsName,
                                     feedbackType: "Assignments",

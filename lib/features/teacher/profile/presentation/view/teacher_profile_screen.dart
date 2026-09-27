@@ -5,7 +5,7 @@ import 'package:classconnect/core/functions/navigation.dart';
 import 'package:classconnect/core/utils/app_colors.dart';
 import 'package:classconnect/core/utils/styles.dart';
 import 'package:classconnect/features/intro/welcome_screen.dart';
-import 'package:classconnect/features/teacher/search/widgets/item_tile.dart';
+import 'package:classconnect/features/teacher/search/presentation/widgets/item_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -165,9 +165,10 @@ class _TeacherProfileScreenState extends State<TeacherProfileScreen> {
                                 .copyWith(color: AppColors.whiteColor),
                           ),
                         ),
+                        // teacher_profile_screen.dart — dropdown
                         Positioned(
                           bottom: 20.h,
-                          right: 30.w,
+                          right: 85.w,
                           child: IconButton(
                             icon: Icon(
                               Iconsax.language_square,
