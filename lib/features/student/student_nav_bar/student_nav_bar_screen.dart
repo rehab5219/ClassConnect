@@ -1,6 +1,6 @@
 import 'package:classconnect/features/student/advices/advices_screen.dart';
-import 'package:classconnect/features/student/assignment/assignment_screen.dart';
-import 'package:classconnect/features/student/profile/student_profile_screen.dart';
+import 'package:classconnect/features/student/assignment/presentation/view/assignment_screen.dart';
+import 'package:classconnect/features/student/profile/presentation/view/student_profile_screen.dart';
 import 'package:classconnect/features/student/today_lessons/presentation/view/today_lessons_screen.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';

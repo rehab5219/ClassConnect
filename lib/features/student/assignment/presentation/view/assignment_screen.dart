@@ -5,8 +5,8 @@ import 'package:classconnect/features/student/today_lessons/presentation/view/re
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/styles.dart';
+import '../../../../../../core/utils/app_colors.dart';
+import '../../../../../../core/utils/styles.dart';
 
 class AssignmentScreen extends StatefulWidget {
   AssignmentScreen({super.key});
