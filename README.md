@@ -6,6 +6,11 @@ A new Flutter project.
 
 ClassConnect is an educational mobile application designed to connect students and teachers in one platform. The application provides different experiences based on the user's role, allowing students to access their educational activities while teachers can manage classes, students, and educational content.
 
+## Project Board
+
+Track progress and open issues on Trello:
+🔗 [Project Board](https://trello.com/b/64jNSQfp)
+
 ## 📱 Project Overview
 
 ClassConnect aims to make communication and educational management easier by providing a centralized platform for students and teachers.
